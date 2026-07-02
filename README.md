@@ -1,5 +1,5 @@
 # 🐈 Stack Backend del Proyecto
-A continuación, se presenta un resumen de las tecnologías principales del proyecto. No incluye la totalidad de dependencias:
+A continuación, se presenta un resumen de las tecnologías mas importantes del proyecto. No incluye la totalidad de dependencias:
 
 * Node JS 24.18.0
 * Nest JS 11
