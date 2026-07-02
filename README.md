@@ -1,8 +1,8 @@
 # 🐈 Stack Backend del Proyecto
 A continuación, se presenta un resumen de las tecnologías mas importantes del proyecto. No incluye la totalidad de dependencias:
 
-* Node JS 24.18.0
-* Nest JS 11
+* Node.js 24.18.0
+* Nest.js 11
 * TypeScript 6
 * Prisma ORM 7
 * PostgreSQL 18
