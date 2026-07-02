@@ -9,7 +9,7 @@ A continuación, se presenta un resumen de las tecnologías principales del proy
 
 # ⚙️ Configurar lo Siguiente **UNA SOLA VEZ**
 
-## Antes de Empezar
+## 🛠️ Antes de Empezar
 Para que la configuración funcione, debes tener instalado:
 * [VS Code](https://code.visualstudio.com/) o cualquier editor basado en VS Code ([Antigravity](https://antigravity.google/product), [Cursor](https://cursor.com/get-started), Windsurf, etc.)
 
@@ -101,7 +101,7 @@ La configuración de autocompletado, formateo de código y linter ya está inclu
 ## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
 1. 
 
-# [🔗 Enlace - Comandos de Prisma MCP](https://angular.dev/ai/mcp)
+# [🔗 Enlace - Comandos de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
 
 # Skills
 
