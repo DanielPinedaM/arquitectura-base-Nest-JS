@@ -178,7 +178,7 @@ Obligatorio el uso de `fnm`. Está prohibido usar alternativas como:
 
 Este proyecto usa Node.js 24.18.0
 
-# 🔗 Alias
+# 🏷️ Alias
 Para todos los comandos de `pnpm` usar el alias `pn`
 
 # 📦 Instalar Paquetes
