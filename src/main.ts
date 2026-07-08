@@ -1,14 +1,14 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from '@/app/module/app.module';
+import { AppModule } from '@/app/modules/app.module';
 import {
-  INestApplication,
-  ValidationPipe,
-  VersioningType,
+    INestApplication,
+    ValidationPipe,
+    VersioningType,
 } from '@nestjs/common';
-import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
-import { json } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { ENV_VARS } from 'environments/env-config';
+import { json } from 'express';
 
 // #region Exception Filter
 import { ErrorLogsFilter } from '@/shared/filter/error-logs.filter';

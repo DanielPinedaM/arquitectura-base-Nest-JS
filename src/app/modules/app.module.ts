@@ -1,5 +1,5 @@
 import { AuthModule } from '@/app/features/auth/auth.module';
-import { DatabaseModule } from '@/app/module/database.module';
+import { DatabaseModule } from '@/app/modules/database.module';
 import { FilterModule } from '@/shared/filter/filter.module';
 import { InterceptorModule } from '@/shared/interceptor/interceptor.module';
 import { ServiceModule } from '@/shared/services/service.module';
