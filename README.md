@@ -13,7 +13,7 @@ A continuación, se presenta un resumen de las tecnologías mas importantes del 
 
 * Prisma ORM 7
 
-* [Zod:](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP) Permite usar la misma sintaxis de validación en frontend y backend. En **frontend** valida formularios y datos de entrada; en **backend** valida requests (body, query, params), configura esquemas para APIs y garantiza la integridad de los datos antes de procesarlos.
+* [**Zod:**](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP) Permite usar la misma sintaxis de validación en frontend y backend. En **frontend** valida formularios y datos de entrada; en **backend** valida requests (body, query, params), configura esquemas para APIs y garantiza la integridad de los datos antes de procesarlos.
 
 * PostgreSQL 18
 
