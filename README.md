@@ -1,3 +1,7 @@
+![logo-nest-js](./docs/readme-md/img/logo-nest-js.png)
+
+---
+
 # 🐈 Stack Backend del Proyecto
 A continuación, se presenta un resumen de las tecnologías mas importantes del proyecto. No incluye la totalidad de dependencias:
 
