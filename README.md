@@ -6,9 +6,15 @@
 A continuación, se presenta un resumen de las tecnologías mas importantes del proyecto. No incluye la totalidad de dependencias:
 
 * Node.js 24.18.0
+
 * Nest.js 11
+
 * TypeScript 6
+
 * Prisma ORM 7
+
+* [Zod:](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP) Permite usar la misma sintaxis de validación en frontend y backend. En **frontend** valida formularios y datos de entrada; en **backend** valida requests (body, query, params), configura esquemas para APIs y garantiza la integridad de los datos antes de procesarlos.
+
 * PostgreSQL 18
 
 # ⚙️ Configurar lo Siguiente **UNA SOLA VEZ**
