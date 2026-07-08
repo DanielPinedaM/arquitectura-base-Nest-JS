@@ -13,7 +13,7 @@ A continuación, se presenta un resumen de las tecnologías mas importantes del 
 
 * Prisma ORM 7
 
-* [**Zod:**](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP) Permite usar la misma sintaxis de validación en frontend y backend. En **frontend** valida formularios y datos de entrada; en **backend** valida requests (body, query, params), configura esquemas para APIs y garantiza la integridad de los datos antes de procesarlos.
+* [**Zod:**](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP) Permite utilizar la misma sintaxis de código y reutilizar los mismos **esquemas de validación** en frontend y backend. Además, se integra con **TypeScript**, ofrece validación de tipos en **tiempo de compilación** y validación de datos en **tiempo de ejecución (runtime)**. En **frontend** valida formularios y datos de entrada, con excelente integración con **React Hook Form** (React) y **Forms with Signals** (Angular). En **backend** valida `body`, `query` y `params` de las solicitudes, garantizando la integridad de los datos antes de procesarlos.
 
 * PostgreSQL 18
 
@@ -23,11 +23,11 @@ A continuación, se presenta un resumen de las tecnologías mas importantes del 
 Para que la configuración funcione, debes tener instalado:
 * [VS Code](https://code.visualstudio.com/) o cualquier editor basado en VS Code ([Antigravity](https://antigravity.google/product), [Cursor](https://cursor.com/get-started), Windsurf, etc.)
 
-* [Git Bash](https://git-scm.com/install/)
+* [Git Bash](https://youtu.be/niPExbK8lSw?si=tHx4IYZBdrUmW6ey)
 
 * [Node.js](https://nodejs.org/)
 
-* [Claude Code](https://code.claude.com/docs/en/quickstart)
+* [Claude Code](https://cursos.devtalles.com/courses/claude-code-guia-completa)
 
 * [pnpm](https://pnpm.io/installation)
 
