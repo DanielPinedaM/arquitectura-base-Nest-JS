@@ -40,6 +40,8 @@ Para que la configuración funcione, debes tener instalado:
 
 * [fnm](https://github.com/Schniz/fnm)
 
+* [DBeaver](https://dbeaver.io/download/)
+
 ## Instalar `pnpm`
 1. Abrir Git Bash
 
