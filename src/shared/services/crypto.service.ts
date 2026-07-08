@@ -1,9 +1,9 @@
-import { enc, mode, pad, AES } from 'crypto-js';
 import {
   IV_AUTH,
   SECRET_KEY_AUTHENTICATION,
 } from '@/app/features/auth/data-types/constants/auth.const';
 import { Injectable } from '@nestjs/common';
+import { AES, enc, mode, pad } from 'crypto-js';
 
 @Injectable()
 export class CryptoService {
@@ -45,7 +45,7 @@ export class CryptoService {
   async decryptJSON(encryptedJSON: string): Promise<any | null> {
     const decryptedJSON: string | null = await this.decrypt(encryptedJSON);
 
-    if (this.#isValidJSONparse(decryptedJSON)) return JSON.parse(decryptedJSON);
+    if (this.isValidJSONparse(decryptedJSON)) return JSON.parse(decryptedJSON);
 
     console.error('❌ [decryptJSON] error no es JSON valido ', decryptedJSON);
     return null;
@@ -53,7 +53,7 @@ export class CryptoService {
 
   /**
   saber si puedo o no convertir de string a array u objeto con JSON.parse() */
-  #isValidJSONparse = (string: string): boolean => {
+  private isValidJSONparse = (string: string): boolean => {
     if (typeof string !== 'string') return false;
 
     try {
