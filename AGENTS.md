@@ -1,25 +1,21 @@
-# Entorno de Ejecución
-Node.js
+# Ejecución de Proyecto
 
-# Manejador de Paquetes
-`pnpm` y `pnpm-lock.yaml`
+* Runtime: Node.js
+* Administrador de versiones: fnm
+* Manejador de paquetes: pnpm
+* Archivo de bloqueo: pnpm-lock.yaml
 
-# Administrador de Versiones para Node.js
-`fnm`
+# Scripts de desarrollo
 
-# Comandos
-
-## Ejecutar Proyecto
-
-| Comando            | Apunta a ... | Ruta Archivo                                |
+| Comando            | Entorno      | Archivo de configuración                    |
 | ------------------ | ------------ | ------------------------------------------- |
 | `pnpm start:local` | local host   | `src/environments/environment.localhost.ts` |
 | `pnpm start:prod`  | producción   | `src/environments/environment.prod.ts`      |
 | `pnpm start:test`  | pruebas      | `src/environments/environment.test.ts`      |
 
-## Generar build (dist) para Desplegar
+# Builds para despliegue
 
-| Comando           | Apunta a ... | Ruta Archivo                           |
+| Comando           | Entorno      | Archivo de configuración               |
 | ----------------- | ------------ | -------------------------------------- |
 | `pnpm build:test` | pruebas      | `src/environments/environment.test.ts` |
 | `pnpm build:prod` | producción   | `src/environments/environment.prod.ts` |
