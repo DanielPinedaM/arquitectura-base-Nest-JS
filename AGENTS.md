@@ -38,9 +38,7 @@
 # Reglas de Idioma
 
 ## Responder en Español
-Responder en español siempre, excepto lo que esta en "Excepciones, Responder en Ingles"
-
-Es decir, redactar en español todas las explicaciones, comentarios de codigo, respuestas, preguntas, descripciones, análisis, recomendaciones, documentación y mensajes dirigidos al usuario. Con la excepcion de lo siguiente que tiene que estar en ingles:
+Responder en español siempre, es decir, redactar en español todas las explicaciones, comentarios de codigo, respuestas, preguntas, descripciones, análisis, recomendaciones, documentación y mensajes dirigidos al usuario. Con la excepcion de lo siguiente que tiene que estar en ingles:
 
 ## Excepciones, Responder en Ingles
 * Términos técnicos de uso común en desarrollo de software: middleware, service, controller, repository, signal, interceptor, provider, endpoint, payload, patrones de diseño, etc.
