@@ -1,11 +1,11 @@
+import { LoggerService } from '@/shared/services/logger.service';
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
 } from '@nestjs/common';
-import HTTP_STATUS_MESSAGES from '@/shared/data-types/constants/http-status-messages.const';
-import { LoggerService } from '@/shared/services/logger.service';
+import { getHttpStatusMessage } from '../data-types/constants/http-status-messages.const';
 
 @Catch()
 export class ErrorLogsFilter implements ExceptionFilter {
@@ -22,7 +22,7 @@ export class ErrorLogsFilter implements ExceptionFilter {
     const statusCode: number =
       exception instanceof HttpException ? exception.getStatus() : 500;
 
-    const statusMessage: string = HTTP_STATUS_MESSAGES[statusCode] ?? '';
+    const statusMessage: string = getHttpStatusMessage(statusCode);
 
     const { method, originalUrl, protocol } = req;
     const hostHeader: string = req.get('Host');

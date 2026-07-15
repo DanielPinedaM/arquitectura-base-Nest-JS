@@ -1,3 +1,4 @@
+import { LoggerService } from '@/shared/services/logger.service';
 import {
   CallHandler,
   ExecutionContext,
@@ -5,8 +6,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
-import { LoggerService } from '@/shared/services/logger.service';
-import HTTP_STATUS_MESSAGES from '@/shared/data-types/constants/http-status-messages.const';
+import { getHttpStatusMessage } from '../data-types/constants/http-status-messages.const';
 
 @Injectable()
 export class SuccessLogsInterceptor implements NestInterceptor {
@@ -35,7 +35,7 @@ export class SuccessLogsInterceptor implements NestInterceptor {
     const { method, originalUrl, protocol } = req;
     const host: string = req.get('Host');
 
-    const statusMessage: string = HTTP_STATUS_MESSAGES[statusCode] ?? '';
+    const statusMessage: string = getHttpStatusMessage(statusCode);
     const fullURL: string = `${protocol}://${host}${originalUrl}`;
 
     const logMessage: string =

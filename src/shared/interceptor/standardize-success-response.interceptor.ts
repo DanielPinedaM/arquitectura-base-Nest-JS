@@ -1,15 +1,15 @@
+import { IResponse } from '@/shared/data-types/interface/response.interfaces';
 import {
+  CallHandler,
+  ExecutionContext,
+  HttpStatus,
   Injectable,
   NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-  HttpStatus,
 } from '@nestjs/common';
+import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import HTTP_STATUS_MESSAGES from '@/shared/data-types/constants/http-status-messages.const';
-import { IResponse } from '@/shared/data-types/interface/response.interfaces';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+import { getHttpStatusMessage } from '../data-types/constants/http-status-messages.const';
 
 @Injectable()
 export class StandardizeSuccessResponseInterceptor<
@@ -53,7 +53,7 @@ export class StandardizeSuccessResponseInterceptor<
         return {
           success: true,
           status,
-          statusText: HTTP_STATUS_MESSAGES[status] ?? '',
+          statusText: getHttpStatusMessage(status),
           message,
           data: resultData,
           ...(pagination && { pagination }),

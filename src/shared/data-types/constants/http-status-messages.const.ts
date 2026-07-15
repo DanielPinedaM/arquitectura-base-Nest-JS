@@ -108,4 +108,9 @@ const HTTP_STATUS_MESSAGES: Record<number, string> = {
   599: 'Network Connect Timeout Error',
 };
 
-export default HTTP_STATUS_MESSAGES;
+export const getHttpStatusMessage = (status: number): string => {
+  return (
+    HTTP_STATUS_MESSAGES?.[status] ??
+    'No se pudo capturar el mensaje de error de la API'
+  );
+};

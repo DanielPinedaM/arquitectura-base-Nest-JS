@@ -53,7 +53,7 @@ la respuesta tiene q ser esta
 response.status(status).json({
       success: false, // esto esta quemado porque la respuesta es erronea
       status, // obtener numero de status
-      statusText: HTTP_STATUS_MESSAGES[status] ?? '', // esto es un acceso a un objeto literal
+      statusText: getHttpStatusMessage(status), // esto es un acceso a un objeto literal
       message, // siempre tipo string
       errorDescription: {
         timestamp: new Date().toISOString(),
@@ -69,19 +69,19 @@ muestrame las excepciones mas usadas y como responde con el interceptor
 con el interceptor anterior dame ejemplo de esto:
 solamente concatenar error + message cuando se defina manualmente la key error */
 
-import { DateTime } from 'luxon';
-import HTTP_STATUS_MESSAGES from '@/shared/data-types/constants/http-status-messages.const';
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import type {
-  Response as ExpressResponse,
   Request as ExpressRequest,
+  Response as ExpressResponse,
 } from 'express';
+import { DateTime } from 'luxon';
+import { getHttpStatusMessage } from '../data-types/constants/http-status-messages.const';
 
 @Catch()
 export class StandardizeErrorResponseFilter implements ExceptionFilter {
@@ -138,7 +138,7 @@ export class StandardizeErrorResponseFilter implements ExceptionFilter {
     response.status(status).json({
       success: false,
       status,
-      statusText: HTTP_STATUS_MESSAGES[status] ?? '',
+      statusText: getHttpStatusMessage(status),
       message,
       data,
       description: {
