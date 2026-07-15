@@ -1,14 +1,14 @@
-// https://http.dev/status
-
+/**
+ * https://http.dev/status */
 const HTTP_STATUS_MESSAGES: Record<number, string> = {
-  // 1xx: Respuestas informativas
+  /** 1xx: Respuestas informativas */
   100: 'Continue',
   101: 'Switching Protocols',
   102: 'Processing',
   103: 'Early Hints',
   104: 'Upload Resumption Supported',
 
-  // 2xx: Peticiones correctas
+  /** 2xx: Peticiones correctas */
   200: 'OK',
   201: 'Created',
   202: 'Accepted',
@@ -21,7 +21,7 @@ const HTTP_STATUS_MESSAGES: Record<number, string> = {
   218: 'This Is Fine',
   226: 'IM Used',
 
-  // 3xx: Redirecciones
+  /** 3xx: Redirecciones */
   300: 'Multiple Choices',
   301: 'Moved Permanently',
   302: 'Found',
@@ -32,7 +32,7 @@ const HTTP_STATUS_MESSAGES: Record<number, string> = {
   307: 'Temporary Redirect',
   308: 'Permanent Redirect',
 
-  // 4xx: Errores del cliente
+  /** 4xx: Errores del cliente */
   400: 'Bad Request',
   401: 'Unauthorized',
   402: 'Payment Required',
@@ -79,7 +79,7 @@ const HTTP_STATUS_MESSAGES: Record<number, string> = {
   498: 'Invalid Token',
   499: 'Client Closed Request',
 
-  // 5xx: Errores del servidor
+  /** 5xx: Errores del servidor */
   500: 'Internal Server Error',
   501: 'Not Implemented',
   502: 'Bad Gateway',
