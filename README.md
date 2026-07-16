@@ -269,12 +269,20 @@ pn debug:local
 | Cursor                   | [Cursor Web](https://cursor.com/agents)                                                 | [Cursor Desktop](https://youtu.be/XWsOQTqVl0w?si=0OVGRnYSCH46v2zf)    | [Cursor CLI](https://cursor.com/es/cli)                            |
 
 ## ✏️ Edición de Código
-Evitar copiar y pegar código desde una plataforma web de IA. Siempre utilizar el CLI para editar el código, ya que el CLI tiene:
+Este proyecto esta configurado para usar _IAs de pago y desde la terminal_. **NO** sirve si usas IAs gratis o desde una pagina web, porque estan limitadas.
 
-* Mayor contexto del proyecto.
-* Conocimiento de la estructura completa del código.
-* Acceso al sistema operativo (archivos y carpetas).
+**Razones:**
+* Si copias y pegas codigo desde plataforma web al proyecto, es probable que cometas errores
+
+Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
+
+* Mayor comprensión del proyecto y de la estructura completa del código (_contexto_ y _tokens_).
+
+* Acceso al sistema operativo (archivos y carpetas) y capacidad para ejecutar comandos.
+
 * Capacidad para realizar cambios respetando la arquitectura del proyecto.
+
+* Uso de Skills y MCP para reducir las _alucinaciones_ de la IA, permitiéndole a la IA consultar documentación oficial actualizada y seguir buenas prácticas.
 
 # [🔗 Enlace - Prompts para Desarrollo Full Stack con IA](https://github.com/DanielPinedaM/prompt-engineering/tree/main/2_prompts-full-stack)
 
