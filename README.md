@@ -233,6 +233,24 @@ pn debug:local
 | `pn build:test` | Pruebas       | `environments/.env.test`       |
 | `pn build:prod` | Producción    | `environments/.env.production` |
 
+# Arquitectura del Proyecto
+
+> [!TIP]
+> # 🧠 **Aprende antes de pedir cambios**
+>
+> No te limites a pedirle a la IA *"hazme X"* sin entender cómo funciona la arquitectura del proyecto.
+>
+> Hazle preguntas a la IA sobre:
+>
+> 1. `AGENTS.md`
+> 2. `.claude/skills/***`
+> 3. `.claude/rules/***`
+> 4. Los **"🔗 Enlaces"**
+>
+> Hasta comprender cómo funciona el proyecto.
+>
+> Aunque es un texto largo, aprenderás la arquitectura, buenas prácticas y a detectar revisando el código, cuando la IA alucina
+
 ## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
 1. 
 
