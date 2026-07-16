@@ -290,7 +290,7 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
 
 # `AGENTS.md`
-Contiene instrucciones que se inyectan SIEMPRE en cada promt, para que la IA respete arquitectura del proyecto.
+Contiene instrucciones que se inyectan SIEMPRE en cada prompt, para que la IA respete arquitectura del proyecto.
 
 # Skills
 
