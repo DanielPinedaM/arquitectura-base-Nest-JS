@@ -286,10 +286,11 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 
 # [🔗 Enlace - Prompts para Desarrollo Full Stack con IA](https://github.com/DanielPinedaM/prompt-engineering/tree/main/2_prompts-full-stack)
 
-## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
-1. 
+# 🅰️ Configurar Nest.js para que Funcione con IA
+Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
 
-# [🔗 Enlace - Comandos de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
+# `AGENTS.md`
+Contiene instrucciones que se inyectan SIEMPRE en cada promt, para que la IA respete arquitectura del proyecto.
 
 # Skills
 
@@ -311,6 +312,23 @@ El skill `.claude\skills\git-commit\SKILL.md` te permite realizar commits.
 ```console
 hacer commit y push
 ```
+
+# MCP
+
+## prisma MCP para que Claude Code Acceda a la Documentación Oficial de Prisma
+1. Abrir Git Bash
+
+2. Abrir la carpeta del proyecto
+```console
+cd /ruta/a/tu/proyecto
+```
+
+3. Iniciar claude
+```console
+claude
+```
+
+# [🔗 Enlace - Comandos de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
 
 # 🔌 Consumo de API
 
