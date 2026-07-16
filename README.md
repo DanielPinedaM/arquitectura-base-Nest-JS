@@ -134,65 +134,6 @@ La configuración de autocompletado, formateo de código y linter ya está inclu
 * `.prettierrc`
 * `eslint.config.mjs`
 
-## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
-1. 
-
-# [🔗 Enlace - Comandos de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
-
-# Skills
-
-## 🌿 `git-commit`
-Por cada feature terminada hacer un commit antes de solicitar nuevas modificaciones a la IA. Evita acumular demasiados cambios, ya que puedes perder el contexto de lo que la IA está realizando y cometer errores.
-
-Trabajar bajo el principio:
-
-> 1 commit = 1 feature
-
-El skill `.claude\skills\git-commit\SKILL.md` te permite realizar commits.
-
-***Ejemplos:***
-
-```console
-/git-commit
-```
-
-```console
-hacer commit y push
-```
-
-# 🤖 Uso de IA
-
-> [!WARNING]
-> # ⚠️ ****IMPORTANTE**** 🚨
->
-> ****Ignorar esta sección ocasionará que la IA genere código que no respete la arquitectura, estructura ni las convenciones del proyecto, produciendo código inconsistente, desordenado y con malas practicas****
-
-# [🔗 Enlace - Prompts para trabajar con IA](https://github.com/DanielPinedaM/prompt-engineering/tree/main/2_prompts-full-stack)
-
-Esta sección está diseñada para utilizarse como contexto en herramientas de IA.
-
-## Principales IA para Desarrollo de Software
-
-| Empresa ↓ \ Plataforma → | Web                                                                                     | Desktop                                                               | Terminal / Bash / CLI                                              |
-| ------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Anthropic                | [Claude Web](https://claude.ai/)                                                        | [Claude Desktop](https://youtu.be/DYwZy7VNKws?si=cXTPumpZ3Jr9rNn9)    | [Claude Code](https://youtu.be/Bf7hfpItrDk?si=wjUIcIgtDX_Loyey)    |
-| Open AI                  | [Chat GPT](https://chatgpt.com/)                                                        | [GPT Codex Desktop](https://youtu.be/bgx8ownl3O4?si=TzbOntfYIBVN1PGU) | [Codex](https://youtu.be/Ub-K1n4YYsg?si=EoIXGCzEa4ZxyRqA)          |
-| Google                   | [Google AI Studio](https://aistudio.google.com/) / [Gemini](https://gemini.google.com/) | [Antigravity 2.0](https://antigravity.google/product/antigravity-2)   | [Antigravity CLI](https://youtu.be/bdEqIchP4x4?si=gRf6iLggXuzy_cq) |
-| Anomaly Innovations      | [`opencode web`](https://opencode.ai/docs/web/)                                         | [Open Code Desktop](https://youtu.be/_SVSv2Y59P0?si=LT2S0z10t1FBxlB6) | [Open Code CLI](https://youtu.be/2gO8WyctqMk?si=aNvHlf23tKfrN-Z3)  |
-| Cursor                   | [Cursor Web](https://cursor.com/agents)                                                 | [Cursor Desktop](https://youtu.be/XWsOQTqVl0w?si=0OVGRnYSCH46v2zf)    | [Cursor CLI](https://cursor.com/es/cli)                            |
-
-## ✏️ Edición de Código
-Evitar copiar y pegar código desde una plataforma web de IA. Siempre utilizar el CLI para editar el código, ya que el CLI tiene:
-
-* Mayor contexto del proyecto.
-* Conocimiento de la estructura completa del código.
-* Acceso al sistema operativo (archivos y carpetas).
-* Capacidad para realizar cambios respetando la arquitectura del proyecto.
-
----
-
-# 📋 Contexto para la IA
-
 # ⚙️ Entorno de Ejecución
 Obligatorio el uso de Node.js, prohibido usar alternativas como:
 
@@ -291,6 +232,61 @@ pn debug:local
 | --------------- | ------------- | ------------------------------ |
 | `pn build:test` | Pruebas       | `environments/.env.test`       |
 | `pn build:prod` | Producción    | `environments/.env.production` |
+
+## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
+1. 
+
+# [🔗 Enlace - Comandos de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
+
+# Skills
+
+## 🌿 `git-commit`
+Por cada feature terminada hacer un commit antes de solicitar nuevas modificaciones a la IA. Evita acumular demasiados cambios, ya que puedes perder el contexto de lo que la IA está realizando y cometer errores.
+
+Trabajar bajo el principio:
+
+> 1 commit = 1 feature
+
+El skill `.claude\skills\git-commit\SKILL.md` te permite realizar commits.
+
+***Ejemplos:***
+
+```console
+/git-commit
+```
+
+```console
+hacer commit y push
+```
+
+# 🤖 Uso de IA
+
+> [!WARNING]
+> # ⚠️ ****IMPORTANTE**** 🚨
+>
+> ****Ignorar esta sección ocasionará que la IA genere código que no respete la arquitectura, estructura ni las convenciones del proyecto, produciendo código inconsistente, desordenado y con malas practicas****
+
+# [🔗 Enlace - Prompts para trabajar con IA](https://github.com/DanielPinedaM/prompt-engineering/tree/main/2_prompts-full-stack)
+
+Esta sección está diseñada para utilizarse como contexto en herramientas de IA.
+
+## Principales IA para Desarrollo de Software
+
+| Empresa ↓ \ Plataforma → | Web                                                                                     | Desktop                                                               | Terminal / Bash / CLI                                              |
+| ------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Anthropic                | [Claude Web](https://claude.ai/)                                                        | [Claude Desktop](https://youtu.be/DYwZy7VNKws?si=cXTPumpZ3Jr9rNn9)    | [Claude Code](https://youtu.be/Bf7hfpItrDk?si=wjUIcIgtDX_Loyey)    |
+| Open AI                  | [Chat GPT](https://chatgpt.com/)                                                        | [GPT Codex Desktop](https://youtu.be/bgx8ownl3O4?si=TzbOntfYIBVN1PGU) | [Codex](https://youtu.be/Ub-K1n4YYsg?si=EoIXGCzEa4ZxyRqA)          |
+| Google                   | [Google AI Studio](https://aistudio.google.com/) / [Gemini](https://gemini.google.com/) | [Antigravity 2.0](https://antigravity.google/product/antigravity-2)   | [Antigravity CLI](https://youtu.be/bdEqIchP4x4?si=gRf6iLggXuzy_cq) |
+| Anomaly Innovations      | [`opencode web`](https://opencode.ai/docs/web/)                                         | [Open Code Desktop](https://youtu.be/_SVSv2Y59P0?si=LT2S0z10t1FBxlB6) | [Open Code CLI](https://youtu.be/2gO8WyctqMk?si=aNvHlf23tKfrN-Z3)  |
+| Cursor                   | [Cursor Web](https://cursor.com/agents)                                                 | [Cursor Desktop](https://youtu.be/XWsOQTqVl0w?si=0OVGRnYSCH46v2zf)    | [Cursor CLI](https://cursor.com/es/cli)                            |
+
+## ✏️ Edición de Código
+Evitar copiar y pegar código desde una plataforma web de IA. Siempre utilizar el CLI para editar el código, ya que el CLI tiene:
+
+* Mayor contexto del proyecto.
+* Conocimiento de la estructura completa del código.
+* Acceso al sistema operativo (archivos y carpetas).
+* Capacidad para realizar cambios respetando la arquitectura del proyecto.
 
 # 🔌 Consumo de API
 
