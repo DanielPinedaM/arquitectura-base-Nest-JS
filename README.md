@@ -253,8 +253,8 @@ pn debug:local
 
 # 🤖 Uso de IA
 
-> [!WARNING]
-> # ⚠️ ****IMPORTANTE**** 🚨
+> [!CAUTION]
+> # ⚠️ **IMPORTANTE** 🚨
 >
 > ****Ignorar esta sección ocasionará que la IA genere código que no respeta la arquitectura, estructura ni las convenciones del proyecto, produciendo código legacy, inconsistente, desordenado y con malas practicas****
 
