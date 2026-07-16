@@ -276,7 +276,7 @@ Evitar copiar y pegar código desde una plataforma web de IA. Siempre utilizar e
 * Acceso al sistema operativo (archivos y carpetas).
 * Capacidad para realizar cambios respetando la arquitectura del proyecto.
 
-# [🔗 Enlace - Prompts para trabajar con IA](https://github.com/DanielPinedaM/prompt-engineering/tree/main/2_prompts-full-stack)
+# [🔗 Enlace - Prompts para Desarrollo Full Stack con IA](https://github.com/DanielPinedaM/prompt-engineering/tree/main/2_prompts-full-stack)
 
 ## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
 1. 
