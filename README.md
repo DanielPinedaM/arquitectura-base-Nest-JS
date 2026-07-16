@@ -330,6 +330,8 @@ claude
 
 # [🔗 Enlace - Comandos de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
 
+# Esta seccion esta INCOMPLETA porque todavia me falta documentar en readme.md y configurar skills y MCP
+
 # 🔌 Consumo de API
 
 > [!WARNING]
