@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "usernamehw.errorlens",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "WallabyJs.console-ninja",
+    "christian-kohler.path-intellisense",
+    "steoates.autoimport"
+  ]
+}
