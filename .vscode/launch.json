@@ -1,0 +1,69 @@
+{
+  // 🐞 Debugging de Nest JS (backend)
+  // Cada configuración ejecuta un script existente de package.json,
+  // por lo que el entorno del debugger siempre coincide con el archivo .env del script.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // pnpm debug:local -> environments/.env.localhost
+      "name": "🐞 Nest: debug local host",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "debug:local"],
+      // nest start --watch reinicia el proceso hijo, este es el que expone el inspector
+      "autoAttachChildProcesses": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+    },
+    {
+      // pnpm debug:test -> environments/.env.test
+      "name": "🐞 Nest: debug pruebas",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "debug:test"],
+      "autoAttachChildProcesses": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+    },
+    {
+      // pnpm debug:prod -> environments/.env.production
+      "name": "🐞 Nest: debug producción",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "debug:prod"],
+      "autoAttachChildProcesses": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+    },
+    {
+      // Para cuando el script debug:* ya se está ejecutando manualmente en la terminal.
+      // El entorno lo define el script que se haya ejecutado, no esta configuración.
+      "name": "🔗 Nest: attach al proceso (puerto 9229)",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "address": "localhost",
+      "cwd": "${workspaceFolder}",
+      // vuelve a adjuntarse cuando --watch reinicia el proceso
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+    }
+  ]
+}
