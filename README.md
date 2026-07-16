@@ -251,32 +251,6 @@ pn debug:local
 >
 > Aunque es un texto largo, aprenderás la arquitectura, buenas prácticas y a detectar revisando el código, cuando la IA alucina
 
-## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
-1. 
-
-# [🔗 Enlace - Comandos de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
-
-# Skills
-
-## 🌿 `git-commit`
-Por cada feature terminada hacer un commit antes de solicitar nuevas modificaciones a la IA. Evita acumular demasiados cambios, ya que puedes perder el contexto de lo que la IA está realizando y cometer errores.
-
-Trabajar bajo el principio:
-
-> 1 commit = 1 feature
-
-El skill `.claude\skills\git-commit\SKILL.md` te permite realizar commits.
-
-***Ejemplos:***
-
-```console
-/git-commit
-```
-
-```console
-hacer commit y push
-```
-
 # 🤖 Uso de IA
 
 > [!WARNING]
@@ -305,6 +279,32 @@ Evitar copiar y pegar código desde una plataforma web de IA. Siempre utilizar e
 * Conocimiento de la estructura completa del código.
 * Acceso al sistema operativo (archivos y carpetas).
 * Capacidad para realizar cambios respetando la arquitectura del proyecto.
+
+## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
+1. 
+
+# [🔗 Enlace - Comandos de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
+
+# Skills
+
+## 🌿 `git-commit`
+Por cada feature terminada hacer un commit antes de solicitar nuevas modificaciones a la IA. Evita acumular demasiados cambios, ya que puedes perder el contexto de lo que la IA está realizando y cometer errores.
+
+Trabajar bajo el principio:
+
+> 1 commit = 1 feature
+
+El skill `.claude\skills\git-commit\SKILL.md` te permite realizar commits.
+
+***Ejemplos:***
+
+```console
+/git-commit
+```
+
+```console
+hacer commit y push
+```
 
 # 🔌 Consumo de API
 
