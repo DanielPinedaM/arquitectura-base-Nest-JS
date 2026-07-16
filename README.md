@@ -256,7 +256,7 @@ pn debug:local
 > [!WARNING]
 > # ⚠️ ****IMPORTANTE**** 🚨
 >
-> ****Ignorar esta sección ocasionará que la IA genere código que no respete la arquitectura, estructura ni las convenciones del proyecto, produciendo código inconsistente, desordenado y con malas practicas****
+> ****Ignorar esta sección ocasionará que la IA genere código que no respeta la arquitectura, estructura ni las convenciones del proyecto, produciendo código legacy, inconsistente, desordenado y con malas practicas****
 
 ## Principales IA para Desarrollo de Software
 
