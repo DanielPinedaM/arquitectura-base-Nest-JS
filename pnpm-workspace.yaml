@@ -1,0 +1,7 @@
+allowBuilds:
+  # telemetría de analytics, no es necesaria para ejecutar el proyecto
+  '@scarf/scarf': false
+  # requiere compilar binario nativo para encriptar contraseñas
+  bcrypt: true
+  # resolver nativo que utiliza ESLint
+  unrs-resolver: true
