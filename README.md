@@ -258,10 +258,6 @@ pn debug:local
 >
 > ****Ignorar esta sección ocasionará que la IA genere código que no respete la arquitectura, estructura ni las convenciones del proyecto, produciendo código inconsistente, desordenado y con malas practicas****
 
-# [🔗 Enlace - Prompts para trabajar con IA](https://github.com/DanielPinedaM/prompt-engineering/tree/main/2_prompts-full-stack)
-
-Esta sección está diseñada para utilizarse como contexto en herramientas de IA.
-
 ## Principales IA para Desarrollo de Software
 
 | Empresa ↓ \ Plataforma → | Web                                                                                     | Desktop                                                               | Terminal / Bash / CLI                                              |
@@ -279,6 +275,8 @@ Evitar copiar y pegar código desde una plataforma web de IA. Siempre utilizar e
 * Conocimiento de la estructura completa del código.
 * Acceso al sistema operativo (archivos y carpetas).
 * Capacidad para realizar cambios respetando la arquitectura del proyecto.
+
+# [🔗 Enlace - Prompts para trabajar con IA](https://github.com/DanielPinedaM/prompt-engineering/tree/main/2_prompts-full-stack)
 
 ## 👾 Configurar MCP para que Claude Code Acceda a la Documentación Oficial de Prisma ORM
 1. 
