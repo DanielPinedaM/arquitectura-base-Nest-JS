@@ -7,18 +7,30 @@
 
 # Scripts de desarrollo
 
-| Comando            | Entorno      | Archivo de configuración                    |
-| ------------------ | ------------ | ------------------------------------------- |
-| `pnpm start:local` | local host   | `src/environments/environment.localhost.ts` |
-| `pnpm start:prod`  | producción   | `src/environments/environment.prod.ts`      |
-| `pnpm start:test`  | pruebas      | `src/environments/environment.test.ts`      |
+| Comando            | Entorno       | Archivo de configuración       |
+| ------------------ | ------------- | ------------------------------ |
+| `pnpm start:local` | Local host    | `environments/.env.localhost`  |
+| `pnpm start:test`  | Pruebas       | `environments/.env.test`       |
+| `pnpm start:prod`  | Producción    | `environments/.env.production` |
+
+# Scripts de debugging
+
+| Comando            | Entorno       | Archivo de configuración       | Configuración de `.vscode/launch.json` |
+| ------------------ | ------------- | ------------------------------ | -------------------------------------- |
+| `pnpm debug:local` | Local host    | `environments/.env.localhost`  | `🐞 Nest: debug local host`            |
+| `pnpm debug:test`  | Pruebas       | `environments/.env.test`       | `🐞 Nest: debug pruebas`               |
+| `pnpm debug:prod`  | Producción    | `environments/.env.production` | `🐞 Nest: debug producción`            |
+
+Estos scripts son los únicos que abren el inspector de Node (`nest start --debug --watch`). Los scripts `start:*` no permiten debugging.
+
+La configuración `🔗 Nest: attach al proceso (puerto 9229)` se adjunta a un script `debug:*` que ya se esté ejecutando en la terminal; en ese caso el entorno lo define el script ejecutado.
 
 # Builds para despliegue
 
-| Comando           | Entorno      | Archivo de configuración               |
-| ----------------- | ------------ | -------------------------------------- |
-| `pnpm build:test` | pruebas      | `src/environments/environment.test.ts` |
-| `pnpm build:prod` | producción   | `src/environments/environment.prod.ts` |
+| Comando           | Entorno      | Archivo de configuración       |
+| ----------------- | ------------ | ------------------------------ |
+| `pnpm build:test` | Pruebas      | `environments/.env.test`       |
+| `pnpm build:prod` | Producción   | `environments/.env.production` |
 
 # Reglas Obligatorias para la IA
 * No generes análisis, recomendaciones ni comentarios adicionales hasta que empiece a realizar preguntas.

@@ -225,6 +225,59 @@ pn i
 | `pn start:test`  | Pruebas       | `environments/.env.test`       |
 | `pn start:prod`  | Producción    | `environments/.env.production` |
 
+# 🐞 Scripts para hacer Debugging
+
+Cada entorno tiene su propio script de debugging y su configuración equivalente en `.vscode/launch.json`:
+
+| Comando          | Entorno       | Archivo de configuración       | Configuración de `.vscode/launch.json` |
+| ---------------- | ------------- | ------------------------------ | -------------------------------------- |
+| `pn debug:local` | Local host    | `environments/.env.localhost`  | `🐞 Nest: debug local host`            |
+| `pn debug:test`  | Pruebas       | `environments/.env.test`       | `🐞 Nest: debug pruebas`               |
+| `pn debug:prod`  | Producción    | `environments/.env.production` | `🐞 Nest: debug producción`            |
+
+Los scripts `start:*` no sirven para depurar porque no abren el inspector de Node. Solo los scripts `debug:*` usan `nest start --debug --watch`.
+
+Existen dos formas de ejecutar el debugger desde VS Code (o cualquier editor basado en VS Code).
+
+## 🤔 Diferencia entre Launch y Attach — ¿Cuál Usar?
+La única diferencia es **quién arranca el backend**, y de ahí se deriva **quién elige el entorno**:
+
+| | **Launch** | **Attach** |
+| -------------------------- | -------------------------------------- | ---------------------------------------- |
+| ¿Quién arranca el backend? | El editor, al presionar `F5`         | El desarrollador, en la terminal         |
+| ¿Quién elige el entorno?   | La configuración de `launch.json`    | El script que se ejecutó en la terminal  |
+| Backend ya en ejecución    | Lo arranca de cero                   | Se adjunta al que ya está corriendo      |
+
+**Usar Launch** en el día a día: es la forma recomendada porque arranca y depura en un solo paso.
+
+**Usar Attach** cuando el backend ya está corriendo en la terminal y no se quiere reiniciar, o cuando se necesita ver la salida del proceso directamente en la terminal propia.
+
+En ambas formas el debugger se vuelve a adjuntar automáticamente cada vez que `--watch` reinicia el proceso, por lo que los breakpoints siguen funcionando después de guardar un archivo.
+
+## 1️⃣ Launch: el editor ejecuta el script (recomendado)
+1. Abrir la pestaña **Run and Debug**.
+
+2. Seleccionar el entorno en la lista desplegable, según la tabla de scripts.
+
+3. Presionar `F5`.
+
+4. Colocar los breakpoints en el código y consumir el endpoint que se quiere depurar.
+
+## 2️⃣ Attach: adjuntarse a un proceso ya iniciado
+1. Ejecutar en la terminal el script del entorno que se quiere depurar, por ejemplo:
+
+```console
+pn debug:local
+```
+
+2. Abrir la pestaña **Run and Debug**.
+
+3. Seleccionar la configuración `🔗 Nest: attach al proceso (puerto 9229)`.
+
+4. Presionar `F5` para adjuntarse al proceso que ya está en ejecución.
+
+5. Colocar los breakpoints en el código y consumir el endpoint que se quiere depurar.
+
 # 🚀 Generar build (dist) para Desplegar
 
 | Comando         | Entorno       | Archivo de configuración       |
