@@ -206,33 +206,41 @@ La única diferencia es **quién arranca el backend**, y de ahí se deriva **qui
 
 **Usar Attach** cuando el backend ya está corriendo en la terminal y no se quiere reiniciar, o cuando se necesita ver la salida del proceso directamente en la terminal propia.
 
-En ambas formas el debugger se vuelve a adjuntar automáticamente cada vez que `--watch` reinicia el proceso, por lo que los breakpoints siguen funcionando después de guardar un archivo.
+En ambas formas, el debugger se vuelve a adjuntar automáticamente cada vez que `--watch` reinicia el proceso durante el **Hot Reload** (reinicio automático de la aplicación), por lo que los breakpoints continúan funcionando después de guardar un archivo.
 
 ## 1️⃣ Launch: el editor ejecuta el script (recomendado)
-1. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
+1. Colocar los breakpoints, escribiendo en el código
 
-2. Seleccionar el entorno en la lista desplegable, según la tabla de scripts.
+```ts
+debugger;
+```
 
-3. Presionar `F5`.
+2. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
 
-4. Colocar los breakpoints en el código
+3. Seleccionar el entorno en la lista desplegable, según la tabla de scripts.
+
+4. Presionar `F5`.
 
 5. Consumir el endpoint que se quiere depurar.
 
 ## 2️⃣ Attach: adjuntarse a un proceso ya iniciado
-1. Ejecutar en la terminal el script del entorno que se quiere depurar, por ejemplo:
+1. Colocar los breakpoints, escribiendo en el código
+
+```ts
+debugger;
+```
+
+2. Ejecutar en la terminal el script del entorno que se quiere depurar, por ejemplo:
 
 ```console
 pn debug:local
 ```
 
-2. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
+3. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
 
-3. Seleccionar la configuración `🔗 Nest: attach al proceso (puerto 9000)`.
+4. Seleccionar la configuración `🔗 Nest: attach al proceso (puerto 9000)`.
 
-4. Presionar `F5` para adjuntarse al proceso que ya está en ejecución.
-
-5. Colocar los breakpoints en el código
+5. Presionar `F5` para adjuntarse al proceso que ya está en ejecución.
 
 6. Consumir el endpoint que se quiere depurar.
 
