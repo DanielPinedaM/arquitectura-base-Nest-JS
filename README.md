@@ -42,6 +42,8 @@ Para que la configuración funcione, debes tener instalado:
 
 * [DBeaver](https://dbeaver.io/download/)
 
+* [Postman](https://www.postman.com/downloads/)
+
 > [!TIP]
 > # ⚡ **Empieza de inmediato**
 >
