@@ -1,18 +1,18 @@
+import { RegisterDto } from '@/app/features/auth/dto/register.dto';
+import { Users } from '@/app/features/auth/entities/users.entity';
+import { CryptoService } from '@/shared/services/crypto.service';
 import {
   ConflictException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Users } from '@/app/features/auth/entities/users.entity';
 import * as bcrypt from 'bcrypt';
-import { Response } from 'express';
-import { CryptoService } from '@/shared/services/crypto.service';
-import { RegisterDto } from '@/app/features/auth/dto/register.dto';
-import { ConfigService } from '@nestjs/config';
 import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
+import { Response } from 'express';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -74,9 +74,9 @@ export class AuthService {
 
     response.cookie('token', token, {
       httpOnly: true,
-      secure: this.env.get(ENV_VARS.ENVIRONMENT) === 'production',
+      secure: this.env.get(ENV_VARS.NODE_ENV) === 'production',
       sameSite:
-        this.env.get(ENV_VARS.ENVIRONMENT) === 'production' ? 'strict' : 'lax',
+        this.env.get(ENV_VARS.NODE_ENV) === 'production' ? 'strict' : 'lax',
       maxAge: 1000 * 60 * 60,
     });
 
@@ -88,9 +88,9 @@ export class AuthService {
   async logout(response: Response) {
     response.clearCookie('token', {
       httpOnly: true,
-      secure: this.env.get(ENV_VARS.ENVIRONMENT) === 'production',
+      secure: this.env.get(ENV_VARS.NODE_ENV) === 'production',
       sameSite:
-        this.env.get(ENV_VARS.ENVIRONMENT) === 'production' ? 'strict' : 'lax',
+        this.env.get(ENV_VARS.NODE_ENV) === 'production' ? 'strict' : 'lax',
     });
 
     return {

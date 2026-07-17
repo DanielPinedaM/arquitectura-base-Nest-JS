@@ -1,12 +1,12 @@
+import { log } from '@/shared/data-types/constants/logger.const';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 import * as fs from 'fs-extra';
+import { DateTime } from 'luxon';
 import * as path from 'path';
 import pino from 'pino';
-import { DateTime } from 'luxon';
-import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
-import { ConfigService } from '@nestjs/config';
 import * as rfs from 'rotating-file-stream';
-import { log } from '@/shared/data-types/constants/logger.const';
 
 @Injectable()
 export class LoggerService {
@@ -60,7 +60,7 @@ export class LoggerService {
    nombre de la carpeta base donde se guardan los logs:
    src/logs/{ENV}/{NombreMes}/ */
   getLogBaseDirForEnv(): string {
-    const envName: string = this.env.get<string>(ENV_VARS.ENVIRONMENT)!;
+    const envName: string = this.env.get<string>(ENV_VARS.NODE_ENV)!;
     const monthName: string = this.getCurrentMonthName();
     return path.join(this.ROOT_LOGS_DIR, envName, monthName);
   }

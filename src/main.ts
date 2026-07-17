@@ -1,8 +1,8 @@
 import { AppModule } from '@/app/modules/app.module';
 import {
-    INestApplication,
-    ValidationPipe,
-    VersioningType,
+  INestApplication,
+  ValidationPipe,
+  VersioningType,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -170,13 +170,13 @@ async function bootstrap(): Promise<void> {
   configSwagger(app);
 
   const PORT: number = env.get<number>(ENV_VARS.PORT)!;
-  const ENVIRONMENT: string = env.get<string>(ENV_VARS.ENVIRONMENT)!;
+  const NODE_ENV: string = env.get<string>(ENV_VARS.NODE_ENV)!;
 
   await app.listen(PORT);
   routesLogger(app);
 
   log.info(
-    `\x1b[34mbackend ejecutandose en el puerto ${PORT} y apuntando al entorno env ${ENVIRONMENT}\x1b[0m`,
+    `\x1b[34mbackend ejecutandose en el puerto ${PORT} y apuntando al entorno env ${NODE_ENV}\x1b[0m`,
   );
 
   log.info('\n');

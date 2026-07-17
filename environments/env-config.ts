@@ -1,15 +1,13 @@
-import { IsBoolean, IsIn, IsNumber, IsString } from 'class-validator';
-import { Transform } from 'class-transformer';
-import { plainToInstance } from 'class-transformer';
-import { validateSync } from 'class-validator';
 import { log } from '@/shared/data-types/constants/logger.const';
+import { plainToInstance, Transform } from 'class-transformer';
+import { IsBoolean, IsIn, IsNumber, IsString, validateSync } from 'class-validator';
 
 /* *************************************
  * NOMBRES DE LAS VARIABLES DE ENTORNO *
  * ************************************* */
 export enum ENV_VARS {
   // #region configurar Nest JS
-  ENVIRONMENT = 'ENVIRONMENT',
+  NODE_ENV  = 'NODE_ENV',
   PORT = 'PORT',
   SHOW_LOGS = 'SHOW_LOGS',
   // #endregion configurar Nest JS
@@ -41,7 +39,7 @@ export class EnvironmentClass {
   // #region configurar Nest JS
   @IsString()
   @IsIn(['localhost', 'production', 'test'])
-  ENVIRONMENT!: string;
+  NODE_ENV!: string;
 
   @Transform(({ value }) => Number(value))
   @IsNumber()

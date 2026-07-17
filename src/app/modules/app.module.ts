@@ -17,7 +17,7 @@ import {
   imports: [
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
-      envFilePath: `environments/.env.${process?.env?.ENVIRONMENT ?? 'test'}`,
+      envFilePath: `environments/.env.${process?.env?.NODE_ENV ?? 'test'}`,
       isGlobal: true,
       validate: (config: Record<string, any>) => validateEnvironment(config),
     }),
