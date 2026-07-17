@@ -176,7 +176,7 @@ async function bootstrap(): Promise<void> {
   routesLogger(app);
 
   log.info(
-    `\x1b[34mbackend ejecutandose en el puerto ${PORT} y apuntando al entorno env ${NODE_ENV}\x1b[0m`,
+    `\x1b[34mbackend ejecutandose en el puerto ${PORT} y apuntando a variable de entorno .env.${NODE_ENV}\x1b[0m`,
   );
 
   log.info('\n');
