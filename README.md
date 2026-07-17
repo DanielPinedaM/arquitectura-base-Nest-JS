@@ -167,7 +167,7 @@ Para todos los comandos de `pnpm` usar el alias `pn`
 pn i
 ```
 
-# ▶️ Scripts de desarrollo
+# ▶️ Scripts de Desarrollo
 
 | Comando          | Entorno       | Archivo de configuración       |
 | ---------------- | ------------- | ------------------------------ |
