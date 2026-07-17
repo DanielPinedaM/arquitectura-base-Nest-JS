@@ -173,8 +173,14 @@ pn i
 | `pn start:test`  | Pruebas       | `environments/.env.test`       |
 | `pn start:prod`  | Producción    | `environments/.env.production` |
 
-# 🐞 Scripts para hacer Debugging
+# 🚀 Generar Build (dist) para Desplegar
 
+| Comando         | Entorno       | Archivo de configuración       |
+| --------------- | ------------- | ------------------------------ |
+| `pn build:test` | Pruebas       | `environments/.env.test`       |
+| `pn build:prod` | Producción    | `environments/.env.production` |
+
+# 🐞 Scripts para hacer Debugging
 Cada entorno tiene su propio script de debugging y su configuración equivalente en `.vscode/launch.json`:
 
 | Comando          | Entorno       | Archivo de configuración       | Configuración de `.vscode/launch.json` |
@@ -203,13 +209,15 @@ La única diferencia es **quién arranca el backend**, y de ahí se deriva **qui
 En ambas formas el debugger se vuelve a adjuntar automáticamente cada vez que `--watch` reinicia el proceso, por lo que los breakpoints siguen funcionando después de guardar un archivo.
 
 ## 1️⃣ Launch: el editor ejecuta el script (recomendado)
-1. Abrir la pestaña **Run and Debug**.
+1. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
 
 2. Seleccionar el entorno en la lista desplegable, según la tabla de scripts.
 
 3. Presionar `F5`.
 
-4. Colocar los breakpoints en el código y consumir el endpoint que se quiere depurar.
+4. Colocar los breakpoints en el código
+
+5. Consumir el endpoint que se quiere depurar.
 
 ## 2️⃣ Attach: adjuntarse a un proceso ya iniciado
 1. Ejecutar en la terminal el script del entorno que se quiere depurar, por ejemplo:
@@ -218,20 +226,15 @@ En ambas formas el debugger se vuelve a adjuntar automáticamente cada vez que `
 pn debug:local
 ```
 
-2. Abrir la pestaña **Run and Debug**.
+2. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
 
 3. Seleccionar la configuración `🔗 Nest: attach al proceso (puerto 9229)`.
 
 4. Presionar `F5` para adjuntarse al proceso que ya está en ejecución.
 
-5. Colocar los breakpoints en el código y consumir el endpoint que se quiere depurar.
+5. Colocar los breakpoints en el código
 
-# 🚀 Generar build (dist) para Desplegar
-
-| Comando         | Entorno       | Archivo de configuración       |
-| --------------- | ------------- | ------------------------------ |
-| `pn build:test` | Pruebas       | `environments/.env.test`       |
-| `pn build:prod` | Producción    | `environments/.env.production` |
+6. Consumir el endpoint que se quiere depurar.
 
 # Arquitectura del Proyecto
 
