@@ -17,11 +17,14 @@
     "start:local": "nest start --watch --env-file environments/.env.localhost",
     "start:prod": "nest start --watch --env-file environments/.env.production",
     "start:test": "nest start --watch --env-file environments/.env.test",
+
     "build:prod": "node --max_old_space_size=100000 --env-file=./environments/.env.production ./node_modules/@nestjs/cli/bin/nest.js build",
     "build:test": "node --max_old_space_size=100000 --env-file=./environments/.env.test ./node_modules/@nestjs/cli/bin/nest.js build",
+
     "debug:local": "nest start --debug 9000 --watch --env-file environments/.env.localhost",
     "debug:prod": "nest start --debug 9000 --watch --env-file environments/.env.production",
     "debug:test": "nest start --debug 9000 --watch --env-file environments/.env.test",
+
     "dist": "node dist/main",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
