@@ -182,7 +182,7 @@ pn i
 | `pn build:test` | Pruebas       | `environments/.env.test`       |
 | `pn build:prod` | Producción    | `environments/.env.production` |
 
-# 🐞 Scripts para hacer Debugging
+# 🐞 Scripts para Hacer Debugging
 Cada entorno tiene su propio script de debugging y su configuración equivalente en `.vscode/launch.json`:
 
 | Comando          | Entorno       | Archivo de configuración       | Configuración de `.vscode/launch.json` |
