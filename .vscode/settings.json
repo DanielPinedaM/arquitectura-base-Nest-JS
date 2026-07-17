@@ -1,26 +1,26 @@
 {
-  // 🎨 Tema VS Code adaptado a la paleta moderna de NestJS
+  // 🎨 Tema VS Code adaptado a la paleta de Nest JS
   "workbench.colorCustomizations": {
     // Barra lateral izquierda (explorador, extensiones, etc.)
-    "activityBar.background": "#E0234E",
+    "activityBar.background": "#EA2845",
     "activityBar.foreground": "#FFFFFF",
     "activityBar.inactiveForeground": "#FFFFFFCC",
-    "activityBar.activeBackground": "#B81C41",
+    "activityBar.activeBackground": "#C5374A",
     "activityBar.activeBorder": "#FFFFFF",
     "activityBarBadge.background": "#FFFFFF",
-    "activityBarBadge.foreground": "#E0234E",
+    "activityBarBadge.foreground": "#EA2845",
 
     // Barra superior (título)
-    "titleBar.activeBackground": "#E0234E",
+    "titleBar.activeBackground": "#EA2845",
     "titleBar.activeForeground": "#FFFFFF",
-    "titleBar.inactiveBackground": "#B81C41",
+    "titleBar.inactiveBackground": "#C5374A",
     "titleBar.inactiveForeground": "#FFFFFFCC",
 
     // Barra inferior (status bar)
-    "statusBar.background": "#E0234E",
+    "statusBar.background": "#EA2845",
     "statusBar.foreground": "#FFFFFF",
-    "statusBarItem.hoverBackground": "#B81C41",
-    "statusBarItem.remoteBackground": "#E0234E",
+    "statusBarItem.hoverBackground": "#C5374A",
+    "statusBarItem.remoteBackground": "#EA2845",
     "statusBarItem.remoteForeground": "#FFFFFF",
 
     // Minimapa, bordes y elementos activos
@@ -30,7 +30,7 @@
   },
 
   // peacock extension
-  "peacock.color": "#E0234E",
+  "peacock.color": "#EA2845",
 
   // Prettier: formateador de codigo
   "[css]": {
