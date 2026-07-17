@@ -53,10 +53,10 @@
     {
       // Para cuando el script debug:* ya se está ejecutando manualmente en la terminal.
       // El entorno lo define el script que se haya ejecutado, no esta configuración.
-      "name": "🔗 Nest: attach al proceso (puerto 9229)",
+      "name": "🔗 Nest: attach al proceso (puerto 9000)",
       "type": "node",
       "request": "attach",
-      "port": 9229,
+      "port": 9000,
       "address": "localhost",
       "cwd": "${workspaceFolder}",
       // vuelve a adjuntarse cuando --watch reinicia el proceso

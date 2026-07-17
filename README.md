@@ -228,7 +228,7 @@ pn debug:local
 
 2. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
 
-3. Seleccionar la configuración `🔗 Nest: attach al proceso (puerto 9229)`.
+3. Seleccionar la configuración `🔗 Nest: attach al proceso (puerto 9000)`.
 
 4. Presionar `F5` para adjuntarse al proceso que ya está en ejecución.
 
