@@ -3,7 +3,7 @@
   "workbench.colorCustomizations": {
     // Barra lateral izquierda (explorador, extensiones, etc.)
     "activityBar.background": "#E0234E",
-    "activityBar.foreground": "#1A1A1A",
+    "activityBar.foreground": "#FFFFFF",
     "activityBar.inactiveForeground": "#FFFFFFCC",
     "activityBar.activeBackground": "#FFFFFF",
     "activityBar.activeBorder": "#B81C41",
