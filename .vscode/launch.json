@@ -1,17 +1,22 @@
 {
   // 🐞 Debugging de Nest JS (backend)
-  // Cada configuración ejecuta un script existente de package.json,
-  // por lo que el entorno del debugger siempre coincide con el archivo .env del script.
+  // Cada configuración invoca directamente el CLI de Nest con el node del editor,
+  // igual que los scripts build:prod / build:test de package.json.
+  // No se usa pnpm como runtimeExecutable porque el editor lanza el debugger sin el
+  // PATH de fnm, y el binario de pnpm solo existe dentro del multishell efímero de fnm.
+  //
+  // ⚠️ Los flags de abajo duplican los de los scripts debug:* de package.json.
+  // Si cambias un script debug:*, actualiza también su configuración aquí.
   "version": "0.2.0",
   "configurations": [
     {
-      // pnpm debug:local -> environments/.env.localhost
+      // equivale a: pnpm debug:local -> environments/.env.localhost
       "name": "🐞 Nest: debug local host",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run", "debug:local"],
+      "program": "${workspaceFolder}/node_modules/@nestjs/cli/bin/nest.js",
+      "args": ["start", "--debug", "9000", "--watch", "--env-file", "environments/.env.localhost"],
       // nest start --watch reinicia el proceso hijo, este es el que expone el inspector
       "autoAttachChildProcesses": true,
       "console": "integratedTerminal",
@@ -21,13 +26,13 @@
       "outFiles": ["${workspaceFolder}/dist/**/*.js"]
     },
     {
-      // pnpm debug:test -> environments/.env.test
+      // equivale a: pnpm debug:test -> environments/.env.test
       "name": "🐞 Nest: debug pruebas",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run", "debug:test"],
+      "program": "${workspaceFolder}/node_modules/@nestjs/cli/bin/nest.js",
+      "args": ["start", "--debug", "9000", "--watch", "--env-file", "environments/.env.test"],
       "autoAttachChildProcesses": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
@@ -36,13 +41,13 @@
       "outFiles": ["${workspaceFolder}/dist/**/*.js"]
     },
     {
-      // pnpm debug:prod -> environments/.env.production
+      // equivale a: pnpm debug:prod -> environments/.env.production
       "name": "🐞 Nest: debug producción",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run", "debug:prod"],
+      "program": "${workspaceFolder}/node_modules/@nestjs/cli/bin/nest.js",
+      "args": ["start", "--debug", "9000", "--watch", "--env-file", "environments/.env.production"],
       "autoAttachChildProcesses": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
