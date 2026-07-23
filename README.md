@@ -198,7 +198,7 @@ Existen dos formas de ejecutar el debugger desde VS Code (o cualquier editor bas
 ## 🤔 Diferencia entre Launch y Attach — ¿Cuál Usar?
 La única diferencia es **quién arranca el backend**, y de ahí se deriva **quién elige el entorno**:
 
-|                            | **Launch**                        | **Attach** |
+|                            | **Launch**                        | **Attach**                               |
 | -------------------------- | --------------------------------- | ---------------------------------------- |
 | ¿Quién arranca el backend? | El editor, al presionar `F5`      | El desarrollador, en la terminal         |
 | ¿Quién elige el entorno?   | La configuración de `launch.json` | El script que se ejecutó en la terminal  |
