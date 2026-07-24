@@ -260,7 +260,7 @@ debugger;
 🐞 Nest: debug producción
 ```
 
-5. Presionar:
+5. Para que el editor de codigo ejecute el backend, presionar:
    * `F5` en un computador de escritorio.
    * `Fn + F5` en un computador portátil.
 
