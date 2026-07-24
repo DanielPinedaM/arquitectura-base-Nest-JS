@@ -204,9 +204,7 @@ import { ConfigService } from '@nestjs/config';
 @ApiTags('Example')
 @Controller('endpoint-example')
 export class ExampleController {
-  constructor(
-    private env: ConfigService<EnvironmentClass>,
-    ) {}
+  constructor(private env: ConfigService<EnvironmentClass>) {}
 
   @ApiOperation({ summary: 'Obtiene el ambiente de ejecución' })
   @Get('my-environment')
