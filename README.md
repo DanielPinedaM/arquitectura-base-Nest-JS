@@ -204,6 +204,7 @@ La única diferencia es **quién arranca el backend**, y de ahí se deriva **qui
 | ¿Quién elige el entorno?   | La configuración de `launch.json` | El script que se ejecutó en la terminal  |
 | Backend ya en ejecución    | Lo arranca de cero                | Se adjunta al que ya está corriendo      |
 
+## ¿Cuando Usar?
 **Usar Launch**: Es la forma recomendada porque ejecuta y depura en un solo paso sin escribir comandos manualmente.
 
 **Usar Attach** Cuando el backend ya está corriendo en la terminal y no se quiere reiniciar, o cuando se necesita ver la salida del proceso directamente en la terminal propia.
