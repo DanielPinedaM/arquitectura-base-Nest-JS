@@ -195,7 +195,7 @@ Los scripts `start:*` no sirven para depurar porque no abren el inspector de Nod
 
 Existen dos formas de ejecutar el debugger desde VS Code (o cualquier editor basado en VS Code).
 
-## 🤔 Diferencia entre Launch y Attach — ¿Cuál Usar?
+## Diferencia entre Launch y Attach
 La única diferencia es **quién arranca el backend**, y de ahí se deriva **quién elige el entorno**:
 
 |                            | **Launch**                        | **Attach**                               |
@@ -204,12 +204,12 @@ La única diferencia es **quién arranca el backend**, y de ahí se deriva **qui
 | ¿Quién elige el entorno?   | La configuración de `launch.json` | El script que se ejecutó en la terminal  |
 | Backend ya en ejecución    | Lo arranca de cero                | Se adjunta al que ya está corriendo      |
 
-## ¿Cuando Usar?
+En ambas formas, el debugger se vuelve a adjuntar automáticamente cada vez que `--watch` reinicia el proceso durante el **Hot Reload** (reinicio automático de la aplicación), por lo que los breakpoints continúan funcionando después de guardar un archivo.
+
+## ❔ ¿Cual Usar?
 **Usar Launch**: Es la forma recomendada porque ejecuta y depura en un solo paso sin escribir comandos manualmente.
 
 **Usar Attach** Cuando el backend ya está corriendo en la terminal y no se quiere reiniciar, o cuando se necesita ver la salida del proceso directamente en la terminal propia.
-
-En ambas formas, el debugger se vuelve a adjuntar automáticamente cada vez que `--watch` reinicia el proceso durante el **Hot Reload** (reinicio automático de la aplicación), por lo que los breakpoints continúan funcionando después de guardar un archivo.
 
 ## 1️⃣ Launch: el editor ejecuta el script (recomendado)
 1. Colocar los breakpoints, escribiendo en el código
