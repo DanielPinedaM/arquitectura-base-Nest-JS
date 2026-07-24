@@ -211,7 +211,7 @@ export class ExampleController {
   @Get('my-environment')
   getEnvironment() {
     const NODE_ENV = this.env.get(ENV_VARS.NODE_ENV);
-    debugger;
+    debugger; // debugger breakpoint
     return `Ambiente ${NODE_ENV}`
   }
 }
