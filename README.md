@@ -210,7 +210,7 @@ export class ExampleController {
   @ApiOperation({ summary: 'Obtiene el ambiente de ejecución' })
   @Get('my-environment')
   getEnvironment() {
-    const NODE_ENV =  this.env.get(ENV_VARS.NODE_ENV);
+    const NODE_ENV = this.env.get(ENV_VARS.NODE_ENV);
     debugger;
     return `Ambiente ${NODE_ENV}`
   }
