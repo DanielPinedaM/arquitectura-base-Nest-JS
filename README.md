@@ -264,7 +264,9 @@ debugger;
    * `F5` en un computador de escritorio.
    * `Fn + F5` en un computador portátil.
 
-6. Consumir el endpoint que se quiere depurar.
+6. En el editor de codigo abrir el archivo que contiene `debugger;`
+
+7. Consumir el endpoint que se quiere depurar.
 
 ## 2️⃣ Attach: adjuntarse a un proceso ya iniciado
 1. Si el backend ya esta ejecutandose con `pn start:local`, `pn start:test` o `pn start:prod`, deténgalo antes de iniciar el debugging. De lo contrario, se producirán errores.
