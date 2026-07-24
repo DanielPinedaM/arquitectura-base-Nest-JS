@@ -214,7 +214,7 @@ En ambas formas, el debugger se vuelve a adjuntar automáticamente cada vez que 
 ## 1️⃣ Launch: el editor ejecuta el script (recomendado)
 1. Si el backend ya esta ejecutandose con `pn start:local`, `pn start:test` o `pn start:prod`, deténgalo antes de iniciar el debugging. De lo contrario, se producirán errores.
 
-2. Colocar los breakpoints, escribiendo en el código
+2. Colocar los breakpoints, escribiendo en el código:
 
 ```ts
 debugger;
@@ -229,7 +229,7 @@ debugger;
 6. Consumir el endpoint que se quiere depurar.
 
 ## 2️⃣ Attach: adjuntarse a un proceso ya iniciado
-1. Colocar los breakpoints, escribiendo en el código
+1. Colocar los breakpoints, escribiendo en el código:
 
 ```ts
 debugger;
