@@ -169,7 +169,7 @@ pn i
 
 # ▶️ Scripts de Desarrollo
 
-| Comando          | Entorno       | Archivo de configuración       |
+| Comando          | Ambiente      | Variable de Entorno            |
 | ---------------- | ------------- | ------------------------------ |
 | `pn start:local` | Local host    | `environments/.env.localhost`  |
 | `pn start:test`  | Pruebas       | `environments/.env.test`       |
@@ -177,7 +177,7 @@ pn i
 
 # 🚀 Generar Build (dist) para Desplegar
 
-| Comando         | Entorno       | Archivo de configuración       |
+| Comando         | Ambiente      | Variable de Entorno            |
 | --------------- | ------------- | ------------------------------ |
 | `pn build:test` | Pruebas       | `environments/.env.test`       |
 | `pn build:prod` | Producción    | `environments/.env.production` |
@@ -185,7 +185,7 @@ pn i
 # 🐞 Scripts para Hacer Debugging
 Cada entorno tiene su propio script de debugging y su configuración equivalente en `.vscode/launch.json`:
 
-| Comando          | Entorno       | Archivo de configuración       | Configuración de `.vscode/launch.json` |
+| Comando          | Ambiente      | Variable de Entorno            | Configuración de `.vscode/launch.json` |
 | ---------------- | ------------- | ------------------------------ | -------------------------------------- |
 | `pn debug:local` | Local host    | `environments/.env.localhost`  | `🐞 Nest: debug local host`            |
 | `pn debug:test`  | Pruebas       | `environments/.env.test`       | `🐞 Nest: debug pruebas`               |
