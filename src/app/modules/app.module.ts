@@ -1,5 +1,6 @@
 import { AuthModule } from '@/app/features/auth/auth.module';
 import { DatabaseModule } from '@/app/modules/database.module';
+import { log } from '@/shared/data-types/constants/logger.const';
 import { FilterModule } from '@/shared/filter/filter.module';
 import { InterceptorModule } from '@/shared/interceptor/interceptor.module';
 import { ServiceModule } from '@/shared/services/service.module';
@@ -12,12 +13,26 @@ import {
   EnvironmentClass,
   validateEnvironment,
 } from 'environments/env-config';
+import { existsSync } from 'fs-extra';
+
+/** ruta del archivo de variables de entorno segun el NODE_ENV actual */
+const ENV_FILE_PATH: string = `environments/.env.${process.env.NODE_ENV}`;
+
+/**
+ * si el archivo no existe, avisar con un mensaje claro en vez de fallar despues
+ * con el error generico de validacion de variables de entorno
+ */
+if (!existsSync(ENV_FILE_PATH)) {
+  const ERROR_MESSAGE = `no existe el archivo de variables de entorno NODE_ENV=${process.env.NODE_ENV}, verifique que el script haya recibido el flag --env-file correcto`;
+  log.error(ERROR_MESSAGE);
+  throw new Error(ERROR_MESSAGE);
+}
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
-      envFilePath: `environments/.env.${process?.env?.NODE_ENV ?? 'test'}`,
+      envFilePath: ENV_FILE_PATH,
       isGlobal: true,
       validate: (config: Record<string, any>) => validateEnvironment(config),
     }),
