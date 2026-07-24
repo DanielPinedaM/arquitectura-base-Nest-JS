@@ -25,9 +25,6 @@
     "debug:prod": "nest start --debug 9000 --watch --env-file environments/.env.production",
     "debug:test": "nest start --debug 9000 --watch --env-file environments/.env.test",
 
-    "dist:test": "node --env-file=./environments/.env.test dist/src/main",
-    "dist:prod": "node --env-file=./environments/.env.production dist/src/main",
-
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
