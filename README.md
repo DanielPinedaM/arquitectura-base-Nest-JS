@@ -182,6 +182,14 @@ pn i
 | `pn build:test` | Pruebas       | `environments/.env.test`       |
 | `pn build:prod` | Producción    | `environments/.env.production` |
 
+# ▶️ Ejecutar el Build (dist) Generado
+Estos scripts ejecutan el build (`dist`) que previamente se generó con `pn build:test` o `pn build:prod`. Requieren que el build ya exista, de lo contrario fallan.
+
+| Comando        | Ambiente      | Variable de Entorno            |
+| -------------- | ------------- | ------------------------------ |
+| `pn dist:test` | Pruebas       | `environments/.env.test`       |
+| `pn dist:prod` | Producción    | `environments/.env.production` |
+
 # 🐞 Scripts para Hacer Debugging
 
 > [!TIP]
