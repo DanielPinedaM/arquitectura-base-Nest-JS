@@ -267,27 +267,33 @@ debugger;
 6. Consumir el endpoint que se quiere depurar.
 
 ## 2️⃣ Attach: adjuntarse a un proceso ya iniciado
-1. Colocar los breakpoints, escribiendo en el código:
+1. Si el backend ya esta ejecutandose con `pn start:local`, `pn start:test` o `pn start:prod`, deténgalo antes de iniciar el debugging. De lo contrario, se producirán errores.
+
+2. Colocar los breakpoints, escribiendo en el código:
 
 ```ts
 debugger;
 ```
 
-2. Ejecutar en la terminal el script de debug del entorno que se quiere depurar, por ejemplo:
+3. Ejecutar en la terminal **UNO** de los siguientes scripts con el entorno que se quiere depurar:
 
 ```console
 pn debug:local
+
+pn debug:test
+
+pn debug:prod
 ```
 
-3. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
+4. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
 
-4. Seleccionar la configuración `🔗 Nest: attach al proceso (puerto 9000)`.
+5. En la lista desplegable seleccionar la opción `🔗 Nest: attach al proceso (puerto 9000)`.
 
-5. Para adjuntarse al proceso que ya está en ejecución, presionar:
+6. Para adjuntarse al proceso que ya está en ejecución, presionar:
    * `F5` en un computador de escritorio.
    * `Fn + F5` en un computador portátil.
 
-6. Consumir el endpoint que se quiere depurar.
+7. Consumir el endpoint que se quiere depurar.
 
 # Arquitectura del Proyecto
 
