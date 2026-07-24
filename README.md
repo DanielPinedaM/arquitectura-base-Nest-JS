@@ -183,6 +183,10 @@ pn i
 | `pn build:prod` | Producción    | `environments/.env.production` |
 
 # 🐞 Scripts para Hacer Debugging
+
+> [!TIP]
+> # Deja de escribir `console.log()` para ver valores de variables, mejor usa el debugging
+
 Cada entorno tiene su propio script de debugging y su configuración equivalente en `.vscode/launch.json`:
 
 | Comando          | Ambiente      | Variable de Entorno            | Configuración de `.vscode/launch.json` |
