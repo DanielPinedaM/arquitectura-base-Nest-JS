@@ -235,9 +235,9 @@ La única diferencia es **quién arranca el backend**, y de ahí se deriva **qui
 En ambas formas, el debugger se vuelve a adjuntar automáticamente cada vez que `--watch` reinicia el proceso durante el **Hot Reload** (reinicio automático de la aplicación), por lo que los breakpoints continúan funcionando después de guardar un archivo.
 
 ## ❔ ¿Cual Usar?
-**Usar Launch**: Es la forma recomendada porque ejecuta y depura en un solo paso sin escribir comandos manualmente.
+**Launch:** Es la forma recomendada porque ejecuta y depura automaticamente en un solo paso sin escribir comandos manualmente.
 
-**Usar Attach** Cuando el backend ya está corriendo en la terminal y no se quiere reiniciar, o cuando se necesita ver la salida del proceso directamente en la terminal propia.
+**Attach:** Es menos práctico de usar porque requiere ejecutar comandos manualmente.
 
 ## 1️⃣ Launch: el editor ejecuta el script (recomendado)
 1. Si el backend ya esta ejecutandose con `pn start:local`, `pn start:test` o `pn start:prod`, deténgalo antes de iniciar el debugging. De lo contrario, se producirán errores.
