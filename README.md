@@ -295,7 +295,9 @@ pn debug:prod
    * `F5` en un computador de escritorio.
    * `Fn + F5` en un computador portátil.
 
-7. Consumir el endpoint que se quiere depurar.
+7. En el editor de codigo abrir el archivo que contiene `debugger;`
+
+8. Consumir el endpoint que se quiere depurar.
 
 # Arquitectura del Proyecto
 
