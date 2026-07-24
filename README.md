@@ -256,7 +256,9 @@ debugger;
 🐞 Nest: debug producción
 ```
 
-5. Presionar `F5`.
+5. Presionar:
+   * `F5` en un computador de escritorio.
+   * `Fn + F5` en un computador portátil.
 
 6. Consumir el endpoint que se quiere depurar.
 
