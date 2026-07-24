@@ -246,7 +246,15 @@ debugger;
 
 3. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
 
-4. Seleccionar el entorno en la lista desplegable, según la tabla de scripts.
+4. Seleccionar el entorno en la lista desplegable, según la tabla de scripts:
+
+```txt
+🐞 Nest: debug local host
+
+🐞 Nest: debug pruebas
+
+🐞 Nest: debug producción
+```
 
 5. Presionar `F5`.
 
