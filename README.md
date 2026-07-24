@@ -283,7 +283,9 @@ pn debug:local
 
 4. Seleccionar la configuración `🔗 Nest: attach al proceso (puerto 9000)`.
 
-5. Presionar `F5` para adjuntarse al proceso que ya está en ejecución.
+5. Para adjuntarse al proceso que ya está en ejecución, presionar:
+   * `F5` en un computador de escritorio.
+   * `Fn + F5` en un computador portátil.
 
 6. Consumir el endpoint que se quiere depurar.
 
