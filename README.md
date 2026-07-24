@@ -212,19 +212,21 @@ En ambas formas, el debugger se vuelve a adjuntar automáticamente cada vez que 
 **Usar Attach** Cuando el backend ya está corriendo en la terminal y no se quiere reiniciar, o cuando se necesita ver la salida del proceso directamente en la terminal propia.
 
 ## 1️⃣ Launch: el editor ejecuta el script (recomendado)
-1. Colocar los breakpoints, escribiendo en el código
+1. Si el backend ya esta ejecutandose con `pn start:local`, `pn start:test` o `pn start:prod`, deténgalo antes de iniciar el debugging. De lo contrario, se producirán errores.
+
+2. Colocar los breakpoints, escribiendo en el código
 
 ```ts
 debugger;
 ```
 
-2. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
+3. Abrir la pestaña Ejecucion y Depuración (Run and Debug)
 
-3. Seleccionar el entorno en la lista desplegable, según la tabla de scripts.
+4. Seleccionar el entorno en la lista desplegable, según la tabla de scripts.
 
-4. Presionar `F5`.
+5. Presionar `F5`.
 
-5. Consumir el endpoint que se quiere depurar.
+6. Consumir el endpoint que se quiere depurar.
 
 ## 2️⃣ Attach: adjuntarse a un proceso ya iniciado
 1. Colocar los breakpoints, escribiendo en el código
