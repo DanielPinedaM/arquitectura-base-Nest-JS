@@ -217,7 +217,7 @@ export class ExampleController {
 }
 ```
 
-## Diferencia entre Launch y Attach
+## 🤔 Diferencia entre Launch y Attach
 Existen dos formas de ejecutar el debugger desde VS Code (o cualquier editor basado en VS Code).
 
 La única diferencia es **quién arranca el backend**, y de ahí se deriva **quién elige el entorno**:
