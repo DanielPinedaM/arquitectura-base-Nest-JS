@@ -193,9 +193,9 @@ Cada entorno tiene su propio script de debugging y su configuración equivalente
 
 Los scripts `start:*` no sirven para depurar porque no abren el inspector de Node. Solo los scripts `debug:*` usan `nest start --debug --watch`.
 
+## Diferencia entre Launch y Attach
 Existen dos formas de ejecutar el debugger desde VS Code (o cualquier editor basado en VS Code).
 
-## Diferencia entre Launch y Attach
 La única diferencia es **quién arranca el backend**, y de ahí se deriva **quién elige el entorno**:
 
 |                            | **Launch**                        | **Attach**                               |
