@@ -193,6 +193,31 @@ Cada entorno tiene su propio script de debugging y su configuración equivalente
 
 Los scripts `start:*` no sirven para depurar porque no abren el inspector de Node. Solo los scripts `debug:*` usan `nest start --debug --watch`.
 
+Para que los scripts `debug:*` sirvan para depurar se tiene que escribir `debugger;` en el código.
+
+**Ejemplo:**
+
+```ts
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
+import { ConfigService } from '@nestjs/config';
+
+@ApiTags('Example')
+@Controller('endpoint-example')
+export class ExampleController {
+  constructor(
+    private env: ConfigService<EnvironmentClass>,
+    ) {}
+
+  @ApiOperation({ summary: 'Obtiene el ambiente de ejecución' })
+  @Get('my-environment')
+  getEnvironment() {
+    const NODE_ENV =  this.env.get(ENV_VARS.NODE_ENV);
+    debugger;
+    return `Ambiente ${NODE_ENV}`
+  }
+}
+```
+
 ## Diferencia entre Launch y Attach
 Existen dos formas de ejecutar el debugger desde VS Code (o cualquier editor basado en VS Code).
 
