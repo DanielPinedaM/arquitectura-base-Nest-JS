@@ -198,8 +198,9 @@ Para que los scripts `debug:*` sirvan para depurar se tiene que escribir `debugg
 **Ejemplo:**
 
 ```ts
-import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 import { ConfigService } from '@nestjs/config';
+import { Controller, Get } from '@nestjs/common';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 
 @ApiTags('Example')
 @Controller('endpoint-example')
