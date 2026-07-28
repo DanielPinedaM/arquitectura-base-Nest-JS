@@ -327,9 +327,9 @@ Swagger solamente funciona en los ambientes de Local host y Pruebas, NO en Produ
 http://localhost:PORT/docs
 ```
 
-Reemplazar `PORT` por el valor de la variable de entorno `PORT` definida en el archivo `environments/.env.localhost` o `environments/.env.test` del ambiente que se levantó:
+Reemplazar `PORT` por el valor de la variable de entorno `PORT` definida en el archivo `environments/.env.localhost` o `environments/.env.test` del ambiente que se levantó.
 
-Cada ambiente puede usar un puerto distinto, así que la URL cambia según el comando que se haya ejecutado. El puerto también aparece impreso en la consola al arrancar la aplicación.
+Cada ambiente usa un puerto distinto, así que la URL cambia según el comando que se haya ejecutado. El puerto también aparece impreso en la consola al arrancar la aplicación.
 
 3. Además de la interfaz gráfica, el documento OpenAPI en formato JSON está disponible en:
 
