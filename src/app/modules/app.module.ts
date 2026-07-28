@@ -1,6 +1,5 @@
 import { AuthModule } from '@/app/features/auth/auth.module';
 import { DatabaseModule } from '@/app/modules/database.module';
-import { log } from '@/shared/data-types/constants/logger.const';
 import { FilterModule } from '@/shared/filter/filter.module';
 import { InterceptorModule } from '@/shared/interceptor/interceptor.module';
 import { ServiceModule } from '@/shared/services/service.module';
@@ -21,7 +20,9 @@ import {
  * con un mensaje claro en vez de fallar despues con el error generico de
  * validacion de variables de entorno */
 if (!process.env.NODE_ENV) {
-  throw new Error('❌ Error: no esta definida la variable de entorno NODE_ENV, verifique que el script haya recibido el flag --env-file correcto');
+  throw new Error(
+    '❌ Error: no esta definida la variable de entorno NODE_ENV, verifique que el script haya recibido el flag --env-file correcto',
+  );
 }
 
 @Module({
