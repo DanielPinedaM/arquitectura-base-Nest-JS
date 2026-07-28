@@ -331,7 +331,7 @@ Reemplazar `PORT` por el valor de la variable de entorno `PORT` definida en el a
 
 Cada ambiente puede usar un puerto distinto, así que la URL cambia según el comando que se haya ejecutado. El puerto también aparece impreso en la consola al arrancar la aplicación.
 
-Además de la interfaz gráfica, el documento OpenAPI en formato JSON está disponible en:
+3. Además de la interfaz gráfica, el documento OpenAPI en formato JSON está disponible en:
 
 ```txt
 http://localhost:PORT/docs-json
