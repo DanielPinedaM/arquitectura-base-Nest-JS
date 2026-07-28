@@ -11,8 +11,7 @@ import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 import { json } from 'express';
 
 // #region Exception Filter
-import { ErrorLogsFilter } from '@/shared/filter/error-logs.filter';
-import { StandardizeErrorResponseFilter } from '@/shared/filter/standardize-error-response.filter';
+import { GlobalExceptionFilter } from '@/shared/filter/global-exception.filter';
 // #endregion Exception Filter
 
 // #region Interceptor
@@ -34,8 +33,7 @@ const GLOBAL_PREFIX: string = 'api';
 /**
 ExceptionFilter */
 function configExceptionFilter(app: INestApplication): void {
-  app.useGlobalFilters(app.get(StandardizeErrorResponseFilter));
-  app.useGlobalFilters(app.get(ErrorLogsFilter));
+  app.useGlobalFilters(app.get(GlobalExceptionFilter));
 }
 
 /**
