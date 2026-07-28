@@ -1,13 +1,19 @@
 import { log } from '@/shared/data-types/constants/logger.const';
 import { plainToInstance, Transform } from 'class-transformer';
-import { IsBoolean, IsIn, IsNumber, IsString, validateSync } from 'class-validator';
+import {
+  IsBoolean,
+  IsIn,
+  IsNumber,
+  IsString,
+  validateSync,
+} from 'class-validator';
 
 /* *************************************
  * NOMBRES DE LAS VARIABLES DE ENTORNO *
  * ************************************* */
 export enum ENV_VARS {
   // #region configurar Nest JS
-  NODE_ENV  = 'NODE_ENV',
+  NODE_ENV = 'NODE_ENV',
   PORT = 'PORT',
   SHOW_LOGS = 'SHOW_LOGS',
   // #endregion configurar Nest JS
