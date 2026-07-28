@@ -308,6 +308,35 @@ pn debug:prod
 
 8. Consumir el endpoint que se quiere depurar.
 
+# Swagger
+1. Ejecutar uno de los siguientes comandos dependiendo del ambiente donde se quiere abrir el swagger:
+
+```console
+pn start:local
+
+pn start:test
+```
+
+Swagger solamente funciona en los ambientes de Local host y Pruebas, NO en Producción
+
+2. Abrir una pestaña en el navegador y escribir la siguiente url donde puedes ver la interfaz grafica del swagger:
+
+```txt
+http://localhost:PORT/docs
+```
+
+Reemplazar `PORT` por el valor de la variable de entorno `PORT` definida en el archivo `environments/.env.localhost` o `environments/.env.test` del ambiente que se levantó:
+
+Cada ambiente puede usar un puerto distinto, así que la URL cambia según el comando que se haya ejecutado. El puerto también aparece impreso en la consola al arrancar la aplicación.
+
+Además de la interfaz gráfica, el documento OpenAPI en formato JSON está disponible en:
+
+```txt
+http://localhost:PORT/docs-json
+```
+
+Sirve para importar la API en Postman, Insomnia o generar clientes automáticamente.
+
 # Arquitectura del Proyecto
 
 > [!TIP]
