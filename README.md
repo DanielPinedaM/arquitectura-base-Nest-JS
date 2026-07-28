@@ -319,7 +319,7 @@ pn start:test
 
 Swagger solamente funciona en los ambientes de Local host y Pruebas, NO en Producción
 
-***Razón:*** La documentacion de la API nunca deberia estar expuesta de forma publica en producción por seguridad.
+***Razón:*** La documentacion de la API nunca deberia estar expuesta de forma publica en producción por seguridad informática.
 
 2. Abrir una pestaña en el navegador y escribir la siguiente url donde puedes ver la interfaz grafica del swagger:
 
