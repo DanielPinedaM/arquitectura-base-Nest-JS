@@ -35,7 +35,7 @@ if (!process.env.NODE_ENV) {
        * que se carguen dos ambientes distintos al mismo tiempo */
       ignoreEnvFile: true,
       isGlobal: true,
-      validate: (config: Record<string, any>) => validateEnvironment(config),
+      validate: validateEnvironment,
     }),
     JwtModule.registerAsync({
       global: true,

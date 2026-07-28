@@ -107,7 +107,7 @@ export class EnvironmentClass {
 }
 
 export function validateEnvironment(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
 ): EnvironmentClass {
   const validatedConfig = plainToInstance(EnvironmentClass, config, {
     enableImplicitConversion: false,
