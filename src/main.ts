@@ -7,7 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
-import { ENV_VARS } from 'environments/env-config';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 import { json } from 'express';
 
 // #region Exception Filter
@@ -80,6 +80,14 @@ const API_DESCRIPTION: string = 'Descripción de API para base';
 const API_VERSION: string = '1';
 
 function configSwagger(app: INestApplication): void {
+  const env: ConfigService<EnvironmentClass> = app.get(ConfigService);
+  const NODE_ENV: string = env.get<string>(ENV_VARS.NODE_ENV)!;
+
+  /**
+   * no montar la documentacion de la API en produccion para no exponerla
+   * publicamente. el ambiente se lee desde ConfigService, no desde process.env */
+  if (NODE_ENV === 'production') return;
+
   const config: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
     .setTitle(API_TITLE)
     .setDescription(API_DESCRIPTION)
