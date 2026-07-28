@@ -18,8 +18,7 @@
     "start:prod": "nest start --watch --env-file environments/.env.production",
     "start:test": "nest start --watch --env-file environments/.env.test",
 
-    "build:prod": "node --max_old_space_size=100000 --env-file=./environments/.env.production ./node_modules/@nestjs/cli/bin/nest.js build",
-    "build:test": "node --max_old_space_size=100000 --env-file=./environments/.env.test ./node_modules/@nestjs/cli/bin/nest.js build",
+    "build": "node --max_old_space_size=100000 ./node_modules/@nestjs/cli/bin/nest.js build",
 
     "debug:local": "nest start --debug 9000 --watch --env-file environments/.env.localhost",
     "debug:prod": "nest start --debug 9000 --watch --env-file environments/.env.production",

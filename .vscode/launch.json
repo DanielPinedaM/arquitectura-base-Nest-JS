@@ -1,7 +1,7 @@
 {
   // 🐞 Debugging de Nest JS (backend)
   // Cada configuración invoca directamente el CLI de Nest con el node del editor,
-  // igual que los scripts build:prod / build:test de package.json.
+  // igual que el script build de package.json.
   // No se usa pnpm como runtimeExecutable porque el editor lanza el debugger sin el
   // PATH de fnm, y el binario de pnpm solo existe dentro del multishell efímero de fnm.
   //
