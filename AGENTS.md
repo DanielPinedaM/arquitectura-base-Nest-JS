@@ -13,12 +13,16 @@
 | `pnpm start:test`  | Pruebas       | `environments/.env.test`       |
 | `pnpm start:prod`  | Producción    | `environments/.env.production` |
 
-# Builds para despliegue
+# Generar Carpeta `dist` (build) para Desplegar
+`pnpm build` genera el `dist`. Es un solo script, sin ambiente, porque el build no hardcodea los valores de las variables de entorno en el código compilado.
 
-| Comando           | Ambiente     | Variable de Entorno            |
-| ----------------- | ------------ | ------------------------------ |
-| `pnpm build:test` | Pruebas      | `environments/.env.test`       |
-| `pnpm build:prod` | Producción   | `environments/.env.production` |
+# Ejecutar Carpeta `dist` con Archivos de Compilación
+Estos scripts ejecutan el `dist` que previamente se generó con `pn build`. Requieren que exista la carpeta `dist`, de lo contrario fallan.
+
+| Comando          | Ambiente     | Variable de Entorno            |
+| ---------------- | ------------ | ------------------------------ |
+| `pnpm dist:test` | Pruebas      | `environments/.env.test`       |
+| `pnpm dist:prod` | Producción   | `environments/.env.production` |
 
 # Reglas de Idioma
 

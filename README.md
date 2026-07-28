@@ -175,12 +175,21 @@ pn i
 | `pn start:test`  | Pruebas       | `environments/.env.test`       |
 | `pn start:prod`  | Producción    | `environments/.env.production` |
 
-# 🚀 Generar Build (dist) para Desplegar
+# 🚀 Generar Carpeta `dist` (build) para Desplegar
 
-| Comando         | Ambiente      | Variable de Entorno            |
-| --------------- | ------------- | ------------------------------ |
-| `pn build:test` | Pruebas       | `environments/.env.test`       |
-| `pn build:prod` | Producción    | `environments/.env.production` |
+```console
+pn build
+```
+
+Hay **un solo** script de build, sin ambiente, porque el `dist` generado es idéntico para todos los ambientes. El build no hardcodea los valores de las variables de entorno dentro del código compilado: deja escrito `process.env.VARIABLE`, que se lee hasta que la aplicación arranca. El ambiente se elige al **ejecutar** el `dist`, no al generarlo.
+
+# Ejecutar Carpeta `dist` con Archivos de Compilación
+Estos scripts ejecutan el `dist` que previamente se generó con `pn build`. Requieren que exista la carpeta `dist`, de lo contrario fallan.
+
+| Comando        | Ambiente      | Variable de Entorno            |
+| -------------- | ------------- | ------------------------------ |
+| `pn dist:test` | Pruebas       | `environments/.env.test`       |
+| `pn dist:prod` | Producción    | `environments/.env.production` |
 
 # 🐞 Scripts para Hacer Debugging
 
