@@ -13,26 +13,27 @@ import {
   EnvironmentClass,
   validateEnvironment,
 } from 'environments/env-config';
-import { existsSync } from 'fs-extra';
-
-/** ruta del archivo de variables de entorno segun el NODE_ENV actual */
-const ENV_FILE_PATH: string = `environments/.env.${process.env.NODE_ENV}`;
 
 /**
- * si el archivo no existe, avisar con un mensaje claro en vez de fallar despues
- * con el error generico de validacion de variables de entorno
- */
-if (!existsSync(ENV_FILE_PATH)) {
-  const ERROR_MESSAGE = `no existe el archivo de variables de entorno NODE_ENV=${process.env.NODE_ENV}, verifique que el script haya recibido el flag --env-file correcto`;
-  log.error(ERROR_MESSAGE);
-  throw new Error(ERROR_MESSAGE);
+ * el flag --env-file de los scripts de package.json es el unico que carga el
+ * archivo de variables de entorno, y lo hace antes de que se ejecute esta linea.
+ * si NODE_ENV no existe es porque el script no recibio el flag, entonces avisar
+ * con un mensaje claro en vez de fallar despues con el error generico de
+ * validacion de variables de entorno */
+if (!process.env.NODE_ENV) {
+  throw new Error('❌ Error: no esta definida la variable de entorno NODE_ENV, verifique que el script haya recibido el flag --env-file correcto');
 }
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
-      envFilePath: ENV_FILE_PATH,
+      /**
+       * no volver a leer ningun archivo .env porque el flag --env-file ya cargo
+       * las variables en process.env, que de todas formas tiene prioridad sobre
+       * lo que lea ConfigModule. asi solo hay una fuente de verdad y es imposible
+       * que se carguen dos ambientes distintos al mismo tiempo */
+      ignoreEnvFile: true,
       isGlobal: true,
       validate: (config: Record<string, any>) => validateEnvironment(config),
     }),
