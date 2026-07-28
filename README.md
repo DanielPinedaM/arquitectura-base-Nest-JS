@@ -308,7 +308,7 @@ pn debug:prod
 
 8. Consumir el endpoint que se quiere depurar.
 
-# Swagger
+# 📖 Swagger
 1. Ejecutar uno de los siguientes comandos dependiendo del ambiente donde se quiere abrir el swagger:
 
 ```console
