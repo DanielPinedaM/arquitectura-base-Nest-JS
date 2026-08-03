@@ -404,6 +404,8 @@ Contiene instrucciones que se inyectan SIEMPRE en cada prompt, para que la IA re
 
 # Skills
 
+# [🔗 Enlace - Repositorios de Skills](https://www.skills.sh/)
+
 ## 🌿 `git-commit`
 Por cada feature terminada hacer un commit antes de solicitar nuevas modificaciones a la IA. Evita acumular demasiados cambios, ya que puedes perder el contexto de lo que la IA está realizando y cometer errores.
 
