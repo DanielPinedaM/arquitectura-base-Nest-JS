@@ -376,6 +376,8 @@ Sirve para importar la API en Postman, Insomnia o generar clientes automáticame
 
 # [🔗 Enlace - Benchmark de IA](https://artificialanalysis.ai/)
 
+# [🔗 Enlace - Mejores Modelos de IA](https://youtu.be/EPz00z1ACPc?si=Dkw3zECIk1d84YxX)
+
 # [🔗 Enlace - Harness de IA](https://youtu.be/Fzn9uWRRDXM?si=NJJmsOYuzTXl_aad)
 
 ## ✏️ Edición de Código
