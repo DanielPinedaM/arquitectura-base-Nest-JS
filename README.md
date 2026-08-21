@@ -427,7 +427,9 @@ hacer commit y push
 
 # [🔗 Enlace - Repositorios de MCP](https://mcpservers.org/es/)
 
-## prisma MCP para que Claude Code Acceda a la Documentación Oficial de Prisma
+## prisma MCP
+Sirve para que Claude Code acceda a la documentación oficial de Prisma
+
 1. Abrir Git Bash
 
 2. Abrir la carpeta del proyecto
