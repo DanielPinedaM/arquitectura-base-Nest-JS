@@ -1,5 +1,5 @@
 {
-  // 🐞 Debugging de Nest JS (backend)
+  // 🪲 Debugging de Nest JS (backend)
   // Cada configuración invoca directamente el CLI de Nest con el node del editor,
   // igual que el script build de package.json.
   // No se usa pnpm como runtimeExecutable porque el editor lanza el debugger sin el
@@ -11,7 +11,7 @@
   "configurations": [
     {
       // equivale a: pnpm debug:local -> environments/.env.localhost
-      "name": "🐞 Nest: debug local host",
+      "name": "🪲 Nest: debug local host",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
@@ -27,7 +27,7 @@
     },
     {
       // equivale a: pnpm debug:test -> environments/.env.test
-      "name": "🐞 Nest: debug pruebas",
+      "name": "🪲 Nest: debug pruebas",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
@@ -42,7 +42,7 @@
     },
     {
       // equivale a: pnpm debug:prod -> environments/.env.production
-      "name": "🐞 Nest: debug producción",
+      "name": "🪲 Nest: debug producción",
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
