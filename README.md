@@ -191,7 +191,7 @@ Estos scripts ejecutan el `dist` que previamente se generó con `pn build`. Requ
 | `pn dist:test` | Pruebas       | `environments/.env.test`       |
 | `pn dist:prod` | Producción    | `environments/.env.production` |
 
-# 🐞 Scripts para Hacer Debugging
+# 🪲 Scripts para Hacer Debugging
 
 > [!TIP]
 > # Deja de escribir `console.log()` para ver valores de variables, mejor usa el debugging
@@ -200,9 +200,9 @@ Cada entorno tiene su propio script de debugging y su configuración equivalente
 
 | Comando          | Ambiente      | Variable de Entorno            | Configuración de `.vscode/launch.json` |
 | ---------------- | ------------- | ------------------------------ | -------------------------------------- |
-| `pn debug:local` | Local host    | `environments/.env.localhost`  | `🐞 Nest: debug local host`            |
-| `pn debug:test`  | Pruebas       | `environments/.env.test`       | `🐞 Nest: debug pruebas`               |
-| `pn debug:prod`  | Producción    | `environments/.env.production` | `🐞 Nest: debug producción`            |
+| `pn debug:local` | Local host    | `environments/.env.localhost`  | `🪲 Nest: debug local host`            |
+| `pn debug:test`  | Pruebas       | `environments/.env.test`       | `🪲 Nest: debug pruebas`               |
+| `pn debug:prod`  | Producción    | `environments/.env.production` | `🪲 Nest: debug producción`            |
 
 Los scripts `start:*` no sirven para depurar porque no abren el inspector de Node. Solo los scripts `debug:*` usan `nest start --debug --watch`.
 
@@ -262,11 +262,11 @@ debugger;
 4. Seleccionar el entorno en la lista desplegable con el entorno que se quiere depurar, según la tabla de scripts:
 
 ```txt
-🐞 Nest: debug local host
+🪲 Nest: debug local host
 
-🐞 Nest: debug pruebas
+🪲 Nest: debug pruebas
 
-🐞 Nest: debug producción
+🪲 Nest: debug producción
 ```
 
 5. Para que el editor de codigo ejecute el backend, presionar:
