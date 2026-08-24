@@ -1,29 +1,22 @@
 {
   "compilerOptions": {
+    /* ------------- strict type checking ------------- */
+
+    "strict": true,
+
+    /* ------------- modulos y compilacion ------------- */
+
     "module": "commonjs",
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "strictBuiltinIteratorReturn": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "useUnknownInCatchVariables": true,
-    "noUncheckedSideEffectImports": true,
+    "target": "ES2021",
     "types": ["node", "jest"],
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
     "incremental": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["./src/*"],
       "environments/*": ["./environments/*"]
