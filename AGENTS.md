@@ -35,3 +35,10 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 * Nombres de frameworks, librerías, paquetes, APIs
 
 * Código fuente (todo, **excepto los comentarios de codigo**): Identificadores, nombres de archivos y carpetas, clases, interface, enum, métodos, funciones, parámetros, variables, ruta base del controlador de Nest, ruta de endpoint de Nest
+
+# Buenas Practicas de TypeScript
+* Usar strict type checking
+
+* Prefiere la inferencia de tipos cuando el tipo sea obvio
+
+* Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto
