@@ -126,7 +126,7 @@ export function routesLogger(app: INestApplication): void {
     return;
   }
 
-  log.info(`\x1b[34mtotal de rutas: ${availableRoutes.length}\x1b[0m`);
+  log.info(`\x1b[34mtotal de endpoints: ${availableRoutes.length}\x1b[0m`);
   log.info('\x1b[34mlista de endpoints:\x1b[0m');
 
   const sortedRoutes: IRoute[] = availableRoutes.sort(
