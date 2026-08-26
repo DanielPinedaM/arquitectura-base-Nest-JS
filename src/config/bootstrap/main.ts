@@ -55,4 +55,4 @@ async function bootstrap(): Promise<void> {
   log.info('\n');
 }
 
-void bootstrap();
+bootstrap();
