@@ -3,6 +3,7 @@
     /* ------------- strict type checking ------------- */
 
     "strict": true,
+    "skipLibCheck": true,
 
     /* ------------- modulos y compilacion ------------- */
 
