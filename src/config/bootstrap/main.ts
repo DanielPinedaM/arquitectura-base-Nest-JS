@@ -11,9 +11,9 @@ import {
   configExceptionFilter,
   configInterceptor,
   configPipes,
-} from '@/shared/bootstrap/nest.bootstrap';
-import { routesLogger } from '@/shared/bootstrap/routes-logger.bootstrap';
-import { configSwagger } from '@/shared/bootstrap/swagger.bootstrap';
+} from '@/config/bootstrap/nest.bootstrap';
+import { routesLogger } from '@/config/bootstrap/routes-logger.bootstrap';
+import { configSwagger } from '@/config/bootstrap/swagger.bootstrap';
 // #endregion configuracion de Nest JS
 
 // #region logs
