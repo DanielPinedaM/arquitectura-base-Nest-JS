@@ -437,6 +437,9 @@ El skill `.claude\skills\git-commit\SKILL.md` te permite realizar commits.
 hacer commit y push
 ```
 
+## `nestjs-best-practices`
+Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadajett/agent-nestjs-skills/nestjs-best-practices). Contiene reglas para seguir buenas practicas de Nest.js.
+
 # MCP
 
 # [🔗 Enlace - Repositorios de MCP](https://mcpservers.org/es/)
