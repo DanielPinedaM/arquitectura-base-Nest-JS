@@ -11,11 +11,7 @@ import * as rfs from 'rotating-file-stream';
 
 @Injectable()
 export class LoggerService {
-  private readonly ROOT_LOGS_DIR: string = path.join(
-    process.cwd(),
-    'src',
-    'logs',
-  );
+  private readonly ROOT_LOGS_DIR: string = path.join(process.cwd(), 'logs');
   readonly saveLog: pino.Logger;
 
   constructor(private readonly env: ConfigService<EnvironmentClass>) {
@@ -63,7 +59,7 @@ export class LoggerService {
 
   /**
    nombre de la carpeta base donde se guardan los logs:
-   src/logs/{ENV}/{NombreMes}/ */
+   logs/{ENV}/{NombreMes}/ */
   getLogBaseDirForEnv(): string {
     const envName: string = this.env.get<string>(ENV_VARS.NODE_ENV)!;
     const monthName: string = this.getCurrentMonthName();
