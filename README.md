@@ -401,8 +401,22 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 # 🐈 Configurar Nest.js para que Funcione con IA
 Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
 
-# `AGENTS.md`
-Contiene instrucciones que se inyectan SIEMPRE en cada prompt, para que la IA respete arquitectura del proyecto.
+# 📜 `AGENTS.md`
+Prompt que se envía siempre a Claude para que respete la arquitectura del proyecto.
+
+Para probar que funcione envia este prompt a Claude:
+
+```txt
+citarme textualmente Architecture CRITICAL `arch-`
+```
+
+La salida debe contener algo similar a esto:
+
+```bash
+1. Architecture (CRITICAL)
+
+   - arch-avoid-circular-deps - Avoid circular module dependencies
+```
 
 # Skills
 
