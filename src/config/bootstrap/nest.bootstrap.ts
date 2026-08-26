@@ -13,11 +13,6 @@ import {
 import { GlobalExceptionFilter } from '@/shared/filter/global-exception.filter';
 // #endregion Exception Filter
 
-// #region Interceptor
-import { StandardizeSuccessResponseInterceptor } from '@/shared/interceptor/standardize-success-response.interceptor';
-import { SuccessLogsInterceptor } from '@/shared/interceptor/success-logs.interceptor';
-// #endregion Interceptor
-
 /* **********************************
  * funciones para configurar Nest JS *
  * *********************************** */
@@ -26,13 +21,6 @@ import { SuccessLogsInterceptor } from '@/shared/interceptor/success-logs.interc
 ExceptionFilter */
 export function configExceptionFilter(app: INestApplication): void {
   app.useGlobalFilters(app.get(GlobalExceptionFilter));
-}
-
-/**
-Interceptor */
-export function configInterceptor(app: INestApplication): void {
-  app.useGlobalInterceptors(app.get(StandardizeSuccessResponseInterceptor));
-  app.useGlobalInterceptors(app.get(SuccessLogsInterceptor));
 }
 
 /**

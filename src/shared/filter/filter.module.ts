@@ -1,17 +1,12 @@
-import { Module } from '@nestjs/common';
 import { ErrorLogsFilter } from '@/shared/filter/error-logs.filter';
 import { GlobalExceptionFilter } from '@/shared/filter/global-exception.filter';
-import { StandardizeErrorResponseFilter } from '@/shared/filter/standardize-error-response.filter';
+import { Module } from '@nestjs/common';
 
 /**
  * solamente se exporta GlobalExceptionFilter porque es el unico que se registra
- * de forma global en main.ts. los otros dos son sus colaboradores internos */
+ * de forma global en main.ts. ErrorLogsFilter es su colaborador interno */
 @Module({
-  providers: [
-    ErrorLogsFilter,
-    GlobalExceptionFilter,
-    StandardizeErrorResponseFilter,
-  ],
+  providers: [ErrorLogsFilter, GlobalExceptionFilter],
   exports: [GlobalExceptionFilter],
 })
 export class FilterModule {}

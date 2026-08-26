@@ -1,6 +1,5 @@
 /**
-respuesta que devuelven las operaciones de auth antes de que el interceptor las
-normalice al contrato IResponse */
+respuesta que devuelven las operaciones de auth */
 export interface IAuthResponse {
   status: number;
   message: string;

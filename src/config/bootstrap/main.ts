@@ -9,7 +9,6 @@ import { json } from 'express';
 import {
   configCore,
   configExceptionFilter,
-  configInterceptor,
   configPipes,
 } from '@/config/bootstrap/nest.bootstrap';
 import { routesLogger } from '@/config/bootstrap/routes-logger.bootstrap';
@@ -36,7 +35,6 @@ async function bootstrap(): Promise<void> {
   loggerService.ensureLogDirectories();
 
   configExceptionFilter(app);
-  configInterceptor(app);
   configPipes(app);
 
   app.use(json({ limit: '5mb' }));

@@ -1,6 +1,5 @@
 import { AuthModule } from '@/app/features/auth/auth.module';
 import { FilterModule } from '@/shared/filter/filter.module';
-import { InterceptorModule } from '@/shared/interceptor/interceptor.module';
 import { LoggerModule } from '@/shared/services/logger.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -55,7 +54,6 @@ if (!process.env.NODE_ENV) {
     LoggerModule,
     AuthModule,
     FilterModule,
-    InterceptorModule,
   ],
 })
 export class AppModule {}
