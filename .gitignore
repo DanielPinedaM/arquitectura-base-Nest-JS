@@ -54,3 +54,7 @@ yarn.lock
 .yarn/*
 yarn-debug.log*
 yarn-error.log*
+
+# IA
+# Archivos temporales con el mensaje de los commits que genera la skill git-commit
+.claude/skills/git-commit/*.txt
