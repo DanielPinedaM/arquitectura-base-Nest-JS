@@ -1,10 +1,8 @@
-import {
-  IV_AUTH,
-  SECRET_KEY_AUTHENTICATION,
-} from '@/shared/data-types/constants/crypto.const';
 import { log } from '@/shared/data-types/constants/logger.const';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AES, enc, lib, mode, pad } from 'crypto-js';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 
 /** llave y vector de inicializacion que usa el cifrado AES */
 interface ICipherKeys {
@@ -14,6 +12,8 @@ interface ICipherKeys {
 
 @Injectable()
 export class CryptoService {
+  constructor(private readonly env: ConfigService<EnvironmentClass>) {}
+
   /* eslint-disable-next-line @typescript-eslint/require-await --
      la firma asincrona es parte del contrato publico del service: los callers
      hacen await y encadenan estas llamadas dentro de un Promise.all */
@@ -64,14 +64,19 @@ export class CryptoService {
   /**
   llave y vector de inicializacion del cifrado.
 
+  salen de las variables de entorno CRYPTO_SECRET_KEY y CRYPTO_IV, nunca del
+  codigo fuente, para que cada ambiente pueda usar su propio secreto.
+  env-config.ts ya valida al arrancar que ambas existan y midan 16 caracteres,
+  por eso aqui se pueden afirmar con ! sin volver a comprobarlas.
+
   se derivan en cada llamada, igual que antes, para no compartir estado mutable
   entre peticiones: el service es singleton */
   private getCipherKeys(): ICipherKeys {
     return {
       // número hexadecimal de 16 dígitos como clave
-      key: enc.Utf8.parse(SECRET_KEY_AUTHENTICATION),
+      key: enc.Utf8.parse(this.env.get<string>(ENV_VARS.CRYPTO_SECRET_KEY)!),
       // Número hexadecimal como desplazamiento de clave
-      iv: enc.Utf8.parse(IV_AUTH),
+      iv: enc.Utf8.parse(this.env.get<string>(ENV_VARS.CRYPTO_IV)!),
     };
   }
 

@@ -5,6 +5,7 @@ import {
   IsIn,
   IsNumber,
   IsString,
+  Length,
   validateSync,
 } from 'class-validator';
 
@@ -22,6 +23,11 @@ export enum ENV_VARS {
   JWT_SECRET_KEY = 'JWT_SECRET_KEY',
   // #endregion JWT
 
+  // #region encriptar y desencriptar texto
+  CRYPTO_SECRET_KEY = 'CRYPTO_SECRET_KEY',
+  CRYPTO_IV = 'CRYPTO_IV',
+  // #endregion encriptar y desencriptar texto
+
   // #region conexion a la base de datos
   DB_TYPE = 'DB_TYPE',
   DB_HOST = 'DB_HOST',
@@ -37,6 +43,9 @@ export enum ENV_VARS {
   DB_RETRY_DELAY = 'DB_RETRY_DELAY',
   // #endregion conexion a la base de datos
 }
+
+/** AES-128-CBC exige que la llave y el vector midan exactamente 16 bytes */
+const AES_KEY_LENGTH: number = 16;
 
 /* *******************************
  * TIPAR LAS VARIABLES DE ENTORNO *
@@ -60,6 +69,20 @@ export class EnvironmentClass {
   @IsString()
   JWT_SECRET_KEY!: string;
   // #endregion JWT
+
+  // #region encriptar y desencriptar texto
+  @IsString()
+  @Length(AES_KEY_LENGTH, AES_KEY_LENGTH, {
+    message: `CRYPTO_SECRET_KEY debe tener exactamente ${AES_KEY_LENGTH} caracteres porque AES-128-CBC usa una llave de ${AES_KEY_LENGTH} bytes`,
+  })
+  CRYPTO_SECRET_KEY!: string;
+
+  @IsString()
+  @Length(AES_KEY_LENGTH, AES_KEY_LENGTH, {
+    message: `CRYPTO_IV debe tener exactamente ${AES_KEY_LENGTH} caracteres porque AES-128-CBC usa un vector de inicializacion de ${AES_KEY_LENGTH} bytes`,
+  })
+  CRYPTO_IV!: string;
+  // #endregion encriptar y desencriptar texto
 
   // #region conexion a la base de datos
   @IsString()
