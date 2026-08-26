@@ -1,6 +1,7 @@
 import { log } from '@/shared/data-types/constants/logger.const';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { randomBytes } from 'crypto';
 import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 import * as fs from 'fs-extra';
 import { DateTime } from 'luxon';
@@ -10,11 +11,15 @@ import * as rfs from 'rotating-file-stream';
 
 @Injectable()
 export class LoggerService {
-  private ROOT_LOGS_DIR: string = path.join(process.cwd(), 'src', 'logs');
-  saveLog!: pino.Logger;
+  private readonly ROOT_LOGS_DIR: string = path.join(
+    process.cwd(),
+    'src',
+    'logs',
+  );
+  readonly saveLog: pino.Logger;
 
-  constructor(private env: ConfigService<EnvironmentClass>) {
-    this.ensureLogDirectories();
+  constructor(private readonly env: ConfigService<EnvironmentClass>) {
+    /* createFileLogger() ya se encarga de crear la carpeta del ambiente */
     this.saveLog = this.createFileLogger();
   }
 
@@ -24,9 +29,9 @@ export class LoggerService {
     const logDir: string = this.getLogBaseDirForEnv();
     fs.ensureDirSync(logDir);
 
-    const stream = rfs.createStream(
+    const stream: rfs.RotatingFileStream = rfs.createStream(
       (time: number | Date) => {
-        const date = time instanceof Date ? time : new Date();
+        const date: Date = time instanceof Date ? time : new Date();
         return `${DateTime.fromJSDate(date).toFormat('yyyy-MM-dd')}.log`;
       },
       {
@@ -45,7 +50,7 @@ export class LoggerService {
     const timePart: string =
       Date.now() + Number(process.hrtime.bigint() % 1_000_000n).toString(36);
 
-    const randomPart: string = require('crypto').randomBytes(8).toString('hex');
+    const randomPart: string = randomBytes(8).toString('hex');
 
     return `${timePart}-${randomPart}`;
   }
@@ -66,24 +71,15 @@ export class LoggerService {
   }
 
   /**
-   ruta absoluta para generar archivos con los logs
-   src/logs/{ENV}/{NombreMes}/app.{año-mes-dia}.log */
-  getLogFileBase(): string {
-    const baseDir: string = this.getLogBaseDirForEnv();
-    // archivo base (pino-roll añadirá la fecha según dateFormat)
-    return path.join(baseDir, 'app.log');
-  }
-
-  /**
    asegurar q exista la carpeta de logs para el ambiente actual y mes actual */
   ensureLogDirectories(): void {
-    const baseDir = this.getLogBaseDirForEnv();
+    const baseDir: string = this.getLogBaseDirForEnv();
     fs.ensureDirSync(baseDir);
   }
 
   /**
    console.log y guardar log de informacion */
-  logInfo(message: string, meta: Record<string, any> = {}): void {
+  logInfo(message: string, meta: Record<string, unknown> = {}): void {
     const id: string = this.generateLogId();
     const time: string = DateTime.local().toFormat('hh:mm:ss a');
 
@@ -95,7 +91,7 @@ export class LoggerService {
 
   /**
    console.log y guardar log de error */
-  logError(message: string, meta: Record<string, any> = {}) {
+  logError(message: string, meta: Record<string, unknown> = {}): void {
     const id: string = this.generateLogId();
     const time: string = DateTime.local().toFormat('hh:mm:ss a');
 

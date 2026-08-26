@@ -1,8 +1,7 @@
 import { AuthModule } from '@/app/features/auth/auth.module';
-import { DatabaseModule } from '@/app/modules/database.module';
 import { FilterModule } from '@/shared/filter/filter.module';
 import { InterceptorModule } from '@/shared/interceptor/interceptor.module';
-import { ServiceModule } from '@/shared/services/service.module';
+import { LoggerModule } from '@/shared/services/logger.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -12,6 +11,12 @@ import {
   EnvironmentClass,
   validateEnvironment,
 } from 'environments/env-config';
+
+/**
+ * la conexion a la base de datos viene desactivada en esta plantilla. para
+ * habilitarla hay que descomentar este import y la entrada de DatabaseModule
+ * dentro de imports[] */
+// import { DatabaseModule } from '@/app/modules/database.module';
 
 /**
  * el flag --env-file de los scripts de package.json es el unico que carga el
@@ -46,13 +51,11 @@ if (!process.env.NODE_ENV) {
         signOptions: { expiresIn: '24h' },
       }),
     }),
-    //DatabaseModule,
-    ServiceModule,
+    // DatabaseModule,
+    LoggerModule,
     AuthModule,
     FilterModule,
     InterceptorModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

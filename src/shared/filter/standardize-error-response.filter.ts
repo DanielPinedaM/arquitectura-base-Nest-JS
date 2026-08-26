@@ -1,74 +1,5 @@
-/**
-Nest js - typescript - ExceptionFilter
-devolver dentro de data cualquier tipo de dato
-
-message tiene q ser string
-
-error siempre tiene q estar en la key error, separada, sin importar sin importar su tipo
-
-solamente concatenar error + message cuando se defina manualmente la key error
-
-si solamente existe message tipo string entonces agregarlo a key message
-
-siempre para message y error accederlos de forma segura con ?. optional chaining
-
-siempre para message y error usar operador coalesente nulo asi, esto es solo un ejemplo
-   const message =
-          newData?.mensaje ??
-          newData?.message ??
-          newData?.msg ??
-          'Internal server error'
-
-lo mismo para error
-   const message =
-          newData?.error ??
-          newData?.err ??
-          AQUI VA EL OBJETO ERROR
-
-NO usar ternarias anidadas, ni switch case, siempre usar if else con let para los condicionales
-
-error, message y data son keys totalmente a parte, son diferentes
-
-no quiero q  dentro de la key error.message este lo mismo q en message, los message solamente van en message 
-
-hacer q los status code correspondan a los de las excepciones de next,
-no quiero q las excepciones de nest me den un status y q  despues defina otro status manualmente y se reemplace en objeto,
-
-controlar con optional chaining y operador coalesente nulo el acceso a status asi, ejemplo
-
-   const status =
-          newData?.status ??
-          newData?.statusCode ??
-          AQUI VA EL STATUS REAL DEL EXCEPTION DE NEST
-
-siempre dar prioridad al status q devuelve el exception de nest y detectar otros status
-
-mucho cuidado, los status tienen q coincidir, la key de status en este interceptor y la q se muestra en navegador inspecionar elemento tienen q ser las mismas
-
-Ejemplo
-✔️ Si usas throw new BadRequestException() → status será 400.
-❌ Si usas throw new Error() o throw { message: '...' } → no hay status definido → usas 500 por defecto.
-
-la respuesta tiene q ser esta 
-response.status(status).json({
-      success: false, // esto esta quemado porque la respuesta es erronea
-      status, // obtener numero de status
-      statusText: getHttpStatusMessage(status), // esto es un acceso a un objeto literal
-      message, // siempre tipo string
-      errorDescription: {
-        timestamp: new Date().toISOString(),
-        path: request.url,
-        error, // es objeto o array
-      },
-      data, // cualquier tipo de dato
-    });
-
-
-muestrame las excepciones mas usadas y como responde con el interceptor
-
-con el interceptor anterior dame ejemplo de esto:
-solamente concatenar error + message cuando se defina manualmente la key error */
-
+import { getHttpStatusMessage } from '@/shared/data-types/constants/http-status-messages.const';
+import { readKey } from '@/shared/utils/object.util';
 import {
   ArgumentsHost,
   Catch,
@@ -76,64 +7,79 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import type {
   Request as ExpressRequest,
   Response as ExpressResponse,
 } from 'express';
 import { DateTime } from 'luxon';
-import { getHttpStatusMessage } from '../data-types/constants/http-status-messages.const';
 
+/**
+ * unifica el cuerpo de toda respuesta de error. el contrato es:
+ *
+ * - `success`: siempre false, la respuesta es erronea
+ * - `status`: manda el status real de la excepcion de Nest, para que coincida
+ *   con el que ve el navegador. las excepciones que no son HttpException caen en
+ *   500 (throw new Error(), throw { message: '...' }, etc.)
+ * - `statusText`: se resuelve contra la tabla de HTTP_STATUS_MESSAGES
+ * - `message`: siempre string. si la excepcion trae un arreglo de mensajes
+ *   (errores de validacion del DTO) se unen separados por coma
+ * - `data`: cualquier tipo de dato, sale de la key data o payload
+ * - `description.error`: va en su propia key, separada de message y sin
+ *   repetirlo. si hubo errores de DTO aqui viaja el arreglo completo
+ * - `description.requestInfo` y `description.networkInfo`: contexto de la
+ *   peticion para depurar
+ *
+ * message y error se leen siempre de forma segura, sin asumir la forma de la
+ * excepcion */
 @Catch()
 export class StandardizeErrorResponseFilter implements ExceptionFilter {
-  catch(exception: unknown, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse<ExpressResponse>();
-    const request = ctx.getRequest<ExpressRequest>();
+  catch(exception: unknown, host: ArgumentsHost): void {
+    const ctx: HttpArgumentsHost = host.switchToHttp();
+    const response: ExpressResponse = ctx.getResponse<ExpressResponse>();
+    const request: ExpressRequest = ctx.getRequest<ExpressRequest>();
 
-    const baseStatus: number =
+    /* el status de la excepcion de Nest manda; lo que no es HttpException es 500 */
+    const status: number =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const initialRaw: any =
+    const rawResponse: unknown =
       exception instanceof HttpException
         ? exception.getResponse()
         : { message: 'Internal server error', error: 'Unknown Error' };
 
-    const status =
-      baseStatus ??
-      initialRaw?.status ??
-      initialRaw?.statusCode ??
-      HttpStatus.INTERNAL_SERVER_ERROR;
-
     // Detectamos mensajes
-    let message: string = '';
+    const rawMessage: unknown = readKey(rawResponse, 'message');
+
+    let message: string;
     let messagesArray: string[] = [];
 
-    if (Array.isArray(initialRaw?.message)) {
-      messagesArray = initialRaw.message; // <- errores de DTO
+    if (Array.isArray(rawMessage)) {
+      messagesArray = rawMessage as string[]; // <- errores de DTO
       message = messagesArray.join(', ');
-    } else if (typeof initialRaw?.message === 'string') {
-      message = initialRaw.message;
+    } else if (typeof rawMessage === 'string') {
+      message = rawMessage;
     } else {
       message = 'Internal server error';
     }
 
     // Error separado
-    let error: any = {};
-    if (
-      (typeof initialRaw?.error === 'object' && initialRaw.error !== null) ||
-      Array.isArray(initialRaw?.error)
-    ) {
-      error = initialRaw.error;
-    } else if (typeof initialRaw?.error === 'string') {
-      error = initialRaw.error;
+    const rawError: unknown = readKey(rawResponse, 'error');
+
+    let error: unknown = {};
+    if (rawError !== null && typeof rawError === 'object') {
+      error = rawError;
+    } else if (typeof rawError === 'string') {
+      error = rawError;
     }
 
     // Data genérica
-    let data: any = [];
-    if (typeof initialRaw === 'object' && initialRaw !== null)
-      data = initialRaw?.data ?? initialRaw?.payload ?? [];
+    let data: unknown = [];
+    if (typeof rawResponse === 'object' && rawResponse !== null)
+      data =
+        readKey(rawResponse, 'data') ?? readKey(rawResponse, 'payload') ?? [];
 
     response.status(status).json({
       success: false,

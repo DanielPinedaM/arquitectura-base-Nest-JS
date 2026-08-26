@@ -1,17 +1,26 @@
 import {
   IV_AUTH,
   SECRET_KEY_AUTHENTICATION,
-} from '@/app/features/auth/data-types/constants/auth.const';
+} from '@/shared/data-types/constants/crypto.const';
+import { log } from '@/shared/data-types/constants/logger.const';
 import { Injectable } from '@nestjs/common';
-import { AES, enc, mode, pad } from 'crypto-js';
+import { AES, enc, lib, mode, pad } from 'crypto-js';
+
+/** llave y vector de inicializacion que usa el cifrado AES */
+interface ICipherKeys {
+  key: lib.WordArray;
+  iv: lib.WordArray;
+}
 
 @Injectable()
 export class CryptoService {
+  /* eslint-disable-next-line @typescript-eslint/require-await --
+     la firma asincrona es parte del contrato publico del service: los callers
+     hacen await y encadenan estas llamadas dentro de un Promise.all */
   async encrypt(text: string): Promise<string> {
-    const key = enc.Utf8.parse(SECRET_KEY_AUTHENTICATION); // número hexadecimal de 16 dígitos como clave
-    const iv = enc.Utf8.parse(IV_AUTH); // Número hexadecimal como desplazamiento de clave
+    const { key, iv } = this.getCipherKeys();
 
-    const textoHexa = enc.Utf8.parse(text);
+    const textoHexa: lib.WordArray = enc.Utf8.parse(text);
     const encrypted = AES.encrypt(textoHexa, key, {
       keySize: 128,
       iv: iv,
@@ -23,12 +32,13 @@ export class CryptoService {
     return encrypted.toString();
   }
 
+  /* eslint-disable-next-line @typescript-eslint/require-await --
+     misma razon que encrypt(): la firma asincrona es parte del contrato */
   async decrypt(encryptedText: string): Promise<string> {
-    const key = enc.Utf8.parse(SECRET_KEY_AUTHENTICATION);
-    const iv = enc.Utf8.parse(IV_AUTH);
+    const { key, iv } = this.getCipherKeys();
 
     // AES.decrypt ahora acepta el texto cifrado completo
-    const decrypted = AES.decrypt(encryptedText, key, {
+    const decrypted: lib.WordArray = AES.decrypt(encryptedText, key, {
       iv: iv,
       mode: mode.CBC,
       padding: pad.Pkcs7,
@@ -37,18 +47,32 @@ export class CryptoService {
     return decrypted.toString(enc.Utf8);
   }
 
-  async encryptJSON(data: Record<string, any>): Promise<string | null> {
+  async encryptJSON(data: Record<string, unknown>): Promise<string | null> {
     const text: string = JSON.stringify(data);
     return await this.encrypt(text);
   }
 
-  async decryptJSON(encryptedJSON: string): Promise<any | null> {
-    const decryptedJSON: string | null = await this.decrypt(encryptedJSON);
+  async decryptJSON(encryptedJSON: string): Promise<unknown> {
+    const decryptedJSON: string = await this.decrypt(encryptedJSON);
 
     if (this.isValidJSONparse(decryptedJSON)) return JSON.parse(decryptedJSON);
 
-    console.error('❌ [decryptJSON] error no es JSON valido ', decryptedJSON);
+    log.error(`❌ [decryptJSON] error no es JSON valido ${decryptedJSON}`);
     return null;
+  }
+
+  /**
+  llave y vector de inicializacion del cifrado.
+
+  se derivan en cada llamada, igual que antes, para no compartir estado mutable
+  entre peticiones: el service es singleton */
+  private getCipherKeys(): ICipherKeys {
+    return {
+      // número hexadecimal de 16 dígitos como clave
+      key: enc.Utf8.parse(SECRET_KEY_AUTHENTICATION),
+      // Número hexadecimal como desplazamiento de clave
+      iv: enc.Utf8.parse(IV_AUTH),
+    };
   }
 
   /**
@@ -59,7 +83,7 @@ export class CryptoService {
     try {
       JSON.parse(string);
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   };

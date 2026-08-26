@@ -1,25 +1,38 @@
-import { RegisterDto } from '@/app/features/auth/dto/register.dto';
-import { Users } from '@/app/features/auth/entities/users.entity';
-import { CryptoService } from '@/shared/services/crypto.service';
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/require-await --
+ * la implementacion real de login() y registerUser() esta comentada hasta que se
+ * habilite la base de datos, y con ella quedan sin uso los parametros y los
+ * await de esos metodos. no se pueden eliminar porque los parametros forman
+ * parte de la firma que invoca AuthController y las firmas asincronas son el
+ * contrato publico del service */
+
 import {
-  ConflictException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+  IAuthResponse,
+  IDecryptedCredentials,
+  IJwtPayload,
+} from '@/app/features/auth/data-types/interface/auth.interfaces';
+import { RegisterDto } from '@/app/features/auth/dto/register.dto';
+import { CryptoService } from '@/shared/services/crypto.service';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import * as bcrypt from 'bcrypt';
 import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
-import { Response } from 'express';
-import { Repository } from 'typeorm';
+import type { Response } from 'express';
+
+/**
+ * imports que solo consume la implementacion comentada mas abajo. quedan
+ * comentados junto a ella para que el archivo no arrastre dependencias sin uso */
+// import { Users } from '@/app/features/auth/entities/users.entity';
+// import { ConflictException, UnauthorizedException } from '@nestjs/common';
+// import { InjectRepository } from '@nestjs/typeorm';
+// import * as bcrypt from 'bcrypt';
+// import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private jwtService: JwtService,
-    private cryptoService: CryptoService,
-    private env: ConfigService<EnvironmentClass>,
+    private readonly jwtService: JwtService,
+    private readonly cryptoService: CryptoService,
+    private readonly env: ConfigService<EnvironmentClass>,
 
     //@InjectRepository(Users)
     //private usersRepository: Repository<Users>,
@@ -28,7 +41,7 @@ export class AuthService {
   async decryptCredentials(
     encryptedEmail: string,
     encryptedPassword: string,
-  ): Promise<{ decryptedEmail: string; decryptedPassword: string }> {
+  ): Promise<IDecryptedCredentials> {
     const [decryptedEmail, decryptedPassword] = await Promise.all([
       this.cryptoService.decrypt(encryptedEmail),
       this.cryptoService.decrypt(encryptedPassword),
@@ -37,8 +50,8 @@ export class AuthService {
     return { decryptedEmail, decryptedPassword };
   }
 
-  generateToken(data: any): string {
-    const token = {
+  generateToken(data: IJwtPayload): string {
+    const token: IJwtPayload = {
       id: data?.id,
       email: data?.email,
       username: data?.username,
@@ -51,7 +64,7 @@ export class AuthService {
     encryptedEmail: string,
     encryptedPassword: string,
     response: Response,
-  ): Promise<any> {
+  ): Promise<IAuthResponse> {
     /*  const { decryptedEmail, decryptedPassword } = await this.decryptCredentials(
       encryptedEmail,
       encryptedPassword,
@@ -85,7 +98,7 @@ export class AuthService {
     return { status: 200, message: 'inicio de sesión exitoso' /* , data */ };
   }
 
-  async logout(response: Response) {
+  async logout(response: Response): Promise<IAuthResponse> {
     response.clearCookie('token', {
       httpOnly: true,
       secure: this.env.get(ENV_VARS.NODE_ENV) === 'production',
@@ -99,7 +112,7 @@ export class AuthService {
     };
   }
 
-  async registerUser(registerDto: RegisterDto): Promise<any> {
+  async registerUser(registerDto: RegisterDto): Promise<IAuthResponse> {
     /* const {
       email: encryptedEmail,
       password: encryptedPassword,

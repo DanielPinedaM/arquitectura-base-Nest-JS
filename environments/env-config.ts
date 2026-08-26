@@ -117,7 +117,7 @@ export function validateEnvironment(
     skipMissingProperties: false,
   });
 
-  if (errors?.length > 0) {
+  if (errors.length > 0) {
     const errorsStringify = JSON.stringify(errors);
     log.error(
       `\x1b[31m error al configurar tipos de datos a las variables de entorno, verifique que las keys del enum ENV_VARS y la class EnvironmentClass q hay en env-config.ts coincida con los archivos env q estan dentro de la carpeta envinronments ${errorsStringify}\x1b[0m`,

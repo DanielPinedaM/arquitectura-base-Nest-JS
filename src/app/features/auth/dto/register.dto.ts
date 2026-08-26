@@ -1,12 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform, TransformFnParams } from 'class-transformer';
 import { IsEmail, IsString, MinLength } from 'class-validator';
-import { Transform } from 'class-transformer';
 
 export class RegisterDto {
   @ApiProperty({ type: String, description: 'correo electrónico del usuario' })
   @IsEmail({}, { message: 'el correo es inválido' })
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform((params: TransformFnParams): string =>
+    (params.value as string).trim(),
+  )
   email!: string;
 
   @ApiProperty({ type: String, description: 'Nombre de usuario' })

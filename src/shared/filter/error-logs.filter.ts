@@ -1,31 +1,36 @@
+import { getHttpStatusMessage } from '@/shared/data-types/constants/http-status-messages.const';
 import { LoggerService } from '@/shared/services/logger.service';
 import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
-import { getHttpStatusMessage } from '../data-types/constants/http-status-messages.const';
+import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+import type { Request as ExpressRequest } from 'express';
 
 @Catch()
 export class ErrorLogsFilter implements ExceptionFilter {
   constructor(private readonly logger: LoggerService) {}
 
-  catch(exception: any, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const req = ctx.getRequest();
+  catch(exception: unknown, host: ArgumentsHost): void {
+    const ctx: HttpArgumentsHost = host.switchToHttp();
+    const req: ExpressRequest = ctx.getRequest<ExpressRequest>();
 
     this.#logError(exception, req);
   }
 
-  #logError(exception: any, req: any): void {
+  #logError(exception: unknown, req: ExpressRequest): void {
     const statusCode: number =
-      exception instanceof HttpException ? exception.getStatus() : 500;
+      exception instanceof HttpException
+        ? exception.getStatus()
+        : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const statusMessage: string = getHttpStatusMessage(statusCode);
 
     const { method, originalUrl, protocol } = req;
-    const hostHeader: string = req.get('Host');
+    const hostHeader: string | undefined = req.get('Host');
 
     const fullURL: string = `${protocol}://${hostHeader}${originalUrl}`;
 
@@ -35,7 +40,7 @@ export class ErrorLogsFilter implements ExceptionFilter {
       ` ${fullURL}` +
       ` ${statusMessage}`;
 
-    const meta = {
+    const meta: Record<string, unknown> = {
       statusCode,
       statusMessage,
       method,

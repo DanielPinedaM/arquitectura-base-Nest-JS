@@ -1,4 +1,19 @@
-import { IResponse } from '@/shared/data-types/interface/response.interfaces';
+import { getHttpStatusMessage } from '@/shared/data-types/constants/http-status-messages.const';
+import {
+  DATA_KEYS,
+  MESSAGE_KEYS,
+  PAGINATION_KEYS,
+  RESPONSE_METADATA_KEYS,
+} from '@/shared/data-types/constants/response-keys.const';
+import {
+  IPagination,
+  IResponse,
+} from '@/shared/data-types/interface/response.interfaces';
+import {
+  isLiteralObject,
+  readFirstKey,
+  readKey,
+} from '@/shared/utils/object.util';
 import {
   CallHandler,
   ExecutionContext,
@@ -7,10 +22,14 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+import type { Response as ExpressResponse } from 'express';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getHttpStatusMessage } from '../data-types/constants/http-status-messages.const';
 
+/**
+ * normaliza toda respuesta exitosa al contrato IResponse: extrae el contenido
+ * util, el mensaje, el status y la paginacion sin importar con que alias los
+ * haya nombrado el service (ver response-keys.const.ts) */
 @Injectable()
 export class StandardizeSuccessResponseInterceptor<
   T,
@@ -20,158 +39,77 @@ export class StandardizeSuccessResponseInterceptor<
     next: CallHandler,
   ): Observable<IResponse<T>> {
     const ctx: HttpArgumentsHost = context.switchToHttp();
-    const response = ctx.getResponse();
-    const isFile = response.getHeader('Content-Disposition');
+    const response: ExpressResponse = ctx.getResponse<ExpressResponse>();
+    const isFile: number | string | string[] | undefined = response.getHeader(
+      'Content-Disposition',
+    );
 
     return next.handle().pipe(
-      map((data: any) => {
+      map((data: unknown): IResponse<T> => {
         // obtener data
-        const newData: any = this.#searchData(data);
+        const newData: unknown = this.#searchData(data);
 
-        // responder directo con tipo archivo
-        if (isFile) return newData;
+        /* responder directo con tipo archivo: la descarga viaja tal cual, sin
+           envolverse en IResponse */
+        if (isFile) return newData as IResponse<T>;
 
         // paginacion
-        const pagination = this.#searchPagination(newData);
-        const resultData = pagination ? newData?.items : newData;
+        const pagination: unknown = readFirstKey(newData, PAGINATION_KEYS);
+        const resultData: unknown = pagination
+          ? readKey(newData, 'items')
+          : newData;
 
         // obtener http status
-        const status =
-          newData?.status ??
-          newData?.statusCode ??
-          response?.statusCode ??
-          HttpStatus.OK;
+        const status: number = (readKey(newData, 'status') ??
+          readKey(newData, 'statusCode') ??
+          response.statusCode ??
+          HttpStatus.OK) as number;
 
         this.#clearData(newData);
 
         // obtener mensaje
-        const message =
-          this.#searchMessage(data) ??
-          this.#searchMessage(newData) ??
-          'Operación exitosa';
+        const message: string = (readFirstKey(data, MESSAGE_KEYS) ??
+          readFirstKey(newData, MESSAGE_KEYS) ??
+          'Operación exitosa') as string;
 
         return {
           success: true,
           status,
           statusText: getHttpStatusMessage(status),
           message,
-          data: resultData,
-          ...(pagination && { pagination }),
+          data: resultData as T,
+          ...(pagination ? { pagination: pagination as IPagination } : {}),
         };
       }),
     );
   }
 
-  #searchData(data: any): any {
-    return (
-      data?.data?.data ??
-      data?.data ??
-      data?.datos?.datos ??
-      data?.datos ??
-      data?.dato?.dato ??
-      data?.dato ??
-      data?.result?.result ??
-      data?.result ??
-      data?.results?.results ??
-      data?.results ??
-      data?.payload?.payload ??
-      data?.payload ??
-      data?.respuesta?.respuesta ??
-      data?.respuesta ??
-      data?.respuestas?.respuestas ??
-      data?.respuestas ??
-      data?.response?.response ??
-      data?.response ??
-      data?.responses?.responses ??
-      data?.responses ??
-      data?.content?.content ??
-      data?.content ??
-      data?.contenido?.contenido ??
-      data?.contenido ??
-      data?.value?.value ??
-      data?.value ??
-      data?.valor?.valor ??
-      data?.valor ??
-      data
-    );
-  }
+  /**
+  busca el contenido util recorriendo los alias de DATA_KEYS.
 
-  #searchPagination(data: any): any {
-    return data?.pagination ?? data?.paginacion ?? data?.paginador ?? undefined;
-  }
+  por cada alias mira primero el valor anidado (data.data) y luego el directo
+  (data). si ningun alias existe devuelve el dato original sin tocar */
+  #searchData(data: unknown): unknown {
+    for (const key of DATA_KEYS) {
+      const value: unknown = readKey(data, key);
+      if (value === undefined || value === null) continue;
 
-  #searchMessage(data: any): any {
-    return (
-      data?.mensaje ??
-      data?.message ??
-      data?.msg ??
-      data?.mensajeUsuario ??
-      data?.mensajeExito ??
-      data?.mensajeError ??
-      data?.descripcion ??
-      data?.descripcionError ??
-      data?.detalle ??
-      data?.detalles ??
-      data?.texto ??
-      data?.textoError ??
-      data?.userMessage ??
-      data?.successMessage ??
-      data?.errorMessage ??
-      data?.description ??
-      data?.errorDescription ??
-      data?.detail ??
-      data?.details ??
-      data?.text ??
-      data?.texto ??
-      data?.errorText ??
-      undefined
-    );
+      return readKey(value, key) ?? value;
+    }
+
+    return data;
   }
 
   /**
-  ¿la variable es un objeto literal? */
-  #isLiteralObject = (literalObject: any): boolean => {
-    return (
-      typeof literalObject === 'object' &&
-      literalObject !== null &&
-      (Object.getPrototypeOf(literalObject) === Object.prototype ||
-        Object.prototype.toString.call(literalObject) === '[object Object]')
-    );
-  };
+  borra del contenido las keys que ya viajan en la raiz de IResponse */
+  #clearData(data: unknown): void {
+    if (!isLiteralObject(data)) return;
 
-  #clearData(data: any): void {
-    if (!this.#isLiteralObject(data)) return;
+    const target: Record<string, unknown> = data as Record<string, unknown>;
 
-    const keysToDelete: string[] = [
-      'status',
-      'statusCode',
-      'mensaje',
-      'message',
-      'msg',
-      'mensajeUsuario',
-      'mensajeExito',
-      'mensajeError',
-      'descripcion',
-      'descripcionError',
-      'detalle',
-      'detalles',
-      'texto',
-      'textoError',
-      'userMessage',
-      'successMessage',
-      'errorMessage',
-      'description',
-      'errorDescription',
-      'detail',
-      'details',
-      'text',
-      'texto',
-      'errorText',
-    ];
-
-    keysToDelete.forEach((key: string) => {
-      if (Object.prototype.hasOwnProperty.call(data, key)) {
-        delete data[key];
+    RESPONSE_METADATA_KEYS.forEach((key: string) => {
+      if (Object.prototype.hasOwnProperty.call(target, key)) {
+        delete target[key];
       }
     });
   }
