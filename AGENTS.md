@@ -42,3 +42,8 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 * Prefiere la inferencia de tipos cuando el tipo sea obvio
 
 * Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto
+
+# Regla **OBLIGATORIA** para Nest.js
+1. Antes de escribir código o responder, consultar la skill en `.claude\skills\nestjs-best-practices\SKILL.md` (resuelta desde el directorio de este archivo)
+
+2. La fuente del punto 1 es la **única fuente de verdad** por lo que se tiene que **acatar**.
