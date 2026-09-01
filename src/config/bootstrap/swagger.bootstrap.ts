@@ -6,6 +6,7 @@ import {
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+import { cleanupOpenApiDoc } from 'nestjs-zod';
 import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 
 /* *********************************
@@ -27,7 +28,7 @@ export function configSwagger(app: INestApplication): void {
     .build();
 
   const document: OpenAPIObject = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document, {
+  SwaggerModule.setup('docs', app, cleanupOpenApiDoc(document), {
     useGlobalPrefix: false,
   });
 }
