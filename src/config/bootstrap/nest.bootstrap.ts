@@ -3,11 +3,8 @@ import {
   GLOBAL_PREFIX,
 } from '@/shared/data-types/constants/api.const';
 import { log } from '@/shared/data-types/constants/logger.const';
-import {
-  INestApplication,
-  ValidationPipe,
-  VersioningType,
-} from '@nestjs/common';
+import { INestApplication, VersioningType } from '@nestjs/common';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 // #region Exception Filter
 import { GlobalExceptionFilter } from '@/shared/filter/global-exception.filter';
@@ -26,11 +23,7 @@ export function configExceptionFilter(app: INestApplication): void {
 /**
 Pipes */
 export function configPipes(app: INestApplication): void {
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-    }),
-  );
+  app.useGlobalPipes(new ZodValidationPipe());
 }
 
 /**
