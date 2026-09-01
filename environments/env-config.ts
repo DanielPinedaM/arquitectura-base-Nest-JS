@@ -1,13 +1,6 @@
 import { log } from '@/shared/data-types/constants/logger.const';
-import { plainToInstance, Transform } from 'class-transformer';
-import {
-  IsBoolean,
-  IsIn,
-  IsNumber,
-  IsString,
-  Length,
-  validateSync,
-} from 'class-validator';
+import { createZodDto, type ZodDto } from 'nestjs-zod';
+import { z } from 'zod';
 
 /* *************************************
  * NOMBRES DE LAS VARIABLES DE ENTORNO *
@@ -47,106 +40,92 @@ export enum ENV_VARS {
 /** AES-128-CBC exige que la llave y el vector midan exactamente 16 bytes */
 const AES_KEY_LENGTH: number = 16;
 
+const envNumber = z.coerce.number();
+
+const toBoolean = (value: unknown): boolean =>
+  String(value).trim().toLowerCase() === 'true';
+
+const envBoolean = z.preprocess(
+  (value) => (value === undefined ? value : toBoolean(value)),
+  z.boolean(),
+);
+
 /* *******************************
  * TIPAR LAS VARIABLES DE ENTORNO *
  * ******************************** */
-export class EnvironmentClass {
+const environmentSchema = z.object({
   // #region configurar Nest JS
-  @IsString()
-  @IsIn(['localhost', 'production', 'test'])
-  NODE_ENV!: string;
+  NODE_ENV: z.enum(['localhost', 'production', 'test']),
 
-  @Transform(({ value }) => Number(value))
-  @IsNumber()
-  PORT!: number;
+  PORT: envNumber,
 
-  @Transform(({ value }) => String(value).trim().toLowerCase() === 'true')
-  @IsBoolean()
-  SHOW_LOGS!: boolean;
+  SHOW_LOGS: envBoolean,
   // #endregion configurar Nest JS
 
   // #region JWT
-  @IsString()
-  JWT_SECRET_KEY!: string;
+  JWT_SECRET_KEY: z.string(),
   // #endregion JWT
 
   // #region encriptar y desencriptar texto
-  @IsString()
-  @Length(AES_KEY_LENGTH, AES_KEY_LENGTH, {
-    message: `CRYPTO_SECRET_KEY debe tener exactamente ${AES_KEY_LENGTH} caracteres porque AES-128-CBC usa una llave de ${AES_KEY_LENGTH} bytes`,
-  })
-  CRYPTO_SECRET_KEY!: string;
+  CRYPTO_SECRET_KEY: z
+    .string()
+    .length(
+      AES_KEY_LENGTH,
+      `CRYPTO_SECRET_KEY debe tener exactamente ${AES_KEY_LENGTH} caracteres porque AES-128-CBC usa una llave de ${AES_KEY_LENGTH} bytes`,
+    ),
 
-  @IsString()
-  @Length(AES_KEY_LENGTH, AES_KEY_LENGTH, {
-    message: `CRYPTO_IV debe tener exactamente ${AES_KEY_LENGTH} caracteres porque AES-128-CBC usa un vector de inicializacion de ${AES_KEY_LENGTH} bytes`,
-  })
-  CRYPTO_IV!: string;
+  CRYPTO_IV: z
+    .string()
+    .length(
+      AES_KEY_LENGTH,
+      `CRYPTO_IV debe tener exactamente ${AES_KEY_LENGTH} caracteres porque AES-128-CBC usa un vector de inicializacion de ${AES_KEY_LENGTH} bytes`,
+    ),
   // #endregion encriptar y desencriptar texto
 
   // #region conexion a la base de datos
-  @IsString()
-  DB_TYPE!: string;
+  DB_TYPE: z.string(),
 
-  @IsString()
-  DB_HOST!: string;
+  DB_HOST: z.string(),
 
-  @Transform(({ value }) => Number(value))
-  @IsNumber()
-  DB_PORT!: number;
+  DB_PORT: envNumber,
 
-  @IsString()
-  DB_USERNAME!: string;
+  DB_USERNAME: z.string(),
 
-  @IsString()
-  DB_PASSWORD!: string;
+  DB_PASSWORD: z.string(),
 
-  @IsString()
-  DB_NAME!: string;
+  DB_NAME: z.string(),
 
-  @IsString()
-  DB_SCHEMA!: string;
+  DB_SCHEMA: z.string(),
 
-  @Transform(({ value }) => String(value).trim().toLowerCase() === 'true')
-  @IsBoolean()
-  DB_SSL!: boolean;
+  DB_SSL: envBoolean,
 
-  @Transform(({ value }) => String(value).trim().toLowerCase() === 'true')
-  @IsBoolean()
-  DB_SYNCHRONIZE!: boolean;
+  DB_SYNCHRONIZE: envBoolean,
 
-  @Transform(({ value }) => String(value).trim().toLowerCase() === 'true')
-  @IsBoolean()
-  DB_AUTO_LOAD_ENTITIES!: boolean;
+  DB_AUTO_LOAD_ENTITIES: envBoolean,
 
-  @Transform(({ value }) => Number(value))
-  @IsNumber()
-  DB_RETRY_ATTEMPTS!: number;
+  DB_RETRY_ATTEMPTS: envNumber,
 
-  @Transform(({ value }) => Number(value))
-  @IsNumber()
-  DB_RETRY_DELAY!: number;
+  DB_RETRY_DELAY: envNumber,
   // #endregion conexion a la base de datos
-}
+});
+
+const EnvironmentClassBase: ZodDto<typeof environmentSchema, false> =
+  createZodDto(environmentSchema);
+
+export class EnvironmentClass extends EnvironmentClassBase {}
 
 export function validateEnvironment(
   config: Record<string, unknown>,
 ): EnvironmentClass {
-  const validatedConfig = plainToInstance(EnvironmentClass, config, {
-    enableImplicitConversion: false,
-  });
+  const validatedConfig = EnvironmentClass.schema.safeParse(config);
 
-  const errors = validateSync(validatedConfig, {
-    skipMissingProperties: false,
-  });
-
-  if (errors.length > 0) {
-    const errorsStringify = JSON.stringify(errors);
+  if (!validatedConfig.success) {
+    const errorsStringify = JSON.stringify(validatedConfig.error.issues);
     log.error(
       `\x1b[31m error al configurar tipos de datos a las variables de entorno, verifique que las keys del enum ENV_VARS y la class EnvironmentClass q hay en env-config.ts coincida con los archivos env q estan dentro de la carpeta envinronments ${errorsStringify}\x1b[0m`,
     );
     throw new Error(errorsStringify);
   }
 
-  return validatedConfig;
+  return validatedConfig.data;
 }
