@@ -1,22 +1,22 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Transform, TransformFnParams } from 'class-transformer';
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { createZodDto, type ZodDto } from 'nestjs-zod';
+import { z } from 'zod';
 
-export class RegisterDto {
-  @ApiProperty({ type: String, description: 'correo electrónico del usuario' })
-  @IsEmail({}, { message: 'el correo es inválido' })
-  @IsString()
-  @Transform((params: TransformFnParams): string =>
-    (params.value as string).trim(),
-  )
-  email!: string;
+const registerSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .check(z.email('el correo es inválido'))
+    .meta({ description: 'correo electrónico del usuario' }),
 
-  @ApiProperty({ type: String, description: 'Nombre de usuario' })
-  @IsString()
-  username!: string;
+  username: z.string().meta({ description: 'Nombre de usuario' }),
 
-  @ApiProperty({ type: String, description: 'Contraseña del usuario' })
-  @IsString()
-  @MinLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
-  password!: string;
-}
+  password: z
+    .string()
+    .min(6, 'La contraseña debe tener al menos 6 caracteres')
+    .meta({ description: 'Contraseña del usuario' }),
+});
+
+const RegisterDtoBase: ZodDto<typeof registerSchema, false> =
+  createZodDto(registerSchema);
+
+export class RegisterDto extends RegisterDtoBase {}
