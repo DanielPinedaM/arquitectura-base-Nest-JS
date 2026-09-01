@@ -66,7 +66,7 @@ Reference these guidelines when:
 ### 4. Security (HIGH)
 
 - `security-auth-jwt` - Secure JWT authentication
-- `security-validate-all-input` - Validate with class-validator
+- `security-validate-all-input` - Validate with nestjs-zod
 - `security-use-guards` - Authentication and authorization guards
 - `security-sanitize-output` - Prevent XSS attacks
 - `security-rate-limiting` - Implement rate limiting

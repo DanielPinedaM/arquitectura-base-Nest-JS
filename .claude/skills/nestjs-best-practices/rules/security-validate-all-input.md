@@ -7,7 +7,7 @@ tags: security, validation, dto, pipes
 
 ## Validate All Input with DTOs and Pipes
 
-Always validate incoming data using class-validator decorators on DTOs and the global ValidationPipe. Never trust user input. Validate all request bodies, query parameters, and route parameters before processing.
+Always validate incoming data using zod schemas turned into DTOs with `createZodDto` and the global `ZodValidationPipe` from nestjs-zod. Never trust user input. Validate all request bodies, query parameters, and route parameters before processing.
 
 **Incorrect (trust raw input without validation):**
 
@@ -28,7 +28,7 @@ export class UsersController {
   }
 }
 
-// DTOs without validation decorators
+// DTOs without a zod schema
 export class CreateUserDto {
   name: string;    // No validation
   email: string;   // Could be "not-an-email"
@@ -36,94 +36,59 @@ export class CreateUserDto {
 }
 ```
 
-**Correct (validated DTOs with global ValidationPipe):**
+**Correct (validated DTOs with global ZodValidationPipe):**
 
 ```typescript
-// Enable ValidationPipe globally in main.ts
+// Enable ZodValidationPipe globally in main.ts
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,              // Strip unknown properties
-      forbidNonWhitelisted: true,   // Throw on unknown properties
-      transform: true,              // Auto-transform to DTO types
-      transformOptions: {
-        enableImplicitConversion: true,
-      },
-    }),
-  );
+  // Auto-transform to the types declared in each zod schema
+  app.useGlobalPipes(new ZodValidationPipe());
 
   await app.listen(3000);
 }
 
 // Create well-validated DTOs
-import {
-  IsString,
-  IsEmail,
-  IsInt,
-  Min,
-  Max,
-  IsOptional,
-  MinLength,
-  MaxLength,
-  Matches,
-  IsNotEmpty,
-} from 'class-validator';
-import { Transform, Type } from 'class-transformer';
+import { createZodDto } from 'nestjs-zod';
+import { z } from 'zod';
 
-export class CreateUserDto {
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(2)
-  @MaxLength(100)
-  @Transform(({ value }) => value?.trim())
-  name: string;
+// z.object() strips unknown properties, z.strictObject() throws on them
+const createUserSchema = z.strictObject({
+  name: z.string().trim().min(2).max(100),
 
-  @IsEmail()
-  @Transform(({ value }) => value?.toLowerCase().trim())
-  email: string;
+  email: z.string().trim().toLowerCase().check(z.email()),
 
-  @IsInt()
-  @Min(0)
-  @Max(150)
-  age: number;
+  age: z.coerce.number().int().min(0).max(150),
 
-  @IsString()
-  @MinLength(8)
-  @MaxLength(100)
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {
-    message: 'Password must contain uppercase, lowercase, and number',
-  })
-  password: string;
-}
+  password: z
+    .string()
+    .min(8)
+    .max(100)
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {
+      message: 'Password must contain uppercase, lowercase, and number',
+    }),
+});
+
+export class CreateUserDto extends createZodDto(createUserSchema) {}
 
 // Query DTO with defaults and transformation
-export class FindUsersQueryDto {
-  @IsOptional()
-  @IsString()
-  @MaxLength(100)
-  search?: string;
+const findUsersQuerySchema = z.object({
+  search: z.string().max(100).optional(),
 
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  @Max(100)
-  limit: number = 20;
+  limit: z.coerce.number().int().min(1).max(100).default(20),
 
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(0)
-  offset: number = 0;
-}
+  offset: z.coerce.number().int().min(0).default(0),
+});
+
+export class FindUsersQueryDto extends createZodDto(findUsersQuerySchema) {}
 
 // Param validation
-export class UserIdParamDto {
-  @IsUUID('4')
-  id: string;
-}
+const userIdParamSchema = z.object({
+  id: z.uuidv4(),
+});
+
+export class UserIdParamDto extends createZodDto(userIdParamSchema) {}
 
 @Controller('users')
 export class UsersController {

@@ -131,43 +131,26 @@ export class SanitizeHtmlPipe implements PipeTransform<string, string> {
 }
 
 // Global validation pipe with transformation
-app.useGlobalPipes(
-  new ValidationPipe({
-    whitelist: true, // Strip non-DTO properties
-    transform: true, // Auto-transform to DTO types
-    transformOptions: {
-      enableImplicitConversion: true, // Convert query strings to numbers
-    },
-    forbidNonWhitelisted: true, // Throw on extra properties
-  }),
-);
+// Auto-transform to the types declared in each zod schema
+app.useGlobalPipes(new ZodValidationPipe());
 
-// DTO with transformation decorators
-export class FindProductsDto {
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  page?: number = 1;
+// DTO with transformation built into the schema
+// z.object() strips non-DTO properties, z.strictObject() throws on extra properties
+const findProductsSchema = z.strictObject({
+  page: z.coerce.number().int().min(1).default(1), // Convert query strings to numbers
 
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  @Max(100)
-  limit?: number = 10;
+  limit: z.coerce.number().int().min(1).max(100).default(10),
 
-  @IsOptional()
-  @Transform(({ value }) => value?.toLowerCase())
-  @IsString()
-  search?: string;
+  search: z.string().toLowerCase().optional(),
 
-  @IsOptional()
-  @Transform(({ value }) => value?.split(','))
-  @IsArray()
-  @IsString({ each: true })
-  categories?: string[];
-}
+  categories: z
+    .string()
+    .transform((value) => value.split(','))
+    .pipe(z.array(z.string()))
+    .optional(),
+});
+
+export class FindProductsDto extends createZodDto(findProductsSchema) {}
 
 @Get()
 async findAll(@Query() dto: FindProductsDto): Promise<Product[]> {

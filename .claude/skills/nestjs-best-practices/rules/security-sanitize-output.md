@@ -73,23 +73,24 @@ export class CommentsService {
 }
 
 // Use validation pipe to strip HTML
-import { Transform } from 'class-transformer';
+import { createZodDto } from 'nestjs-zod';
+import { z } from 'zod';
 
-export class CreatePostDto {
-  @IsString()
-  @MaxLength(1000)
-  @Transform(({ value }) => sanitizeHtml(value, { allowedTags: [] }))
-  title: string;
+const createPostSchema = z.object({
+  title: z
+    .string()
+    .max(1000)
+    .transform((value) => sanitizeHtml(value, { allowedTags: [] })),
 
-  @IsString()
-  @Transform(({ value }) =>
+  content: z.string().transform((value) =>
     sanitizeHtml(value, {
       allowedTags: ['p', 'br', 'b', 'i', 'a'],
       allowedAttributes: { a: ['href'] },
     }),
-  )
-  content: string;
-}
+  ),
+});
+
+export class CreatePostDto extends createZodDto(createPostSchema) {}
 
 // Set proper Content-Type headers
 @Controller('api')

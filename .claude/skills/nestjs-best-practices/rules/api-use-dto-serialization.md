@@ -2,12 +2,12 @@
 title: Use DTOs and Serialization for API Responses
 impact: MEDIUM
 impactDescription: Response DTOs prevent accidental data exposure and ensure consistency
-tags: api, dto, serialization, class-transformer
+tags: api, dto, serialization, nestjs-zod
 ---
 
 ## Use DTOs and Serialization for API Responses
 
-Never return entity objects directly from controllers. Use response DTOs with class-transformer's `@Exclude()` and `@Expose()` decorators to control exactly what data is sent to clients. This prevents accidental exposure of sensitive fields and provides a stable API contract.
+Never return entity objects directly from controllers. Use response DTOs created with `createZodDto` and applied with `@ZodSerializerDto()` to control exactly what data is sent to clients. This prevents accidental exposure of sensitive fields and provides a stable API contract.
 
 **Incorrect (returning entities directly or manual spreading):**
 
@@ -37,52 +37,33 @@ async findOne(@Param('id') id: string) {
 }
 ```
 
-**Correct (use class-transformer with @Exclude and response DTOs):**
+**Correct (use nestjs-zod serialization with response DTOs):**
 
 ```typescript
-// Enable class-transformer globally
+// Enable zod serialization globally
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalInterceptors(new ZodSerializerInterceptor(app.get(Reflector)));
   await app.listen(3000);
 }
 
-// Entity with serialization control
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+// Response schema with serialization control
+const userResponseSchema = z.object({
+  id: z.uuid(),
+  email: z.email(),
+  name: z.string(),
+  createdAt: z.date(),
+});
+// passwordHash, ssn and internalNotes are not part of the schema, so they are
+// never included in responses. isAdmin is still allowed in request DTOs
 
-  @Column()
-  email: string;
-
-  @Column()
-  name: string;
-
-  @Column()
-  @Exclude() // Never include in responses
-  passwordHash: string;
-
-  @Column({ nullable: true })
-  @Exclude()
-  ssn: string;
-
-  @Column({ default: false })
-  @Exclude({ toPlainOnly: true }) // Exclude from response, allow in requests
-  isAdmin: boolean;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Column()
-  @Exclude()
-  internalNotes: string;
-}
+export class UserResponseDto extends createZodDto(userResponseSchema) {}
 
 // Now returning entity is safe
 @Controller('users')
 export class UsersController {
   @Get(':id')
+  @ZodSerializerDto(UserResponseDto)
   async findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findById(id);
     // Returns: { id, email, name, createdAt }
@@ -91,89 +72,81 @@ export class UsersController {
 }
 
 // For different response shapes, use explicit DTOs
-export class UserResponseDto {
-  @Expose()
-  id: string;
+const userBaseSchema = z.object({
+  id: z.uuid(),
+  email: z.email(),
+  name: z.string(),
+});
 
-  @Expose()
-  email: string;
+const userSummarySchema = userBaseSchema
+  .extend({ posts: z.array(postResponseSchema).optional() })
+  .transform(({ posts, ...user }) => ({
+    ...user,
+    postCount: posts?.length ?? 0,
+  }));
 
-  @Expose()
-  name: string;
+export class UserSummaryResponseDto extends createZodDto(userSummarySchema) {}
 
-  @Expose()
-  @Transform(({ obj }) => obj.posts?.length || 0)
-  postCount: number;
+const userDetailSchema = userBaseSchema.extend({
+  createdAt: z.date(),
+  posts: z.array(postResponseSchema),
+});
 
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
-}
-
-export class UserDetailResponseDto extends UserResponseDto {
-  @Expose()
-  createdAt: Date;
-
-  @Expose()
-  @Type(() => PostResponseDto)
-  posts: PostResponseDto[];
-}
+export class UserDetailResponseDto extends createZodDto(userDetailSchema) {}
 
 // Controller with explicit DTOs
 @Controller('users')
 export class UsersController {
   @Get()
-  @SerializeOptions({ type: UserResponseDto })
-  async findAll(): Promise<UserResponseDto[]> {
-    const users = await this.usersService.findAll();
-    return users.map(u => plainToInstance(UserResponseDto, u));
+  @ZodSerializerDto([UserSummaryResponseDto])
+  async findAll(): Promise<User[]> {
+    return this.usersService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<UserDetailResponseDto> {
-    const user = await this.usersService.findByIdWithPosts(id);
-    return plainToInstance(UserDetailResponseDto, user, {
-      excludeExtraneousValues: true,
-    });
+  @ZodSerializerDto(UserDetailResponseDto)
+  async findOne(@Param('id') id: string): Promise<User> {
+    // Extraneous values are stripped by the schema
+    return this.usersService.findByIdWithPosts(id);
   }
 }
 
-// Groups for conditional serialization
-export class UserDto {
-  @Expose()
-  id: string;
+// Separate schemas for conditional serialization
+const publicUserSchema = userBaseSchema.pick({ id: true, name: true });
 
-  @Expose()
-  name: string;
+const adminUserSchema = publicUserSchema.extend({
+  email: z.email(),
+  createdAt: z.date(),
+});
 
-  @Expose({ groups: ['admin'] })
-  email: string;
+const ownerUserSchema = publicUserSchema.extend({
+  settings: userSettingsSchema,
+});
 
-  @Expose({ groups: ['admin'] })
-  createdAt: Date;
+export class PublicUserDto extends createZodDto(publicUserSchema) {}
 
-  @Expose({ groups: ['admin', 'owner'] })
-  settings: UserSettings;
-}
+export class AdminUserDto extends createZodDto(adminUserSchema) {}
+
+export class OwnerUserDto extends createZodDto(ownerUserSchema) {}
 
 @Controller('users')
 export class UsersController {
   @Get()
-  @SerializeOptions({ groups: ['public'] })
-  async findAllPublic(): Promise<UserDto[]> {
+  @ZodSerializerDto([PublicUserDto])
+  async findAllPublic(): Promise<User[]> {
     // Returns: { id, name }
   }
 
   @Get('admin')
   @UseGuards(AdminGuard)
-  @SerializeOptions({ groups: ['admin'] })
-  async findAllAdmin(): Promise<UserDto[]> {
+  @ZodSerializerDto([AdminUserDto])
+  async findAllAdmin(): Promise<User[]> {
     // Returns: { id, name, email, createdAt }
   }
 
   @Get('me')
-  @SerializeOptions({ groups: ['owner'] })
-  async getProfile(@CurrentUser() user: User): Promise<UserDto> {
+  @ZodSerializerDto(OwnerUserDto)
+  async getProfile(@CurrentUser() user: User): Promise<User> {
     // Returns: { id, name, settings }
   }
 }
