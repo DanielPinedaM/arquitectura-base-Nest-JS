@@ -43,7 +43,12 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 
 * Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto
 
-# Regla **OBLIGATORIA** para Nest.js
-1. Antes de escribir código o responder, consultar la skill en `.claude\skills\nestjs-best-practices\SKILL.md` (resuelta desde el directorio de este archivo)
+# Reglas **OBLIGATORIAS** para Nest.js
+* Antes de escribir código o responder, consultar la skill en `.claude\skills\nestjs-best-practices\SKILL.md` (resuelta desde el directorio de este archivo). Esta fuente es la **única fuente de verdad** y su cumplimiento es **obligatorio**.
 
-2. La fuente del punto 1 es la **única fuente de verdad** por lo que se tiene que **cumplir**.
+## Validaciones
+* **OBLIGATORIO** usar `nestjs-zod` para validar DTOs: definir el schema con Zod (`z.object({...})`), crear el DTO con `createZodDto(schema)` como clase (no como `type`/`z.infer`), y aplicar la validación global con el `ZodValidationPipe` de `nestjs-zod` en lugar del `ValidationPipe` nativo
+
+* **PROHIBIDO** usar `class-validator` y `class-transformer` (`@IsString()`, `@IsNotEmpty()`, `@IsEmail()`, `class-transformer`, `ValidationPipe` nativo de `@nestjs/common`, o cualquier DTO basado en decoradores) para validar requests, params o body
+
+* **PROHIBIDO** usar Zod sin `nestjs-zod`: pipes de validación custom hechos a mano, DTOs como `type`/`z.infer` sin pasar por `createZodDto`, o `safeParse`/`parse` manual dentro de controllers o handlers
