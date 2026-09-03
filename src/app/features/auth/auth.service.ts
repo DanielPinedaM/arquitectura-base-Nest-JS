@@ -1,31 +1,40 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/require-await --
- * la implementacion real de login() y registerUser() esta comentada hasta que se
- * habilite la base de datos, y con ella quedan sin uso los parametros y los
- * await de esos metodos. no se pueden eliminar porque los parametros forman
- * parte de la firma que invoca AuthController y las firmas asincronas son el
- * contrato publico del service */
+ * la implementacion real de registerUser() esta comentada hasta que se habilite
+ * la base de datos, y con ella quedan sin uso su parametro y su await. no se
+ * pueden eliminar porque el parametro forma parte de la firma que invoca
+ * AuthController y las firmas asincronas son el contrato publico del service */
 
 import {
-  IAuthResponse,
   IDecryptedCredentials,
   IJwtPayload,
+  ILoginResponse,
+  ILogoutResponse,
+  IRegisterResponse,
 } from '@/app/features/auth/data-types/interface/auth.interfaces';
-import { RegisterDto } from '@/app/features/auth/dto/register.dto';
+import { RegisterDto } from '@/app/features/auth/dto/register.schema';
+import { Users } from '@/app/features/auth/entities/users.entity';
 import { CryptoService } from '@/shared/services/crypto.service';
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config.schema';
 import type { Response } from 'express';
+import { Repository } from 'typeorm';
 
 /**
- * imports que solo consume la implementacion comentada mas abajo. quedan
- * comentados junto a ella para que el archivo no arrastre dependencias sin uso */
-// import { Users } from '@/app/features/auth/entities/users.entity';
-// import { ConflictException, UnauthorizedException } from '@nestjs/common';
-// import { InjectRepository } from '@nestjs/typeorm';
-// import * as bcrypt from 'bcrypt';
-// import { Repository } from 'typeorm';
+ * import que solo consume la implementacion comentada de registerUser(). queda
+ * comentado junto a ella para que el archivo no arrastre dependencias sin uso */
+// import { ConflictException } from '@nestjs/common';
+
+/** la contraseña segura debe contener: un caracter especial, un número, una mayúscula y una minúscula */
+const SECURE_PASSWORD_REGEX =
+  /^(?=.*[!@#$%^&()_+\[\]{};':"\\|,.<>/?])(?=.*[0-9])(?=.*[A-ZÑÁÉÍÓÚ])(?=.*[a-zñáéíóú])/;
 
 @Injectable()
 export class AuthService {
@@ -34,8 +43,8 @@ export class AuthService {
     private readonly cryptoService: CryptoService,
     private readonly env: ConfigService<EnvironmentClass>,
 
-    //@InjectRepository(Users)
-    //private usersRepository: Repository<Users>,
+    @InjectRepository(Users)
+    private readonly usersRepository: Repository<Users>,
   ) {}
 
   async decryptCredentials(
@@ -64,24 +73,28 @@ export class AuthService {
     encryptedEmail: string,
     encryptedPassword: string,
     response: Response,
-  ): Promise<IAuthResponse> {
-    /*  const { decryptedEmail, decryptedPassword } = await this.decryptCredentials(
+  ): Promise<ILoginResponse> {
+    const { decryptedEmail, decryptedPassword } = await this.decryptCredentials(
       encryptedEmail,
       encryptedPassword,
     );
 
-    const foundUser: Users = await this.usersRepository.findOne({
+    if (!SECURE_PASSWORD_REGEX.test(decryptedPassword))
+      throw new UnauthorizedException('usuario o correo inválidos');
+
+    const foundUser: Users | null = await this.usersRepository.findOne({
       where: { email: decryptedEmail },
     });
 
-    if (!foundUser) throw new UnauthorizedException('Usuario no encontrado');
+    if (!foundUser)
+      throw new UnauthorizedException('El usuario no esta registrado');
 
     const isPasswordValid: boolean = await bcrypt.compare(
       decryptedPassword,
       foundUser.password,
     );
     if (!isPasswordValid)
-      throw new UnauthorizedException('credenciales inválidas');
+      throw new UnauthorizedException('Usuario o correo inválidos');
 
     const token = this.generateToken(foundUser);
 
@@ -94,11 +107,12 @@ export class AuthService {
     });
 
     const { id, password, creationDate, ...rest } = foundUser;
-    const data = { ...rest }; */
-    return { status: 200, message: 'inicio de sesión exitoso' /* , data */ };
+    const data = { ...rest };
+
+    return { message: 'inicio de sesión exitoso', data };
   }
 
-  async logout(response: Response): Promise<IAuthResponse> {
+  async logout(response: Response): Promise<ILogoutResponse> {
     response.clearCookie('token', {
       httpOnly: true,
       secure: this.env.get(ENV_VARS.NODE_ENV) === 'production',
@@ -107,13 +121,12 @@ export class AuthService {
     });
 
     return {
-      status: 200,
       message: 'cierre de sesión exitoso',
     };
   }
 
-  async registerUser(registerDto: RegisterDto): Promise<IAuthResponse> {
-    /* const {
+  async registerUser(registerDto: RegisterDto): Promise<IRegisterResponse> {
+    const {
       email: encryptedEmail,
       password: encryptedPassword,
       username,
@@ -125,7 +138,7 @@ export class AuthService {
     );
 
     // Verificar si el email ya existe
-    const existingUser: Users = await this.usersRepository.findOne({
+    const existingUser: Users | null = await this.usersRepository.findOne({
       where: { email: decryptedEmail },
     });
     if (existingUser)
@@ -139,10 +152,9 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    await this.usersRepository.save(newUser); */
+    await this.usersRepository.save(newUser);
 
     return {
-      status: 201,
       message: 'usuario registrado exitosamente',
     };
   }
