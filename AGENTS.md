@@ -34,7 +34,7 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 * Antes de escribir código o responder, consultar la skill en `.claude\skills\nestjs-best-practices\SKILL.md` (resuelta desde el directorio de este archivo). Esta fuente es la **única fuente de verdad** y su cumplimiento es **obligatorio**.
 
 ## Validaciones
-* **OBLIGATORIO** usar `nestjs-zod` para validar DTOs: definir el schema con Zod (`z.object({...})`), crear el DTO con `createZodDto(schema)` como clase (no como `type`/`z.infer`), y aplicar la validación global con el `ZodValidationPipe` de `nestjs-zod` en lugar del `ValidationPipe` nativo
+* Usar `nestjs-zod` para validar DTOs: definir el schema con Zod (`z.object({...})`), crear el DTO con `createZodDto(schema)` como clase (no como `type`/`z.infer`), y aplicar la validación global con el `ZodValidationPipe` de `nestjs-zod` en lugar del `ValidationPipe` nativo
 
 * **PROHIBIDO** usar `class-validator` y `class-transformer` (`@IsString()`, `@IsNotEmpty()`, `@IsEmail()`, `class-transformer`, `ValidationPipe` nativo de `@nestjs/common`, o cualquier DTO basado en decoradores) para validar requests, params o body
 
