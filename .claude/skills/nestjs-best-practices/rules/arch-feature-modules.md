@@ -36,8 +36,8 @@ src/
 src/
 ├── users/
 │   ├── dto/
-│   │   ├── create-user.dto.ts
-│   │   └── update-user.dto.ts
+│   │   ├── create-user.schema.ts
+│   │   └── update-user.schema.ts
 │   ├── entities/
 │   │   └── user.entity.ts
 │   ├── users.controller.ts
