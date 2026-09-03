@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config.schema';
 
 /**
  * ConfigModule ya se registra como global en AppModule junto con la validacion

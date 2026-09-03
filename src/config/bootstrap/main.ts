@@ -2,7 +2,7 @@ import { AppModule } from '@/app/modules/app.module';
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config.schema';
 import { json } from 'express';
 
 // #region configuracion de Nest JS

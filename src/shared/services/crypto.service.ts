@@ -2,7 +2,7 @@ import { log } from '@/shared/data-types/constants/logger.const';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AES, enc, lib, mode, pad } from 'crypto-js';
-import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config.schema';
 
 /** llave y vector de inicializacion que usa el cifrado AES */
 interface ICipherKeys {

@@ -6,8 +6,8 @@ import {
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config.schema';
 import { cleanupOpenApiDoc } from 'nestjs-zod';
-import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
 
 /* *********************************
  * swagger: documentación de la API *
