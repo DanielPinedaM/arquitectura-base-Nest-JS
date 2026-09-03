@@ -13,7 +13,7 @@ A continuación se resumen las principales tecnologías del proyecto y el motivo
 
 * [**Prisma ORM 7:**](https://youtu.be/vUcNydH1tz0?si=mc11vxHJpcCs_5Qj) Prisma se basa en un _esquema declarativo_ (_`schema.prisma`_) como _única fuente de verdad_, que genera un _cliente tipado_ y sincroniza la base de datos mediante _migraciones versionadas_. A diferencia de _TypeORM_, donde entidades y base de datos pueden desincronizarse, Prisma garantiza consistencia explícita entre _esquema_ y BD, con _type-safety_ en _tiempo de compilación_ que reduce _errores de mapeo_.
 
-* [**nestjs-zod:**](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP) Permite utilizar la _misma sintaxis de código_ y reutilizar los mismos _esquemas de validación_ en frontend y backend. Además, se integra con _TypeScript_, ofrece validación de tipos en _tiempo de compilación_ y validación de datos en _tiempo de ejecución (runtime)_. En _frontend_ valida _formularios_ y _datos de entrada_, con excelente integración con _React Hook Form_ (_React_) y _Forms with Signals_ (_Angular_). En _backend_ valida _`body`_, _`query`_ y _`params`_ de las _solicitudes http_, garantizando la integridad de los datos antes de procesarlos.
+* [**nestjs-zod:**](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP) Permite utilizar la _misma sintaxis de código_ y reutilizar los mismos _esquemas de validación_ en frontend y backend de Node.js. Además, se integra con _TypeScript_, ofrece validación de tipos en _tiempo de compilación_ y validación de datos en _tiempo de ejecución (runtime)_. En frontend valida _formularios_ y _datos de entrada_, con integración con _React Hook Form_ (React) y [_Forms with Signals_ (Angular)](https://angular.dev/guide/forms/signals/validation). En backend valida _`body`_, _`query`_ y _`params`_ de las _solicitudes http_, garantizando la integridad de los datos antes de procesarlos.
 
 * [**PostgreSQL 18:**](https://www.postgresql.org/download/) _Base de datos relacional (RDBMS)_ con _cumplimiento ACID_, _integridad referencial_ y soporte nativo para tipos avanzados como _JSONB_, que permite almacenar y consultar documentos _JSON_ de _forma binaria_ e _indexada_, ofreciendo _flexibilidad de esquema similar a MongoDB_ sin sacrificar las _transacciones_ y _relaciones_ propias de un _modelo relacional_. Es ampliamente adoptado hoy en día por su madurez, extensibilidad (extensiones como _PostGIS_, _pgvector_), rendimiento en _cargas mixtas (OLTP)_ y compatibilidad total con _Prisma_ y el ecosistema _TypeScript_.
 
@@ -47,7 +47,7 @@ Para que la configuración funcione, debes tener instalado:
 > [!TIP]
 > # ⚡ **Empieza de inmediato**
 >
-> 👍 Si quieres empezar a programar con IA sin perder tiempo configurando herramientas, utiliza **Claude Code**. Este proyecto ya incluye las configuraciones de **MCP**, **Skills**, **Rules** y `AGENTS.md` listas para usar.
+> 👍 Si quieres empezar a programar con IA sin perder tiempo configurando herramientas, utiliza **Claude Code**. Este proyecto ya incluye las configuraciones de **MCP**, **Skills**, **Rules** y [`AGENTS.md`](https://youtu.be/eS5HmdpcqnM?si=D7X-HFPQAfCkZ4Ks) listas para usar.
 >
 > 👎 Si prefieres otra IA, deberás configurar manualmente sus funcionalidades equivalentes según la forma en que esa herramienta las implemente.
 
@@ -348,10 +348,9 @@ Sirve para importar la API en Postman, Insomnia o generar clientes automáticame
 >
 > Hazle preguntas a la IA sobre:
 >
-> 1. `AGENTS.md`
+> 1. [`AGENTS.md`](https://youtu.be/eS5HmdpcqnM?si=D7X-HFPQAfCkZ4Ks)
 > 2. `.claude/skills/***`
-> 3. `.claude/rules/***`
-> 4. Los **"🔗 Enlaces"**
+> 3. Los **"🔗 Enlaces"**
 >
 > Hasta comprender cómo funciona el proyecto.
 >
@@ -406,7 +405,7 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 # 🐈 Configurar Nest.js para que Funcione con IA
 Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
 
-# 📜 `AGENTS.md`
+# [📜 `AGENTS.md`](https://youtu.be/eS5HmdpcqnM?si=D7X-HFPQAfCkZ4Ks)
 Prompt que se envía siempre a Claude para que respete la arquitectura del proyecto.
 
 Para probar que funcione envia este prompt a Claude:
