@@ -34,7 +34,7 @@ import { Repository } from 'typeorm';
 
 /** contraseña segura, minimo un caracter y debe contener un caracter especial, un numero, una mayuscula y una minuscula */
 const SECURE_PASSWORD_REGEX =
-  /^(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])(?=.*[0-9])(?=.*[A-ZÁÉÍÓÚÜÑ])(?=.*[a-záéíóúüñ]).+$/
+  /^(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])(?=.*[0-9])(?=.*[A-ZÁÉÍÓÚÜÑ])(?=.*[a-záéíóúüñ]).+$/;
 
 @Injectable()
 export class AuthService {
