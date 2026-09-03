@@ -1,28 +1,9 @@
 # Ejecución de Proyecto
 
-* Runtime: Node.js
+* Runtime: Node.js 24
 * Administrador de versiones: fnm
 * Manejador de paquetes: pnpm
 * Archivo de bloqueo: pnpm-lock.yaml
-
-# Scripts de desarrollo
-
-| Comando            | Ambiente      | Variable de Entorno            |
-| ------------------ | ------------- | ------------------------------ |
-| `pnpm start:local` | Local host    | `environments/.env.localhost`  |
-| `pnpm start:test`  | Pruebas       | `environments/.env.test`       |
-| `pnpm start:prod`  | Producción    | `environments/.env.production` |
-
-# Generar Carpeta `dist` (build) para Desplegar
-`pnpm build` genera el `dist`. Es un solo script, sin ambiente, porque el build no hardcodea los valores de las variables de entorno en el código compilado.
-
-# Ejecutar Carpeta `dist` con Archivos de Compilación
-Estos scripts ejecutan el `dist` que previamente se generó con `pn build`. Requieren que exista la carpeta `dist`, de lo contrario fallan.
-
-| Comando          | Ambiente     | Variable de Entorno            |
-| ---------------- | ------------ | ------------------------------ |
-| `pnpm dist:test` | Pruebas      | `environments/.env.test`       |
-| `pnpm dist:prod` | Producción   | `environments/.env.production` |
 
 # Reglas de Idioma
 
@@ -39,9 +20,15 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 # Buenas Practicas de TypeScript
 * Usar strict type checking
 
-* Prefiere la inferencia de tipos cuando el tipo sea obvio
+* Preferir la inferencia de tipos cuando el tipo sea obvio
 
 * Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto
+
+* Preferir `interface` para definir tipos de objeto literal y arrays de objetos
+
+* Usar `Record` para objetos literales dinámicos
+
+* Usar `type` para tipos primitivos, literales o uniones
 
 # Reglas **OBLIGATORIAS** para Nest.js
 * Antes de escribir código o responder, consultar la skill en `.claude\skills\nestjs-best-practices\SKILL.md` (resuelta desde el directorio de este archivo). Esta fuente es la **única fuente de verdad** y su cumplimiento es **obligatorio**.
@@ -52,3 +39,5 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 * **PROHIBIDO** usar `class-validator` y `class-transformer` (`@IsString()`, `@IsNotEmpty()`, `@IsEmail()`, `class-transformer`, `ValidationPipe` nativo de `@nestjs/common`, o cualquier DTO basado en decoradores) para validar requests, params o body
 
 * **PROHIBIDO** usar Zod sin `nestjs-zod`: pipes de validación custom hechos a mano, DTOs como `type`/`z.infer` sin pasar por `createZodDto`, o `safeParse`/`parse` manual dentro de controllers o handlers
+
+* Las validaciones deben definirse en un archivo `.schema.ts` separado, ubicado en la carpeta mas cercana del módulo o recurso donde se utiliza el DTO.
