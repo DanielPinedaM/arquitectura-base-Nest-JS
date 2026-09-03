@@ -32,9 +32,9 @@ import { Repository } from 'typeorm';
  * comentado junto a ella para que el archivo no arrastre dependencias sin uso */
 // import { ConflictException } from '@nestjs/common';
 
-/** la contraseña segura debe contener: un caracter especial, un número, una mayúscula y una minúscula */
+/** contraseña segura, minimo un caracter y debe contener un caracter especial, un numero, una mayuscula y una minuscula */
 const SECURE_PASSWORD_REGEX =
-  /^(?=.*[!@#$%^&()_+\[\]{};':"\\|,.<>/?])(?=.*[0-9])(?=.*[A-ZÑÁÉÍÓÚ])(?=.*[a-zñáéíóú])/;
+  /^(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])(?=.*[0-9])(?=.*[A-ZÁÉÍÓÚÜÑ])(?=.*[a-záéíóúüñ]).+$/
 
 @Injectable()
 export class AuthService {
