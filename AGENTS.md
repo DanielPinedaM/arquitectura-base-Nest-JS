@@ -24,7 +24,7 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 
 * Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto.
 
-* Preferir `interface` para definir tipos de objeto literal y arrays de objetos
+* Preferir `interface` para tipos de objeto (`Producto`) y para el tipo de los elementos en arrays de objetos (`Producto[]`).
 
 * Usar `Record` para objetos literales dinámicos
 
