@@ -22,7 +22,7 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 
 * Preferir la inferencia de tipos cuando el tipo sea obvio
 
-* Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto
+* Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto.
 
 * Preferir `interface` para definir tipos de objeto literal y arrays de objetos
 
