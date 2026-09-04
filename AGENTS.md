@@ -26,7 +26,7 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 
 * Preferir `interface` para tipos de objeto (`Producto`) y para el tipo de los elementos en arrays de objetos (`Producto[]`).
 
-* Usar `Record` para objetos literales dinámicos
+* Usar `Record<Clave, Valor>` para objetos con claves dinámicas.
 
 * Usar `type` para tipos primitivos, literales o uniones
 
