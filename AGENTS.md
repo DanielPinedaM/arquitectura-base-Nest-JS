@@ -28,7 +28,7 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 
 * Usar `Record<Clave, Valor>` para objetos con claves dinámicas.
 
-* Usar `type` para tipos primitivos, literales o uniones
+* Usar `type` para tipos primitivos, literales y uniones.
 
 # Reglas **OBLIGATORIAS** para Nest.js
 * Antes de escribir código o responder, consultar la skill en `.claude\skills\nestjs-best-practices\SKILL.md` (resuelta desde el directorio de este archivo). Esta fuente es la **única fuente de verdad** y su cumplimiento es **obligatorio**.
