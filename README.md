@@ -406,7 +406,7 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
 
 # [📜 `AGENTS.md`](https://youtu.be/eS5HmdpcqnM?si=D7X-HFPQAfCkZ4Ks)
-Este prompt siempre se envia a Claude. Sirve para que Claude:
+Es un prompt que siempre se envia a Claude. Sirve para que Claude:
 * Respete la arquitectura de software del proyecto.
 
 * Consulte la documentación oficial de Prisma ORM
