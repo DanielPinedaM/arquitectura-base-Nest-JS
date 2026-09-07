@@ -451,6 +451,7 @@ pn dlx skills add https://github.com/kadajett/agent-nestjs-skills --skill nestjs
 ```
 
 3. La terminal hace las siguientes preguntas:
+
 * ¿Para que IA instalar la skill?
 Seleccionar Claude Code
 
