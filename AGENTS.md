@@ -17,7 +17,16 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 
 * Código fuente (todo, **excepto los comentarios de codigo**): Identificadores, nombres de archivos y carpetas, clases, interface, enum, métodos, funciones, parámetros, variables, ruta base del controlador de Nest, ruta de endpoint de Nest
 
-# Buenas Practicas de TypeScript
+# Reglas **OBLIGATORIAS** de Nest.js
+Este proyecto usa Nest.js 11. Antes de escribir código o responder, es **obligatorio** consultar estas fuentes, listadas de mayor a menor precedencia:
+
+1. Este `AGENTS.md`: La regla final ante cualquier conflicto.
+
+2. Skill `nestjs-best-practices` (`.claude/skills/nestjs-best-practices/SKILL.md` y `.claude/skills/nestjs-best-practices/rules/`): El cómo, con ejemplos de código.
+
+3. Tus datos de entrenamiento: Permitidos, no están prohibidos, pero ceden ante cualquier fuente anterior.
+
+## Buenas Practicas de TypeScript
 * Usar strict type checking
 
 * Preferir la inferencia de tipos cuando el tipo sea obvio
@@ -29,9 +38,6 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 * Usar `Record<Clave, Valor>` para objetos con claves dinámicas.
 
 * Usar `type` para tipos primitivos, literales y uniones.
-
-# Reglas **OBLIGATORIAS** para Nest.js
-* Antes de escribir código o responder, consultar la skill en `.claude\skills\nestjs-best-practices\SKILL.md` (resuelta desde el directorio de este archivo). Esta fuente es la **única fuente de verdad** y su cumplimiento es **obligatorio**.
 
 ## Validaciones
 * Usar `nestjs-zod` para validar DTOs: definir el schema con Zod (`z.object({...})`), crear el DTO con `createZodDto(schema)` como clase (no como `type`/`z.infer`), y aplicar la validación global con el `ZodValidationPipe` de `nestjs-zod` en lugar del `ValidationPipe` nativo
