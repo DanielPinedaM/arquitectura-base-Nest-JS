@@ -424,7 +424,56 @@ La salida debe contener algo similar a esto:
 
 # Skills
 
-# [🔗 Enlace - Repositorios de Skills](https://www.skills.sh/)
+## 🔗 Enlaces con Respositorios de Skills
+
+* ## [Web de Vercel con múltiples repositorios de Skills sobre distintos temas](https://www.skills.sh/)
+
+* ## [Skills para UI / Maquetación](https://www.ui-skills.com/)
+
+## ¿Como Configurar Skills?
+
+> [!NOTE]
+>
+> Esto es una guia. **NO** debes hacer lo siguiente porque las skills ya estan configuradas
+>
+> Para explicar como configurar skills, se usa como ejemplo [`nestjs-best-practices`](https://www.skills.sh/kadajett/agent-nestjs-skills/nestjs-best-practices)
+
+Hay dos formas:
+
+### Forma 1 - Usando Comando de [www.skills.sh](https://www.skills.sh/):
+
+1. Buscar una skill en [www.skills.sh](https://www.skills.sh/)
+
+2. Ejecutar el comando de la skill a descargar:
+
+```bash
+pn dlx skills add https://github.com/kadajett/agent-nestjs-skills --skill nestjs-best-practices
+```
+
+3. La terminal hace las siguientes preguntas:
+* ¿Para que IA instalar la skill?
+Seleccionar Claude Code
+
+* ¿Cual es el alcance de la skill? (Install scope)
+Seleccionar Project
+
+Hay dos alcances:
+
+| Alcance | Disponibilidad                                                       | ¿Se puede compartir con el equipo mediante Git? |
+| ------- | -------------------------------------------------------------------- | ----------------------------------------------- |
+| Global  | Disponible para la persona que la instala en **todos sus proyectos** | ❌ **No**                                      |
+| Project | Disponible **solo en el proyecto actual** donde se instala           | ✅ **Sí**                                      |
+
+4. Mover `.agents\skills\nestjs-best-practices` a `.claude\skills\nestjs-best-practices`
+
+5. Eliminar `skills-lock.json`
+
+### Forma 2 - Descargar skill sin comando
+1. Buscar un repositorio con una skill
+
+2. Descargar el repositorio
+
+3. Mover la skill a `.claude\skills\NOMBRE-DE-LA-SKILL`
 
 ## 🌿 `git-commit`
 Por cada feature terminada hacer un commit antes de solicitar nuevas modificaciones a la IA. Evita acumular demasiados cambios, ya que puedes perder el contexto de lo que la IA está realizando y cometer errores.
