@@ -1,6 +1,8 @@
 /**
  * https://http.dev/status */
 const HTTP_STATUS_MESSAGES: Record<number, string> = {
+  0: "Network Error",
+
   /** 1xx: Respuestas informativas */
   100: 'Continue',
   101: 'Switching Protocols',
