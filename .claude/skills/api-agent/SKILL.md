@@ -36,7 +36,7 @@ La pregunta lleva dos opciones, y en cada descripción lo que ese modo implica d
 - **AUTOMATIZAR** — ejecuta el flujo de punta a punta y reporta el estado final. No toca el código ni diagnostica.
 - **DEPURAR** — reproduce el fallo, observa, instrumenta si hace falta, y **para** a preguntar antes de aplicar cualquier corrección.
 
-Única excepción: que el usuario ya lo haya dicho explícitamente en la conversación ("automatiza el alta de usuario", "depura por qué falla el guardado"). Entonces usa ese modo, dilo en una línea y sigue, sin volver a preguntar.
+Anque el usuario lo haya dicho explícitamente en la conversación ("automatiza el alta de usuario", "depura por qué falla el guardado"). Tienes que preguntar ¿cual es el modo a ejecutar?
 
 Esta pregunta es independiente de las del entorno —la del que se ejecuta y la del build, que son dos preguntas diferentes—, que llegan después, en el paso 2 de la sección "4. Detectar el entorno (nunca asumirlo)". Lo que no puedes es empezar a ejecutar sin tener la respuesta del modo.
 
