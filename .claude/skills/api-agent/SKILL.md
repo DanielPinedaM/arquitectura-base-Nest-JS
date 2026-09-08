@@ -49,7 +49,7 @@ Si en cualquier momento de la ejecución —leyendo, editando o creando código,
 Detente en ese punto exacto y usa `AskUserQuestion`:
 
 1. **Para.** No generes ni edites nada más relacionado con esa duda hasta tener la respuesta.
-2. **Explica la duda en dos o tres líneas:** en qué consiste, y por qué la información disponible no basta para resolverla.
+2. **Explica la duda:** en qué consiste, y por qué la información disponible no basta para resolverla.
 3. **Formúlala como pregunta explícita**, con:
    - Dos o más opciones concretas, cada una con su consecuencia real (qué cambia, qué más podría romper).
    - Una marcada como **recomendada**, con el motivo de la recomendación.
