@@ -68,7 +68,7 @@ Antes de la primera petición de esta sesión hay que establecer dos cosas, y ni
 
 1. **La ruta real del endpoint**, con prefijo global y versión incluidos si el proyecto los usa. El framework los antepone a todas las rutas, así que la ruta que ves declarada en el controller **no** tiene por qué ser la ruta que se llama. Ni el prefijo, ni la versión, ni los archivos donde se declaran se dan por sabidos: dedúcelos de la configuración con la que el proyecto arranca el servidor, y confírmalos con el listado de rutas que el backend imprime al arrancar o con la documentación de la API que el propio proyecto exponga. Una ruta inventada devuelve un 404 que parece un bug y no lo es.
 
-2. **El contrato del endpoint**: método, forma del body, headers obligatorios. Sale del controller y del schema de Zod del recurso (`*.schema.ts`). Mandar un body que el schema rechaza produce un 400 que tampoco es el bug que buscas.
+2. **El contrato del endpoint**: método, forma del body, headers obligatorios. Sale del controller y del schema de validación del recurso. Mandar un body que el schema rechaza produce un 400 que tampoco es el bug que buscas.
 
 ### `curl` ya está instalado — no instales un cliente HTTP
 
@@ -199,7 +199,7 @@ curl -v -sS ...                                                    # headers env
 | Status | Dónde mirar primero |
 |---|---|
 | 404 | la ruta: prefijo global, versión, o el controller no está registrado en su módulo |
-| 400 / 422 | validación: el schema de Zod del DTO rechazó el body; el mensaje dice qué campo |
+| 400 / 422 | validación: el schema del DTO rechazó el body; el mensaje dice qué campo |
 | 401 / 403 | guard: token ausente, caducado, alterado, o usuario sin el rol necesario |
 | 500 | excepción no controlada: el stack trace está en la salida del server, no en la respuesta |
 | 2xx con datos incorrectos | lógica de negocio, ORM o base de datos: sección "6.3 Aislar API, lógica de negocio, ORM y base de datos" |
