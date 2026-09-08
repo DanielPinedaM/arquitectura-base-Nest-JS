@@ -199,12 +199,13 @@ curl -i -sS -X POST "http://localhost:<puerto><ruta-del-login>" \
 
 **3. Guarda el token** de la respuesta en una variable de shell y reutilízalo en el header `Authorization` del resto de las peticiones, en lugar de repetir el login en cada paso.
 
-**4. Si el login no es exitoso, repórtalo.** No lo es cuando el status no es 2xx, y tampoco cuando es 2xx pero el cuerpo no trae el token. El reporte lleva evidencia, no interpretación: la ruta exacta a la que pegaste, el status y el cuerpo de la respuesta, con la contraseña redactada. El status ya dice dónde mirar, con la tabla de la sección "7.2 Observar desde fuera (antes de tocar el código)": un 401 son las credenciales, un 404 es la ruta, un 400 es el contrato del body, un 500 es una excepción del server.
+**4. Cuando el login no es exitoso, repórtalo.** No lo es cuando el status no es 2xx, y tampoco cuando es 2xx pero el cuerpo no trae el token. El reporte lleva evidencia, no interpretación: la ruta exacta a la que pegaste, el status y el cuerpo de la respuesta, con la contraseña redactada. El status ya dice dónde mirar, con la tabla de la sección "7.2 Observar desde fuera (antes de tocar el código)": un 401 son las credenciales, un 404 es la ruta, un 400 es el contrato del body, un 500 es una excepción del server.
 
-Después **para**. Está **prohibido** seguir el flujo sin token, inventarte uno, saltarte el guard o editar el código para que el endpoint deje de pedir autenticación. Lo que sigue depende de qué era el login en este encargo:
+Después **para**. Está **prohibido** seguir el flujo sin token, inventarte uno, saltarte el guard o editar el código para que el endpoint deje de pedir autenticación. Lo que sigue depende del modo y de si el login era el flujo bajo investigación o solo el trámite previo para llegar a él.
 
-- **Era el flujo que ibas a probar y estás en modo DEPURAR:** el fallo ya está reproducido. Sigue con la sección "7. Modo DEPURAR" desde su paso "7.2 Observar desde fuera (antes de tocar el código)" — esto *es* el bug, no un obstáculo.
-- **Cualquier otro caso:** aplica la sección "2. Ante ambigüedad, detente y pregunta — nunca asumas" y pregunta si reintentar con otras credenciales o parar aquí.
+Si el login era el flujo bajo investigación, el fallo ya está reproducido: continúa con la sección "7. Modo DEPURAR" — esto *es* el bug, no un obstáculo.
+
+Si no, no puedes saber si falló lo que se escribió o falló la app, y las dos salidas llevan a sitios distintos: aplica la sección "2. Ante ambigüedad, detente y pregunta — nunca asumas", y deja que el modo en que estés fije qué opciones entran en esa pregunta.
 
 ## 6. Modo AUTOMATIZAR
 
