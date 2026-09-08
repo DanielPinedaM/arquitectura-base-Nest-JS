@@ -66,7 +66,7 @@ El cliente eres tú desde la terminal, y la app bajo prueba es el backend corrie
 
 Antes de la primera petición de esta sesión hay que establecer dos cosas, y ninguna se adivina:
 
-1. **La ruta real del endpoint**, con prefijo global y versión incluidos. Nest los antepone a todas las rutas (`/api/v1/...`), así que la ruta que ves en el decorador del controller **no** es la ruta que se llama. Léelos de `src/shared/data-types/constants/api.const.ts` y de `configCore()` en `src/config/bootstrap/nest.bootstrap.ts`, y confírmalos con el listado de rutas que el backend imprime al arrancar (`src/config/bootstrap/routes-logger.bootstrap.ts`) o con Swagger. Una ruta inventada devuelve un 404 que parece un bug y no lo es.
+1. **La ruta real del endpoint**, con prefijo global y versión incluidos. Nest los antepone a todas las rutas, así que la ruta que ves en el decorador del controller **no** es la ruta que se llama. Ni el prefijo, ni la versión, ni los archivos donde se declaran se dan por sabidos: dedúcelos de la configuración con la que el proyecto arranca Nest, y confírmalos con el listado de rutas que el backend imprime al arrancar o con Swagger. Una ruta inventada devuelve un 404 que parece un bug y no lo es.
 
 2. **El contrato del endpoint**: método, forma del body, headers obligatorios. Sale del controller y del schema de Zod del recurso (`*.schema.ts`). Mandar un body que el schema rechaza produce un 400 que tampoco es el bug que buscas.
 
