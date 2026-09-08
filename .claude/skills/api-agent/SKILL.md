@@ -183,7 +183,7 @@ Las credenciales se piden por dos razones:
 - **No puedes inventarlas.** Usuario y contraseña son dos strings que el usuario digita a mano y que solo él conoce. Está **PROHIBIDO** inventarlos, y prohibido deducirlos del código, de un seed, de un archivo de entorno, de los tests, de la documentación o de la base de datos: un usuario que no existe devuelve el mismo 401 que una contraseña equivocada, y a partir de ahí todo lo que observes es un diagnóstico falso.
 - **Sin login no hay token.** El resto del flujo cuelga de él: sin token, cada endpoint protegido responde 401 y no llegas a probar nada de lo que te pidieron.
 
-**1. Pídelas con `AskUserQuestion`**, en una sola llamada con dos preguntas: una para el usuario y otra para la contraseña. El valor real llega por la opción abierta que `AskUserQuestion` añade siempre —ahí lo escribe el usuario—; las dos opciones fijas que la herramienta exige por pregunta no pueden ser credenciales adivinadas, así que usa las únicas que no inventan nada: **"La escribo yo"** y **"Cancelar — no ejecutar el flujo"**.
+**1. Pídelas con `AskUserQuestion`**, son dos preguntas: una para el usuario y otra para la contraseña. El valor real llega por la opción abierta que `AskUserQuestion` añade siempre —ahí lo escribe el usuario—; las dos opciones fijas que la herramienta exige por pregunta no pueden ser credenciales adivinadas, así que usa las únicas que no inventan nada: **"La escribo yo"** y **"Cancelar — no ejecutar el flujo"**.
 
 Usa los dos valores **tal cual los escribió**: sin recortar espacios, sin cambiar mayúsculas, sin completar dominios ni prefijos. Y no los propagues: la contraseña no va al reporte, ni a un `console.log`, ni a los archivos de `logs/`; cuando tengas que mencionarla, redáctala.
 
