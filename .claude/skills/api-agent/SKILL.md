@@ -87,7 +87,7 @@ El catálogo está **siempre** abierto, en todo momento y a tu elección: esta s
 ### La forma base de una petición
 
 ```bash
-curl -i -sS -X POST "http://localhost:<puerto>/api/v1/<recurso>" \
+curl -i -sS -X POST "http://localhost:<puerto><recurso>" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{"campo":"valor"}'
