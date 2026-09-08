@@ -59,7 +59,17 @@ Detente en ese punto exacto y usa `AskUserQuestion`:
 
 Ninguna otra sección de este documento te autoriza a rellenar vacíos, inventar comportamiento, deducir requisitos ni tomar decisiones de diseño que no estén especificadas explícitamente. Ante la duda, se pregunta.
 
-Los momentos en que preguntar ya está fijado por el procedimiento —el modo (sección "1. Elegir el modo — pregúntalo antes de ejecutar nada"), el entorno de ejecución y de build (sección "4. Detectar el entorno (nunca asumirlo)", paso 2), el usuario y la contraseña del login (sección "5. Login — pide usuario y contraseña, nunca los inventes", paso 1), las escrituras en la base de datos (sección "7.3 Aislar API, lógica de negocio, ORM y base de datos", capa 4), el diagnóstico antes de corregir (sección "7.7 PARAR y preguntar — nunca corregir por tu cuenta"), el fallo del linter (sección "8.3 Ejecutar el linter") y el fallo del build (sección "8.4 Ejecutar el build")— son casos particulares de esta regla, no la lista completa de cuándo aplicarla.
+Los momentos en que preguntar ya está fijado por el procedimiento son estos:
+
+1. **El modo** — sección "1. Elegir el modo — pregúntalo antes de ejecutar nada".
+2. **El entorno de ejecución y el entorno del build** — sección "4. Detectar el entorno (nunca asumirlo)", paso 2.
+3. **El usuario y la contraseña del login** — sección "5. Login — pide usuario y contraseña, nunca los inventes", paso 1.
+4. **Las escrituras en la base de datos** — sección "7.3 Aislar API, lógica de negocio, ORM y base de datos", capa 4.
+5. **El diagnóstico antes de corregir** — sección "7.7 PARAR y preguntar — nunca corregir por tu cuenta".
+6. **El fallo del linter** — sección "8.3 Ejecutar el linter".
+7. **El fallo del build** — sección "8.4 Ejecutar el build".
+
+Son casos particulares de esta regla, no la lista completa de cuándo aplicarla.
 
 ## 3. Mecánica de `curl`
 
