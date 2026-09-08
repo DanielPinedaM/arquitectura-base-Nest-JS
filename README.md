@@ -493,7 +493,7 @@ El skill `.claude\skills\git-commit\SKILL.md` te permite realizar commits.
 ***Ejemplos de prompt:***
 
 ```console
-hacer commit y push
+git commit y git push
 ```
 
 ## `nestjs-best-practices`
