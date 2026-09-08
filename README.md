@@ -499,6 +499,42 @@ hacer commit y push
 ## `nestjs-best-practices`
 Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadajett/agent-nestjs-skills/nestjs-best-practices). Contiene reglas para seguir buenas practicas de Nest.js.
 
+## 🌐 `api-agent`
+
+> [!CAUTION]
+> ⚠️ Advertencia
+>
+> Usar esta skill con ciudado, es muy buena, pero:
+> 1. Gasta muchos tokens
+>
+> 2. Si intentas solucionar un bug con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
+
+Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend: arrancarlo, hacerle peticiones HTTP a sus endpoints con `curl` y leer los logs del servidor sin hacerlo manualmente.
+
+**Casos de uso:**
+1. Pedir a Claude que haga testing de un endpoint y que si encuentra errores entonces los corrija.
+
+2. Automatizar procesos repetitivos dentro de la API. Ejemplo: Llamar muchas veces al mismo endpoint.
+
+La skill le explica a la IA como usar `curl` para automatizar un proceso o solucionar un bug, y tiene dos modos que son **DIFERENTES**:
+
+* **AUTOMATIZAR**: Ejecuta el flujo de punta a punta y reporta el estado final. **NO** modifica el código fuente ni diagnostica.
+
+* **DEPURAR**: Reproduce el fallo, lo diagnostica, y **PARA** a preguntarte antes de aplicar cualquier corrección.
+
+El modo lo eliges tú: la IA pregunta cual de los dos usar antes de ejecutar nada.
+
+**SIEMPRE** que necesites controlar el backend con la IA, llamar la skill `api-agent`. Usar este prompt:
+
+***Ejemplo de Prompt:***
+```txt
+/api-agent <<< Aqui describir de forma DETALLADA
+la funcionalidad a testear o el proceso a automatizar,
+para mejorar el resultado es bueno decirle a Claude
+rutas especificas de donde estan los archivos, controllers, services, endpoints, etc.
+que necesita para ejecutar el proceso >>>
+```
+
 # MCP
 
 # [🔗 Enlace - Repositorios de MCP](https://mcpservers.org/es/)
