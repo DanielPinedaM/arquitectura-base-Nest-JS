@@ -505,17 +505,18 @@ Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadaj
 > ⚠️ Advertencia
 >
 > Usar esta skill con ciudado, es muy buena, pero
-> Si intentas solucionar un bug con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
+> Si intentas automatizar un proceso o solucionar un bug existente con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
 
 Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend: arrancarlo, hacerle peticiones HTTP a sus endpoints con `curl` y leer los logs del servidor sin hacerlo manualmente.
 
 `api-agent` se puede usar para lo siguiente:
 
-| Pregunta ⬇️ / Modo ➡️                                                          | Modo AUTOMATIZAR                          | Modo DEPURAR                          |
+| Pregunta ⬇️ / Modo ➡️                                                          | Modo AUTOMATIZAR                          | Modo DEPURAR                                                   |
 |---------------------------------------------------------------------------------|-------------------------------------------|----------------------------------------------------------------|
 | Para qué sirve                                                                  | ejecutar o automatizar un flujo de la app | encontrar la causa de un bug o de un comportamiento incorrecto |
+| Ejemplo de uso                                                                  | Insert masivos a la base de datos         | El endpoint X no esta retornando Y, corrigelo                  |
 | Modifica código fuente                                                          | ❌ No                                     | ✅ Sí                                                         |
-| Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | **no**                                    | ✅ Sí                                                         |
+| Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | ❌ No                                     | ✅ Sí                                                         |
 | ¿Ejecuta ESLint?                                                                | ❌ No                                     | ✅ sí, pero solo si ESLint está configurado                   |
 | ¿Genera el build de la aplicacion?                                              | ❌ No                                     | ✅ Sí                                                         |
 
