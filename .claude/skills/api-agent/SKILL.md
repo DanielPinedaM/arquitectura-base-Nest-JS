@@ -123,7 +123,7 @@ curl -i -sS -X POST "http://localhost:<puerto><recurso>" \
 
 **ORM y base de datos** — esta skill no asume ninguno. Deduce cuál usa el proyecto de las dependencias del `package.json` y del módulo de base de datos; las entidades o modelos y las consultas se leen desde ahí. Nada de este documento depende de que el ORM sea TypeORM, Prisma, Drizzle, Sequelize o Mongoose, ni de que el motor sea PostgreSQL, MySQL, SQLite, SQL Server o MongoDB: lo que cambia entre ellos es el nombre del comando, no el procedimiento.
 
-**Puerto del backend** — no lo adivines. Sale de la variable de entorno `PORT` del archivo de entorno que carga el script elegido, y `main.ts` lo imprime al arrancar. Tanto la ruta de ese archivo como el nombre del entorno se deducen de lo que el script ejecuta en el `package.json`, no se asumen. Default habitual de Nest: 3000. Confirma el puerto real en la salida del proceso antes de la primera petición: pegarle a un puerto equivocado produce un diagnóstico falso, o peor, le pegas a otro servicio que sí responde.
+**Puerto del backend** — no lo adivines. Sale de la variable de entorno `PORT` del archivo de entorno que carga el script elegido, y `main.ts` lo imprime al arrancar. Tanto la ruta de ese archivo como el nombre del entorno se deducen de lo que el script ejecuta en el `package.json`, no se asumen. Confirma el puerto real en la salida del proceso antes de la primera petición: pegarle a un puerto equivocado produce un diagnóstico falso, o peor, le pegas a otro servicio que sí responde.
 
 ### Arrancar el backend — lo arrancas tú, el entorno lo elige el usuario
 
