@@ -502,7 +502,7 @@ Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadaj
 ## 🌐 `api-agent`
 
 > [!CAUTION]
-> ⚠️ Advertencia
+> # ⚠️ Advertencia
 >
 > Usar esta skill con ciudado, es muy buena, pero
 >
@@ -515,6 +515,7 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 | Pregunta ⬇️ / Modo ➡️                                                          | Modo AUTOMATIZAR                          | Modo DEPURAR                                                   |
 |---------------------------------------------------------------------------------|-------------------------------------------|----------------------------------------------------------------|
 | Para qué sirve                                                                  | ejecutar o automatizar un flujo de la app | encontrar la causa de un bug o de un comportamiento incorrecto |
+| ¿Escribe codigo de testing en Jest, Vitest, etc?                                | ❌ No                                     | ❌ No                                                         |
 | Ejemplo de uso                                                                  | Insert masivos a la base de datos         | El endpoint X no esta retornando Y, corrigelo                  |
 | Modifica código fuente                                                          | ❌ No                                     | ✅ Sí                                                         |
 | Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | ❌ No                                     | ✅ Sí                                                         |
