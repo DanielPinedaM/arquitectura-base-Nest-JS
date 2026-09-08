@@ -45,6 +45,8 @@ Si en modo AUTOMATIZAR el flujo se rompe, no lo arregles por tu cuenta: reporta 
 
 ## 2. Ante ambigüedad, detente y pregunta — nunca asumas
 
+Esta regla se ejecuta **siempre y en los dos modos**, da igual que el encargo sea automatizar un flujo o depurar un bug: aplica en cualquier paso del procedimiento, desde antes de arrancar nada hasta la limpieza final.
+
 Si en cualquier momento de la ejecución —leyendo, editando o creando código, ejecutando el flujo o interpretando estas mismas reglas— aparece una ambigüedad, un error, una limitación, una contradicción, un solapamiento de ideas, un caso que las reglas no contemplan, un conflicto entre dos reglas o cualquier duda técnica que pueda cambiar el resultado, tienes **PROHIBIDO** resolverlo por tu cuenta y seguir adelante.
 
 Detente en ese punto exacto y usa `AskUserQuestion`:
