@@ -25,7 +25,7 @@ Hay exactamente dos modos y se comportan distinto:
 Los dos casos en que el modo DEPURAR escribe en el código fuente:
 
 1. **Instrumentación temporal** — `console.log` marcados con `// DBG-<id>`, y `throw` para forzar un `catch` cuando el fallo no se puede inducir desde la petición. No cambia el comportamiento de la app, se aplica sin preguntar y **se borra en la misma respuesta** (sección "7.2 Borrar la instrumentación").
-2. **La corrección del bug** — solo la opción que el usuario autorizó al responder el `AskUserQuestion` de la sección "6.6 PARAR y preguntar — nunca corregir por tu cuenta". Permanece en el repo.
+2. **La corrección del bug** — solo la opción que el usuario autorizó al responder el `AskUserQuestion` de la sección "6.7 PARAR y preguntar — nunca corregir por tu cuenta". Permanece en el repo.
 
 Cualquier otra edición está prohibida, incluidos los bugs que encuentres de paso mientras depuras: repórtalos y sigue con el autorizado.
 
@@ -58,7 +58,7 @@ Detente en ese punto exacto y usa `AskUserQuestion`:
 
 Ninguna otra sección de este documento te autoriza a rellenar vacíos, inventar comportamiento, deducir requisitos ni tomar decisiones de diseño que no estén especificadas explícitamente. Ante la duda, se pregunta.
 
-Los momentos en que preguntar ya está fijado por el procedimiento —el modo (sección "1. Elegir el modo — pregúntalo antes de ejecutar nada"), el entorno de ejecución y de build (sección "4. Detectar el entorno (nunca asumirlo)", paso 2), el acceso directo a la base de datos (sección "6.3 Aislar API, lógica de negocio, ORM y base de datos", capa 4), el diagnóstico antes de corregir (sección "6.6 PARAR y preguntar — nunca corregir por tu cuenta") y el fallo del build (sección "7.4 Ejecutar el build")— son casos particulares de esta regla, no la lista completa de cuándo aplicarla.
+Los momentos en que preguntar ya está fijado por el procedimiento —el modo (sección "1. Elegir el modo — pregúntalo antes de ejecutar nada"), el entorno de ejecución y de build (sección "4. Detectar el entorno (nunca asumirlo)", paso 2), el acceso directo a la base de datos (sección "6.3 Aislar API, lógica de negocio, ORM y base de datos", capa 4), el diagnóstico antes de corregir (sección "6.7 PARAR y preguntar — nunca corregir por tu cuenta") y el fallo del build (sección "7.4 Ejecutar el build")— son casos particulares de esta regla, no la lista completa de cuándo aplicarla.
 
 ## 3. Mecánica de `curl`
 
@@ -218,7 +218,7 @@ Una petición atraviesa cuatro capas y el bug vive en exactamente una. Aíslalo 
 | **ORM** | repositorio, query builder, relaciones y mapeo entidad↔tabla | ¿la consulta emitida es la que esperabas? |
 | **Base de datos** | los datos y el esquema reales | ¿el dato existe y vale lo que crees? |
 
-**1. API.** ¿Entró al handler? Un log de Nivel 1 (sección "6.4 Instrumentar con console.log temporal") en la primera línea del método del controller lo responde en una pasada. Si ese log no aparece, el fallo es de la capa API y ni el service, ni el ORM, ni la base tienen nada que ver: la ruta no coincide, un guard cortó antes, o el pipe de validación rechazó el body. El status de la sección 6.2 ya te dice cuál de los tres.
+**1. API.** ¿Entró al handler? Un log de Nivel 1 (sección "6.5 Instrumentar con console.log temporal") en la primera línea del método del controller lo responde en una pasada. Si ese log no aparece, el fallo es de la capa API y ni el service, ni el ORM, ni la base tienen nada que ver: la ruta no coincide, un guard cortó antes, o el pipe de validación rechazó el body. El status de la sección 6.2 ya te dice cuál de los tres.
 
 Prueba los tres casos cuando apliquen: caso feliz, datos inválidos (400/422), y sin token de auth (401/403). Un endpoint que responde igual en los tres no tiene validación o no tiene guard, y eso ya es el hallazgo.
 
@@ -235,7 +235,18 @@ Consultar la base de datos directamente —cliente SQL, `psql`, el shell del mot
 
 La capa en la que el valor deja de coincidir con lo esperado es donde está el bug. Deja de instrumentar las otras tres.
 
-### 6.4 Instrumentar con console.log temporal
+### 6.4 Inspeccionar `node_modules` (opcional)
+
+**Este paso es opcional: no hay ninguna obligación de ejecutarlo.** Solo aporta cuando el bug apunta a una librería o dependencia; si el fallo está en el código del proyecto, sáltalo y sigue con el paso siguiente.
+
+Se lee `node_modules` para dos cosas:
+
+- **Buscar los tipos de datos de la librería o dependencia relacionada con el bug**: la firma real de la función, la forma del objeto que devuelve, qué campos son opcionales. Los tipos que hay ahí son los de la versión instalada, que es la que el proyecto está usando de verdad.
+- **Entender el funcionamiento de la librería o dependencia**: leer su implementación cuando lo que hace no coincide con lo que esperabas.
+
+**Puedes leer `node_modules`, pero NO lo modifiques.** Es código de terceros que instala el gestor de paquetes: un cambio ahí no queda en el repo, no lo ve el resto del equipo y lo pisa el gestor en cuanto vuelva a resolver las dependencias. Si el diagnóstico apunta a una librería, eso se lleva a la pregunta de la sección "6.7 PARAR y preguntar — nunca corregir por tu cuenta".
+
+### 6.5 Instrumentar con console.log temporal
 
 **Formato obligatorio**, con marcador de limpieza al final:
 
@@ -290,7 +301,7 @@ Después de cada tanda de instrumentación: repite la petición con `curl` y lee
 
 **Espera a que recompile.** Los scripts de arranque corren en modo watch: al guardar un archivo el proceso recompila, y hasta que su salida no lo confirme sigues pegándole al build anterior — leerías logs que todavía no existen y concluirías que tu instrumentación "no se ejecuta".
 
-### 6.5 Forzar la rama de error
+### 6.6 Forzar la rama de error
 
 Para probar el `catch` y no solo el `try`, **prefiere forzar el fallo desde la propia petición**, sin tocar el código. La mayoría de las ramas de error de un backend se alcanzan con un `curl` bien elegido:
 
@@ -308,7 +319,7 @@ Todo eso es reversible, no deja residuos en el repo y ejercita el `catch` real.
 
 Modifica el código para forzar un `throw` **solo** cuando el fallo no se pueda inducir desde la petición —el caso típico es la caída de una dependencia externa: la base de datos, un servicio de terceros— y solo en el `catch` del flujo bajo investigación. No recorras el proyecto forzando todos los `catch`. Ese `throw` temporal se marca y se borra igual que un log: `// DBG-<id>`.
 
-### 6.6 PARAR y preguntar — nunca corregir por tu cuenta
+### 6.7 PARAR y preguntar — nunca corregir por tu cuenta
 
 Cuando tengas el diagnóstico, **detente**. No apliques la corrección.
 
@@ -320,7 +331,7 @@ Usa `AskUserQuestion` con:
 
 Un diagnóstico sin evidencia no es un diagnóstico. Si no puedes señalar el log o la respuesta HTTP que lo prueba, sigue depurando en lugar de preguntar.
 
-### 6.7 Corregir y verificar
+### 6.8 Corregir y verificar
 
 Aplica solo la opción elegida. Después, vuelve a ejecutar el flujo completo con `curl`: status esperado, cuerpo esperado, y la salida del server sin la excepción. Si la corrección afecta a una escritura, verifica también el efecto volviendo a leer el recurso con su endpoint de lectura. Repite hasta que pase. Un "ya debería funcionar" sin ejecución no cuenta como verificación.
 
@@ -414,7 +425,7 @@ pnpm run <script-de-build>
 
 Recorre su salida con la tabla del paso anterior. Los scripts de arranque corren en watch y recompilan de forma incremental solo lo que cambió; el build compila el proyecto entero con `tsconfig.build.json`, así que hay errores de tipos, de imports o de archivos que ni tocaste que solo aparecen aquí.
 
-Si el build falla, aplica la sección "6.6 PARAR y preguntar — nunca corregir por tu cuenta" tal cual está escrita ahí. Lo único que este paso añade es qué llevar a esa pregunta, porque la salida del build mezcla dos tipos de error:
+Si el build falla, aplica la sección "6.7 PARAR y preguntar — nunca corregir por tu cuenta" tal cual está escrita ahí. Lo único que este paso añade es qué llevar a esa pregunta, porque la salida del build mezcla dos tipos de error:
 
 1. Los que **NO** están relacionados con el bug buscado por el usuario.
 2. Los que **SÍ** están relacionados con el bug buscado por el usuario.
@@ -428,7 +439,7 @@ Los errores del tipo 1 son trabajo fuera de la corrección autorizada: no los to
 ## 8. Límites
 
 - **Prohibido hacer operaciones CRUD a la base de datos sin previa autorización del usuario.** Crear, leer, actualizar o borrar registros accediendo directamente a la base —cliente SQL, `psql`, el shell del motor, la consola del ORM, un script de seed— requiere que el usuario lo autorice antes, caso por caso: pregunta con `AskUserQuestion` diciendo qué operación harías y sobre qué tabla. Las peticiones HTTP del flujo que el usuario pidió ejecutar o depurar son el encargo y no necesitan una autorización aparte; cualquier escritura fuera de ese flujo, sí.
-- **No modifiques la base de datos —esquemas ni relaciones— sin previa autorización del usuario.** Cambiar una entidad, un modelo, una columna, un índice o una relación es cambiar la base de datos aunque solo edites un archivo del ORM, y con la sincronización automática del ORM activada el cambio se aplica solo en el siguiente arranque, sin migración de por medio. Aunque el diagnóstico apunte ahí, la corrección se propone en la pregunta de la sección "6.6 PARAR y preguntar — nunca corregir por tu cuenta" y se aplica solo si el usuario la elige.
+- **No modifiques la base de datos —esquemas ni relaciones— sin previa autorización del usuario.** Cambiar una entidad, un modelo, una columna, un índice o una relación es cambiar la base de datos aunque solo edites un archivo del ORM, y con la sincronización automática del ORM activada el cambio se aplica solo en el siguiente arranque, sin migración de por medio. Aunque el diagnóstico apunte ahí, la corrección se propone en la pregunta de la sección "6.7 PARAR y preguntar — nunca corregir por tu cuenta" y se aplica solo si el usuario la elige.
 - **No ejecutes migraciones sin previa autorización del usuario.** Ni generarlas, ni aplicarlas, ni revertirlas, sea cual sea el comando del ORM del proyecto. Una migración aplicada cambia la base de datos, y algunas no se pueden deshacer.
 - No escribas tests de Jest ni de Supertest. Si el usuario quiere cobertura permanente, dilo y pregunta; no lo hagas por iniciativa propia.
 - No refactorices, renombres ni "mejores" código que no forma parte de la corrección autorizada.
