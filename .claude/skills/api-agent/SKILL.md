@@ -326,7 +326,7 @@ Modifica el código para forzar un `throw` **solo** cuando el fallo no se pueda 
 Cuando tengas el diagnóstico, **detente**. No apliques la corrección.
 
 Usa `AskUserQuestion` con:
-- Una explicación breve del bug: archivo, línea, causa raíz, y la evidencia que lo demuestra (el log de la instrumentación, el status HTTP, el stack trace del server, el criterio que recibió el ORM).
+- Una explicación del bug: archivo, línea, causa raíz, y la evidencia que lo demuestra (el log de la instrumentación, el status HTTP, el stack trace del server, el criterio que recibió el ORM).
 - **Mínimo 2 opciones de solución**, cada una con su consecuencia real (alcance del cambio, qué más podría romper).
 - Una marcada explícitamente como **recomendada**, con el motivo.
 - Una opción final del tipo "Otra — la describo yo" para que el usuario proponga su propio enfoque.
