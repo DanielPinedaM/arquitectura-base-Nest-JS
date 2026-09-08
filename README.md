@@ -522,6 +522,13 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 | ¿Ejecuta ESLint?                                                                | ❌ No                                     | ✅ sí, pero solo si ESLint está configurado                   |
 | ¿Genera el build de la aplicacion?                                              | ❌ No                                     | ✅ Sí                                                         |
 
+**SIEMPRE** que necesites controlar el backend con la IA:
+1. Detener la ejecucion del proyecto
+
+2. Usar este prompt para llamar la skill `api-agent`:
+
+***Ejemplo de Prompt:***
+
 ***Ejemplo de Prompt:***
 ```txt
 /api-agent <<< Aqui describir de forma MUY DETALLADA
