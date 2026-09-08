@@ -398,10 +398,18 @@ Diagnostica desde el archivo y la línea que da la propia salida, no adivinando.
 
 ### 7.4 Ejecutar el build
 
-El último control: con la instrumentación borrada y el linter ya resuelto según el paso anterior, comprueba que el proyecto compila. **Lee los scripts del `package.json`** igual que en el paso anterior: en este proyecto es `build` a secas, y si en otro hubiera varios (`build:test`, `build:prod`), usa el de test o desarrollo, nunca el de producción: detecta los mismos errores de compilación y tarda bastante menos.
+El último control: con la instrumentación borrada y el linter ya resuelto según el paso anterior, comprueba que el proyecto compila. El script de build es el del entorno que el usuario ya eligió en el paso 2 de la sección "4. Detectar el entorno (nunca asumirlo)": aquí no se vuelve a preguntar ni se elige otro.
+
+Son tres pasos y van en este orden:
+
+**1. Busca la carpeta del build que le corresponde a este framework** — la que contiene los archivos compilados. Cada framework escribe en la suya y con su propio nombre, así que dedúcela: identifica qué framework usa el proyecto por las dependencias del `package.json`, y saca la ruta de su fichero de configuración o de la que el propio build imprime al terminar. Ni el framework ni la carpeta se dan por sabidos. **Nunca borres una carpeta que no hayas confirmado que es la del build de ese framework.**
+
+**2. Solo cuando esa carpeta exista, bórrala.** Si no existe, no hay nada que borrar: pasa directo al paso 3 sin crear ni tocar nada.
+
+**3. Ahora sí, ejecuta el build:**
 
 ```bash
-pnpm run build
+pnpm run <script-de-build>
 ```
 
 Recorre su salida con la tabla del paso anterior. Los scripts de arranque corren en watch y recompilan de forma incremental solo lo que cambió; el build compila el proyecto entero con `tsconfig.build.json`, así que hay errores de tipos, de imports o de archivos que ni tocaste que solo aparecen aquí.
