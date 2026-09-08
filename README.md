@@ -504,31 +504,24 @@ Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadaj
 > [!CAUTION]
 > ⚠️ Advertencia
 >
-> Usar esta skill con ciudado, es muy buena, pero:
-> 1. Gasta muchos tokens
->
-> 2. Si intentas solucionar un bug con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
+> Usar esta skill con ciudado, es muy buena, pero
+> Si intentas solucionar un bug con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
 
 Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend: arrancarlo, hacerle peticiones HTTP a sus endpoints con `curl` y leer los logs del servidor sin hacerlo manualmente.
 
-**Casos de uso:**
-1. Pedir a Claude que haga testing de un endpoint y que si encuentra errores entonces los corrija.
+`api-agent` se puede usar para lo siguiente:
 
-2. Automatizar procesos repetitivos dentro de la API. Ejemplo: Llamar muchas veces al mismo endpoint.
-
-La skill le explica a la IA como usar `curl` para automatizar un proceso o solucionar un bug, y tiene dos modos que son **DIFERENTES**:
-
-* **AUTOMATIZAR**: Ejecuta el flujo de punta a punta y reporta el estado final. **NO** modifica el código fuente ni diagnostica.
-
-* **DEPURAR**: Reproduce el fallo, lo diagnostica, y **PARA** a preguntarte antes de aplicar cualquier corrección.
-
-El modo lo eliges tú: la IA pregunta cual de los dos usar antes de ejecutar nada.
-
-**SIEMPRE** que necesites controlar el backend con la IA, llamar la skill `api-agent`. Usar este prompt:
+| Pregunta ⬇️ / Modo ➡️                                                          | Modo AUTOMATIZAR                          | Modo DEPURAR                          |
+|---------------------------------------------------------------------------------|-------------------------------------------|----------------------------------------------------------------|
+| Para qué sirve                                                                  | ejecutar o automatizar un flujo de la app | encontrar la causa de un bug o de un comportamiento incorrecto |
+| Modifica código fuente                                                          | ❌ No                                     | ✅ Sí                                                         |
+| Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | **no**                                    | ✅ Sí                                                         |
+| ¿Ejecuta ESLint?                                                                | ❌ No                                     | ✅ sí, pero solo si ESLint está configurado                   |
+| ¿Genera el build de la aplicacion?                                              | ❌ No                                     | ✅ Sí                                                         |
 
 ***Ejemplo de Prompt:***
 ```txt
-/api-agent <<< Aqui describir de forma DETALLADA
+/api-agent <<< Aqui describir de forma MUY DETALLADA
 la funcionalidad a testear o el proceso a automatizar,
 para mejorar el resultado es bueno decirle a Claude
 rutas especificas de donde estan los archivos, controllers, services, endpoints, etc.
