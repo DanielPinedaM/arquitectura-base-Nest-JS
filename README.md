@@ -505,6 +505,7 @@ Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadaj
 > ⚠️ Advertencia
 >
 > Usar esta skill con ciudado, es muy buena, pero
+>
 > Si intentas automatizar un proceso o solucionar un bug existente con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
 
 Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend: arrancarlo, hacerle peticiones HTTP a sus endpoints con `curl` y leer los logs del servidor sin hacerlo manualmente.
