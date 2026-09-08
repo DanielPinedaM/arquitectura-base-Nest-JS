@@ -528,8 +528,6 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 2. Usar este prompt para llamar la skill `api-agent`:
 
 ***Ejemplo de Prompt:***
-
-***Ejemplo de Prompt:***
 ```txt
 /api-agent <<< Aqui describir de forma MUY DETALLADA
 la funcionalidad a testear o el proceso a automatizar,
