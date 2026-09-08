@@ -18,7 +18,9 @@ Hay exactamente dos modos y se comportan distinto:
 | Para qué sirve | ejecutar o automatizar un flujo de la app | encontrar la causa de un bug o de un comportamiento incorrecto |
 | Modifica código fuente | **no** | sí, en dos casos |
 | Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | **no** | sí |
-| Pregunta antes de terminar | **no**, ejecuta y reporta | sí, obligatorio antes de corregir |
+| ¿Ejecuta ESLint? | **no** | sí, pero solo si ESLint está configurado |
+| ¿Genera el build de la aplicación? | **no** | sí |
+| ¿Le hace peticiones HTTP a la API con `curl`? | sí | sí |
 
 Los dos casos en que el modo DEPURAR escribe en el código fuente:
 
