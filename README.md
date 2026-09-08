@@ -521,6 +521,7 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 | Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | ❌ No                                     | ✅ Sí                                                         |
 | ¿Ejecuta ESLint?                                                                | ❌ No                                     | ✅ sí, pero solo si ESLint está configurado                   |
 | ¿Genera el build de la aplicacion?                                              | ❌ No                                     | ✅ Sí                                                         |
+| ¿Pide usuario y contraseña y hace login?                                        | ✅ Sí                                     | ✅ Sí                                                         |
 
 **SIEMPRE** que necesites controlar el backend con la IA:
 1. Detener la ejecucion del proyecto
