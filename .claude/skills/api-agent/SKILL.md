@@ -239,7 +239,7 @@ La capa en la que el valor deja de coincidir con lo esperado es donde está el b
 
 **Este paso es opcional: no hay ninguna obligación de ejecutarlo.** Solo aporta cuando el bug apunta a una librería o dependencia; si el fallo está en el código del proyecto, sáltalo y sigue con el paso siguiente.
 
-Se lee `node_modules` para dos cosas:
+Las razones por las que se lee `node_modules` son:
 
 - **Buscar los tipos de datos de la librería o dependencia relacionada con el bug**: la firma real de la función, la forma del objeto que devuelve, qué campos son opcionales. Los tipos que hay ahí son los de la versión instalada, que es la que el proyecto está usando de verdad.
 - **Entender el funcionamiento de la librería o dependencia**: leer su implementación cuando lo que hace no coincide con lo que esperabas.
