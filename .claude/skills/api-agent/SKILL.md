@@ -239,7 +239,7 @@ curl -v -sS ...                                                    # headers env
 ```
 
 - **La respuesta HTTP** dice *qué* devolvió la API. Empieza siempre por el status: ya clasifica el fallo y te dice dónde mirar.
-- **La salida del proceso en background** dice *por qué*. El `GlobalExceptionFilter` loguea la excepción con su stack trace real, que **no** viaja en la respuesta porque sale saneada. Un 500 cuyo cuerpo no dice nada casi siempre tiene el motivo completo en esa salida.
+- **La salida del proceso en background** dice *por qué*. Un 500 cuyo cuerpo no dice nada casi siempre tiene el motivo completo en esa salida.
 - **Los archivos de log** (`logs/<entorno>/<fecha>.log`) guardan lo mismo de forma persistente: útiles cuando la salida del proceso ya se perdió o es demasiado larga.
 
 | Status | Dónde mirar primero |
