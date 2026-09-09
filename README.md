@@ -548,19 +548,19 @@ Normaliza el esquema de base de datos aplicando las formas normales en orden, si
 
 Primero pregunta hasta qué forma normal normalizar. Como el orden es progresivo, elegir `3NF` ejecuta `UNF` → `1NF` → `2NF` → `3NF`, y las formas normales posteriores ni se ejecutan ni se leen.
 
-| Rango | Formas normales | Cuándo usarlo |
-|---|---|---|
-| Básico | `1NF`, `2NF`, `3NF` | 3NF es lo que la industria considera "normalizado". Elimina la mayoría de anomalías |
-| Claves solapadas | `EKNF`, `BCNF` | Varias claves candidatas que se solapan |
-| Dependencias complejas | `4NF`, `ETNF`, `5NF` | Dependencias multivaluadas y de join |
-| Académico | `DKNF`, `6NF` | 6NF explota el número de tablas, **no** usar en OLTP |
+| Rango                  | Formas normales      | Cuándo usarlo                                                                       |
+| ---------------------- | -------------------- | ----------------------------------------------------------------------------------- |
+| Básico                 | `1NF`, `2NF`, `3NF`  | 3NF es lo que la industria considera "normalizado". Elimina la mayoría de anomalías |
+| Claves solapadas       | `EKNF`, `BCNF`       | Varias claves candidatas que se solapan                                             |
+| Dependencias complejas | `4NF`, `ETNF`, `5NF` | Dependencias multivaluadas y de join                                                |
+| Académico              | `DKNF`, `6NF`        | 6NF explota el número de tablas, **no** usar en OLTP                                |
 
 Estructura de la skill:
 
-| Ruta | Qué contiene |
-|---|---|
-| `.claude\skills\database-normalization\rules\theory.md` | Teoría general. Se lee **siempre** |
-| `.claude\skills\database-normalization\rules\<SIGLA>.md` | Teoría de cada forma normal. Solo se lee, nunca se modifica |
+| Ruta                                                      | Qué contiene                                                                                                                                          |
+|-----------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `.claude\skills\database-normalization\rules\theory.md`   | Teoría general. Se lee **siempre**                                                                                                                    |
+| `.claude\skills\database-normalization\rules\<SIGLA>.md`  | Teoría de cada forma normal. Solo se lee, nunca se modifica                                                                                           |
 | `.claude\skills\database-normalization\result\<SIGLA>.md` | El modelo relacional del proyecto en el paso de la forma normal seleccionada, con sus primary key y foreign key. Lo genera la skill en cada ejecución |
 
 Después de documentar cada paso, aplica la forma normal elegida al schema del ORM y deja el código que lo consume coherente con el nuevo esquema. Si el proyecto usa migrations, la genera pero **no la ejecuta** sin que lo autorices.
