@@ -544,6 +544,8 @@ que necesita para ejecutar el proceso >>>
 >
 > Esta skill modifica el esquema de base de datos y puede introducir bugs
 
+La informacion de la skill es copiada de [Wikipedia](https://en.wikipedia.org/wiki/Database_normalization)
+
 Normaliza el esquema de base de datos aplicando las formas normales en orden, sin saltar pasos, hasta el nivel que elijas. Es agnóstica al ORM y al motor de base de datos
 
 Primero pregunta hasta qué forma normal normalizar. Como el orden es progresivo, elegir `3NF` ejecuta `UNF` → `1NF` → `2NF` → `3NF`, y las formas normales posteriores ni se ejecutan ni se leen.
