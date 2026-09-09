@@ -342,7 +342,6 @@ Instrumenta el **camino sospechoso**, no el archivo entero. Un log de más entie
 **Nunca:**
 - En un middleware, guard o interceptor **global**: corre en *cada* petición del backend, incluidas las que no tienen nada que ver con el bug, y entierra la señal.
 - En un método que dispara un scheduler o un cron, ni en un health check, sin filtro: se ejecutan solos y llenan la salida mientras la lees.
-- Loguear tokens, contraseñas, hashes o cualquier secreto del payload: estos logs se escriben a disco en `logs/`. Loguea el dato redactado, o solo su longitud.
 
 Después de cada tanda de instrumentación: repite la petición con `curl` y lee la salida del proceso en background. Ajusta y repite. Es un ciclo, no un volcado único.
 
