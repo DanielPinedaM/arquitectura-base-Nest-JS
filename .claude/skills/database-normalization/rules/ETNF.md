@@ -2,11 +2,7 @@
 
 ## Definición
 
-La forma normal de tupla esencial (ETNF) es una forma normal usada en la normalización de bases de datos. Se sitúa estrictamente entre la cuarta forma normal (4NF) y la quinta forma normal (5NF). Según el artículo original, ETNF, aunque estrictamente más débil que 5NF, es exactamente igual de efectiva que 5NF para eliminar la redundancia de tuplas.
-
-## Historia
-
-Hugh Darwen, C. J. Date y Ronald Fagin introdujeron ETNF en su artículo de marzo de 2012.
+La forma normal de tupla esencial (ETNF) es una forma normal usada en la normalización de bases de datos. Se sitúa estrictamente entre la cuarta forma normal (4NF) y la quinta forma normal (5NF). ETNF, aunque estrictamente más débil que 5NF, es exactamente igual de efectiva que 5NF para eliminar la redundancia de tuplas.
 
 ## Definición formal
 

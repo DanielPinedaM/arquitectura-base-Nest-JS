@@ -2,11 +2,11 @@
 
 ## Definición
 
-La segunda forma normal (2NF) es un nivel de normalización de bases de datos definido por el científico de la computación inglés Edgar F. Codd. Una relación (o una tabla, en SQL) está en 2NF si está en primera forma normal (1NF) y no contiene dependencias parciales. Una dependencia parcial ocurre cuando un atributo no primo (es decir, uno que no forma parte de ninguna clave candidata) depende funcionalmente solo de un subconjunto propio de los atributos que componen una clave candidata. Para estar en 2NF, una relación debe tener todo atributo no primo dependiendo del conjunto completo de atributos de cada clave candidata.
+La segunda forma normal (2NF) es un nivel de normalización de bases de datos. Una relación (o una tabla, en SQL) está en 2NF si está en primera forma normal (1NF) y no contiene dependencias parciales. Una dependencia parcial ocurre cuando un atributo no primo (es decir, uno que no forma parte de ninguna clave candidata) depende funcionalmente solo de un subconjunto propio de los atributos que componen una clave candidata. Para estar en 2NF, una relación debe tener todo atributo no primo dependiendo del conjunto completo de atributos de cada clave candidata.
 
 Por ejemplo, una relación con la clave compuesta `{Country, District}` violaría 2NF si se le agregara cualquier atributo cuyo significado no dependiera tanto de `Country` como de `District`. Un atributo `CountryLeader` variaría entre países y aportaría información específica de cada `Country` pero no específica de cada `District`, y por lo tanto dependería solo de la mitad de la clave compuesta. Esto tendría varios inconvenientes, entre ellos que cada líder quedaría duplicado de forma redundante por cada `District` de su `Country`.
 
-El propósito de normalizar a 2NF es reducir esa redundancia y hacer la estructura de la base de datos, en general, más clara y flexible, organizándola por dependencias funcionales. 2NF y la tercera forma normal (3NF) se definieron ambas en el artículo de Codd "Further Normalization of the Data Base Relational Model" en 1971, un año después de que Codd definiera 1NF en "A Relational Model of Data for Large Shared Data Banks" en 1970. Todas las formas normales forman parte del modelo relacional de diseño de bases de datos de Codd.
+El propósito de normalizar a 2NF es reducir esa redundancia y hacer la estructura de la base de datos, en general, más clara y flexible, organizándola por dependencias funcionales. Todas las formas normales forman parte del modelo relacional de diseño de bases de datos.
 
 ## Ejemplo
 

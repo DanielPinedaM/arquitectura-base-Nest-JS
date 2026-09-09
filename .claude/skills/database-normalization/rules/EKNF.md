@@ -4,10 +4,6 @@
 
 La forma normal de clave elemental (EKNF) es una mejora sutil sobre la tercera forma normal, de modo que las tablas en EKNF están en 3NF por definición. Esto ocurre cuando hay más de una clave compuesta única y esas claves se solapan. Tales casos pueden causar información redundante en la columna o columnas solapadas.
 
-## Historia
-
-EKNF fue definida por Carlo Zaniolo en 1982.
-
 ## Definición formal
 
 Una tabla está en EKNF si y solo si todas sus dependencias funcionales elementales empiezan en claves completas o terminan en atributos de clave elemental. Para toda dependencia funcional completa y no trivial de la forma X → Y, o bien X es una clave, o bien Y es (parte de) una clave elemental.

@@ -2,7 +2,7 @@
 
 ## Definición
 
-La cuarta forma normal (4NF) es una forma normal usada en la normalización de bases de datos. Introducida por Ronald Fagin en 1977, 4NF es el siguiente nivel de normalización después de la forma normal de Boyce–Codd (BCNF). Mientras que la segunda, la tercera y la forma normal de Boyce–Codd se ocupan de las dependencias funcionales, 4NF se ocupa de un tipo más general de dependencia conocido como dependencia multivaluada. Una tabla está en 4NF si y solo si, para cada una de sus dependencias multivaluadas no triviales X ↠ Y, X es una superclave, es decir, X es una clave candidata o un superconjunto de ella.
+La cuarta forma normal (4NF) es una forma normal usada en la normalización de bases de datos. Es el siguiente nivel de normalización después de la forma normal de Boyce–Codd (BCNF). Mientras que la segunda, la tercera y la forma normal de Boyce–Codd se ocupan de las dependencias funcionales, 4NF se ocupa de un tipo más general de dependencia conocido como dependencia multivaluada. Una tabla está en 4NF si y solo si, para cada una de sus dependencias multivaluadas no triviales X ↠ Y, X es una superclave, es decir, X es una clave candidata o un superconjunto de ella.
 
 ## Dependencias multivaluadas
 
@@ -68,11 +68,11 @@ Para eliminar la posibilidad de estas anomalías, hay que poner los hechos sobre
 
 En contraste, si las variedades de pizza que ofrece un restaurante sí variaran legítimamente de un área de entrega a otra, la tabla original de tres columnas satisfaría 4NF.
 
-Ronald Fagin demostró que siempre es posible alcanzar 4NF. El teorema de Rissanen también es aplicable a las dependencias multivaluadas.
+Siempre es posible alcanzar 4NF.
 
 ## 4NF en la práctica
 
-Un artículo de 1992 de Margaret S. Wu señala que la enseñanza de la normalización de bases de datos típicamente se detiene antes de 4NF, quizá por la creencia de que las tablas que violan 4NF (pero cumplen todas las formas normales inferiores) rara vez se encuentran en aplicaciones de negocio. Esa creencia puede no ser exacta: Wu reporta que, en un estudio de cuarenta bases de datos organizacionales, más del 20 % contenía una o más tablas que violaban 4NF cumpliendo todas las formas normales inferiores.
+La enseñanza de la normalización de bases de datos típicamente se detiene antes de 4NF, quizá por la creencia de que las tablas que violan 4NF (pero cumplen todas las formas normales inferiores) rara vez se encuentran en aplicaciones de negocio. Esa creencia puede no ser exacta: en un estudio de cuarenta bases de datos organizacionales, más del 20 % contenía una o más tablas que violaban 4NF cumpliendo todas las formas normales inferiores.
 
 ## Normalización más allá de 4NF
 

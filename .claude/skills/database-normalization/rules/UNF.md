@@ -6,10 +6,6 @@ En la normalización de bases de datos, la forma no normalizada (UNF o 0NF), tam
 
 "Forma no normalizada" no debe confundirse con desnormalización, donde la normalización se compromete deliberadamente en tablas seleccionadas de una base de datos relacional.
 
-## Historia
-
-En 1970, E. F. Codd propuso el modelo de datos relacional, hoy ampliamente aceptado como el modelo de datos estándar. En esa época la automatización de oficinas era el uso principal de los sistemas de almacenamiento de datos, lo que dio lugar a la propuesta de muchos modelos de datos UNF/NF2 como el modelo de Schek, los modelos de Jaeschke (álgebra no recursiva y recursiva) y el modelo de tabla anidada (NTD). IBM organizó el primer taller internacional dedicado exclusivamente a este tema en 1987, celebrado en Darmstadt, Alemania. Además se ha hecho mucha investigación y se han publicado numerosos artículos para abordar las carencias del modelo relacional. Desde el cambio de milenio, las bases de datos NoSQL se han popularizado debido a las exigencias de la Web 2.0.
-
 ## Forma relacional
 
 La normalización a primera forma normal exige que los datos iniciales se vean como relaciones. En los sistemas de bases de datos, las relaciones se representan como tablas. La vista relacional impone algunas restricciones sobre las tablas:

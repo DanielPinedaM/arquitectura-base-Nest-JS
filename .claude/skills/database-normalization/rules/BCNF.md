@@ -4,17 +4,7 @@
 
 La forma normal de Boyce–Codd (BCNF o 3.5NF) es una forma normal usada en la normalización de bases de datos. Es una versión ligeramente más estricta de la tercera forma normal (3NF). Al usar BCNF, una base de datos elimina todas las redundancias basadas en dependencias funcionales.
 
-## Historia
-
-Edgar F. Codd publicó su artículo original "A Relational Model of Data for Large Shared Databanks" en junio de 1970. Fue la primera vez que se publicó la noción de base de datos relacional. Todo el trabajo posterior, incluido el método de la forma normal de Boyce–Codd, se basó en ese modelo relacional.
-
-La forma normal de Boyce–Codd fue descrita por primera vez por Ian Heath en 1971, y Chris Date también la ha llamado forma normal de Heath.
-
-BCNF fue desarrollada formalmente en 1974 por Raymond F. Boyce y Edgar F. Codd para abordar ciertos tipos de anomalías que 3NF, tal como se definió originalmente, no trataba.
-
-Chris Date ha señalado que una definición de lo que hoy conocemos como BCNF apareció en un artículo de Ian Heath en 1971. Date escribe:
-
-> Dado que esa definición precedió en unos tres años a la propia definición de Boyce y Codd, me parece que BCNF debería llamarse por derecho forma normal de Heath. Pero no es así.
+BCNF aborda ciertos tipos de anomalías que 3NF no trata.
 
 ## Definición formal
 
@@ -96,7 +86,7 @@ Las claves candidatas de `Rate types` son `{Rate type}` y `{Court, Member flag}`
 
 ## Alcanzabilidad de BCNF
 
-En algunos casos, una tabla que no está en BCNF no puede descomponerse en tablas que satisfagan BCNF y a la vez preserven las dependencias que se cumplían en la tabla original. Beeri y Bernstein mostraron en 1979 que, por ejemplo, un conjunto de dependencias funcionales `{AB → C, C → B}` no puede representarse mediante un esquema BCNF.
+En algunos casos, una tabla que no está en BCNF no puede descomponerse en tablas que satisfagan BCNF y a la vez preserven las dependencias que se cumplían en la tabla original. Por ejemplo, un conjunto de dependencias funcionales `{AB → C, C → B}` no puede representarse mediante un esquema BCNF.
 
 Considérese la siguiente tabla, que no está en BCNF, cuyas dependencias funcionales siguen el patrón `{AB → C, C → B}`:
 
@@ -140,7 +130,7 @@ La violación de BCNF significa que la tabla está sujeta a anomalías. Por ejem
 
 En este diseño revisado, `Nearest shops by person` tiene la clave candidata `{Person, Shop}` y `Shops` tiene la clave candidata `{Shop}`. Desafortunadamente, aunque este diseño cumple BCNF, es inaceptable por otro motivo: permite registrar varias tiendas del mismo tipo contra la misma persona. Dicho de otro modo, sus claves candidatas no garantizan que se respete la dependencia funcional `{Person, Shop type} → {Shop}`.
 
-Es posible un diseño que elimine todas esas anomalías, aunque no cumpla BCNF. Ese diseño introduce una forma normal nueva, conocida como forma normal de clave elemental (EKNF), y consiste en la tabla `Nearest shops` original complementada con la tabla `Shop` descrita arriba. La estructura de tablas generada por el algoritmo de generación de esquemas de Bernstein es en realidad EKNF, aunque esa mejora sobre 3NF no se había reconocido cuando se diseñó el algoritmo:
+Es posible un diseño que elimine todas esas anomalías, aunque no cumpla BCNF. Ese diseño introduce una forma normal nueva, conocida como forma normal de clave elemental (EKNF), y consiste en la tabla `Nearest shops` original complementada con la tabla `Shop` descrita arriba:
 
 **Nearest shops**
 

@@ -8,8 +8,6 @@ También existe 6NF, pero su propósito no es eliminar redundancia y por eso sol
 
 Una dependencia de join `*{A, B, … Z}` sobre R está implicada por la clave o claves candidatas de R si y solo si cada uno de A, B, …, Z es una superclave de R.
 
-La quinta forma normal fue descrita por primera vez por Ronald Fagin en su artículo de congreso de 1979 "Normal forms and relational database operators".
-
 ## Ejemplo
 
 **Traveling-salesman product availability by brand**

@@ -4,17 +4,17 @@
 
 La sexta forma normal (6NF) es una forma normal usada en la normalización de bases de datos relacionales que extiende el álgebra relacional y generaliza los operadores relacionales (como el join) para admitir datos de intervalo, lo cual puede ser útil en bases de datos temporales.
 
-El término 6NF se ha usado históricamente también para referirse a otro grado de normalización, hoy conocido más comúnmente como forma normal de dominio-clave (DKNF); véase la sección "Otros significados".
+El término 6NF también se usa para referirse a otro grado de normalización, conocido más comúnmente como forma normal de dominio-clave (DKNF); véase la sección "Otros significados".
 
 ## Definición formal
 
-Christopher J. Date y otros han definido la sexta forma normal como una forma normal basada en una extensión del álgebra relacional.
+La sexta forma normal se define como una forma normal basada en una extensión del álgebra relacional.
 
 Los operadores relacionales, como el join, se generalizan para admitir un tratamiento natural de los datos de intervalo, como secuencias de fechas o momentos en el tiempo, por ejemplo en bases de datos temporales. La sexta forma normal se basa entonces en ese join generalizado, así:
 
 > Una relvar R [tabla] está en sexta forma normal (abreviada 6NF) si y solo si no satisface ninguna dependencia de join no trivial en absoluto — donde, como antes, una dependencia de join es trivial si y solo si al menos una de las proyecciones involucradas se toma sobre el conjunto de todos los atributos de la relvar [tabla] en cuestión.
 
-Date y otros también han dado la siguiente definición:
+También se da esta definición equivalente:
 
 > La relvar R está en sexta forma normal (6NF) si y solo si toda dependencia de join de R es trivial — donde una dependencia de join es trivial si y solo si uno de sus componentes es igual al encabezado pertinente en su totalidad.
 
@@ -129,4 +129,4 @@ Las dependencias de join de la tabla son `{medic name, occupation}`, `{medic nam
 
 ## Otros significados
 
-La sexta forma normal (6NF) se usa a veces como sinónimo de forma normal de dominio-clave (DKNF). Ese uso es anterior al trabajo de Date y otros.
+La sexta forma normal (6NF) se usa a veces como sinónimo de forma normal de dominio-clave (DKNF).

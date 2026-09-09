@@ -1,24 +1,19 @@
 # Teoría general de la normalización de bases de datos
 
-La normalización de bases de datos es el proceso de estructurar una base de datos relacional de acuerdo con una serie de formas normales, con el fin de reducir la redundancia de datos y mejorar la integridad de los datos. Fue propuesta por primera vez por el científico de la computación británico Edgar F. Codd como parte de su modelo relacional.
+La normalización de bases de datos es el proceso de estructurar una base de datos relacional de acuerdo con una serie de formas normales, con el fin de reducir la redundancia de datos y mejorar la integridad de los datos. Forma parte del modelo relacional.
 
 La normalización implica organizar las columnas (atributos) y las tablas (relaciones) de una base de datos para asegurar que sus dependencias queden correctamente forzadas por las restricciones de integridad de la base de datos. Se logra aplicando reglas formales, ya sea mediante un proceso de síntesis (crear un diseño de base de datos nuevo) o de descomposición (mejorar un diseño de base de datos existente).
 
 ## Objetivos
 
-Un objetivo básico de la primera forma normal, definida por Codd en 1970, era permitir que los datos se consultaran y manipularan usando un "sublenguaje de datos universal" fundamentado en la lógica de primer orden. Un ejemplo de tal lenguaje es SQL, aunque Codd lo consideraba seriamente defectuoso.
+Un objetivo básico de la primera forma normal es permitir que los datos se consulten y manipulen usando un "sublenguaje de datos universal" fundamentado en la lógica de primer orden. Un ejemplo de tal lenguaje es SQL.
 
-Los objetivos de la normalización más allá de 1NF (primera forma normal) fueron enunciados por Codd así:
+Los objetivos de la normalización más allá de 1NF (primera forma normal) son:
 
-> Liberar la colección de relaciones de dependencias indeseables de inserción, actualización y eliminación.
->
-> Reducir la necesidad de reestructurar la colección de relaciones a medida que se introducen nuevos tipos de datos, y así aumentar el tiempo de vida de los programas de aplicación.
->
-> Hacer el modelo relacional más informativo para los usuarios.
->
-> Hacer la colección de relaciones neutral respecto a las estadísticas de consulta, dado que esas estadísticas son susceptibles de cambiar con el tiempo.
->
-> — E. F. Codd, "Further Normalisation of the Data Base Relational Model"
+- Liberar la colección de relaciones de dependencias indeseables de inserción, actualización y eliminación.
+- Reducir la necesidad de reestructurar la colección de relaciones a medida que se introducen nuevos tipos de datos, y así aumentar el tiempo de vida de los programas de aplicación.
+- Hacer el modelo relacional más informativo para los usuarios.
+- Hacer la colección de relaciones neutral respecto a las estadísticas de consulta, dado que esas estadísticas son susceptibles de cambiar con el tiempo.
 
 ## Anomalías
 
@@ -44,27 +39,23 @@ Las relaciones normalizadas, y las relaciones entre ellas, reflejan los concepto
 
 ## Formas normales
 
-Codd introdujo el concepto de normalización y lo que hoy se conoce como primera forma normal (1NF) en 1970. Después definió la segunda forma normal (2NF) y la tercera forma normal (3NF) en 1971, y junto con Raymond F. Boyce definió la forma normal de Boyce–Codd (BCNF) en 1974.
-
-Ronald Fagin introdujo la cuarta forma normal (4NF) en 1977 y la quinta forma normal (5NF) en 1979. Christopher J. Date introdujo la sexta forma normal (6NF) en 2003.
-
 De manera informal, se suele decir que una relación de una base de datos relacional está "normalizada" si cumple la tercera forma normal. La mayoría de las relaciones en 3NF están libres de anomalías de inserción, actualización y eliminación.
 
 Las formas normales, de menos normalizada a más normalizada, son:
 
-| Sigla | Nombre | Año |
-|---|---|---|
-| UNF | Unnormalized form | 1970 |
-| 1NF | First normal form | 1970 |
-| 2NF | Second normal form | 1971 |
-| 3NF | Third normal form | 1971 |
-| EKNF | Elementary key normal form | 1982 |
-| BCNF | Boyce–Codd normal form | 1974 |
-| 4NF | Fourth normal form | 1977 |
-| ETNF | Essential tuple normal form | 2012 |
-| 5NF | Fifth normal form | 1979 |
-| DKNF | Domain-key normal form | 1981 |
-| 6NF | Sixth normal form | 2003 |
+| Sigla | Nombre |
+|---|---|
+| UNF | Unnormalized form |
+| 1NF | First normal form |
+| 2NF | Second normal form |
+| 3NF | Third normal form |
+| EKNF | Elementary key normal form |
+| BCNF | Boyce–Codd normal form |
+| 4NF | Fourth normal form |
+| ETNF | Essential tuple normal form |
+| 5NF | Fifth normal form |
+| DKNF | Domain-key normal form |
+| 6NF | Sixth normal form |
 
 ## Restricciones que cumple cada forma normal
 
@@ -349,7 +340,7 @@ Los datos anteriores demuestran el principio, pero no se sostienen del todo. En 
 
 Ahora el join devuelve el resultado esperado.
 
-C. J. Date ha sostenido que solo una base de datos en 5NF está verdaderamente "normalizada".
+Se ha sostenido que solo una base de datos en 5NF está verdaderamente "normalizada".
 
 ### Satisfacer DKNF
 
