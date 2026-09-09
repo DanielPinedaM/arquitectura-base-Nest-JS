@@ -167,7 +167,7 @@ Los markdown de los pasos son el diseño. La normalización se aplica de verdad 
 
 ## Ante ambigüedad, detente y pregunta — nunca asumas
 
-Esta regla se ejecuta **siempre y en los dos modos**, da igual que el encargo sea automatizar un flujo o depurar un bug: aplica en cualquier paso del procedimiento, desde antes de arrancar nada hasta la limpieza final.
+Esta regla se ejecuta **siempre**, aplica en cualquier paso del procedimiento.
 
 Si en cualquier momento de la ejecución —leyendo, editando o creando código, ejecutando el flujo o interpretando estas mismas reglas— aparece una ambigüedad, un error, una limitación, una contradicción, un solapamiento de ideas, un caso que las reglas no contemplan, un conflicto entre dos reglas o cualquier duda técnica que pueda cambiar el resultado, tienes **PROHIBIDO** resolverlo por tu cuenta y seguir adelante.
 
