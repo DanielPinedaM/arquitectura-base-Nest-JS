@@ -561,7 +561,7 @@ Estructura de la skill:
 |---|---|
 | `.claude\skills\database-normalization\rules\theory.md` | Teoría general. Se lee **siempre** |
 | `.claude\skills\database-normalization\rules\<SIGLA>.md` | Teoría de cada forma normal. Solo se lee, nunca se modifica |
-| `.claude\skills\database-normalization\result\<SIGLA>.md` | El modelo relacional del proyecto en ese paso, con sus primary key y foreign key. Lo genera la skill en cada ejecución |
+| `.claude\skills\database-normalization\result\<SIGLA>.md` | El modelo relacional del proyecto en el paso de la forma normal seleccionada, con sus primary key y foreign key. Lo genera la skill en cada ejecución |
 
 Después de documentar cada paso, aplica la forma normal elegida al schema del ORM y deja el código que lo consume coherente con el nuevo esquema. Si el proyecto usa migrations, la genera pero **no la ejecuta** sin que lo autorices.
 
