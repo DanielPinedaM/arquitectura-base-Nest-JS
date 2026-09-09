@@ -163,7 +163,7 @@ Los markdown de los pasos son el diseño. La normalización se aplica de verdad 
 2. Los cambios se hacen con la sintaxis del ORM que declara `package.json`: sus definiciones de relación, sus primary key y sus foreign key. No se escribe SQL a mano si el ORM tiene forma de expresarlo.
 3. Si el proyecto maneja migrations, se genera la migration correspondiente con el mecanismo del propio proyecto. **Ejecutarla contra una base de datos requiere autorización explícita del usuario en esa misma respuesta**; sin esa autorización, la migration se deja generada y sin aplicar.
 4. El código que consume las relaciones modificadas (queries, repositories, services) queda coherente con el nuevo esquema. Una relación dividida en dos sin actualizar sus consumidores es un bug, y es exactamente el bug que anuncia la advertencia del paso 1.
-5. Al terminar, reportar: forma normal alcanzada, relaciones creadas, relaciones modificadas, foreign keys nuevas y archivos del proyecto tocados.
+5. Al terminar, reportar: forma normal alcanzada, relaciones creadas, relaciones modificadas, foreign keys nuevas y archivos del proyecto modificados.
 
 ## Ante ambigüedad, detente y pregunta — nunca asumas
 
