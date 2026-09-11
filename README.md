@@ -400,8 +400,6 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 
 * Uso de Skills y MCP para reducir las _alucinaciones_ de la IA, permitiéndole a la IA consultar documentación oficial actualizada y seguir buenas prácticas.
 
-
-
 # 🐈 Configurar Nest.js para que Funcione con IA
 Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
 
