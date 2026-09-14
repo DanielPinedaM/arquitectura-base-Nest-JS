@@ -93,7 +93,7 @@ source ~/.bashrc
 5. Para verificar que funcione ejecutar los siguientes comandos en el siguiente orden:
 
 ```console
-cd /ruta/a/tu/proyecto
+cd /ruta/a/carpeta/raiz/del/proyecto
 ```
 
 ```console
@@ -603,7 +603,7 @@ Sirve para que Claude Code acceda a la documentación oficial de Prisma
 
 2. Abrir la carpeta del proyecto
 ```console
-cd /ruta/a/tu/proyecto
+cd /ruta/a/carpeta/raiz/del/proyecto
 ```
 
 3. Iniciar claude
