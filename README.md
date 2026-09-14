@@ -760,21 +760,6 @@ Se aplica cuando el caso, problema o pregunta no está definido de forma explíc
 
 Acción: resuélvelo con tu comportamiento por defecto. La skill no restringe este caso y no altera tu forma normal de trabajar.
 
-Antes de implementar, emite:
-
-```txt
-La implementación no está definida en la skill por lo que se ha decidido usar otra solución.
-
-Caso:              <descripción en una línea>
-Solución aplicada: <solución elegida>
-```
-
-Pregunta con `AskUserQuestion` solo cuando sea necesario:
-* Existen varias soluciones válidas y la elección cambia el resultado.
-* La solución exige introducir un patrón, dependencia o estructura que la skill no contempla y que se aparta de sus convenciones. En este caso la pregunta debe incluir explícitamente si se autoriza la desviación.
-
-Si ninguna de las dos condiciones aplica, implementa sin preguntar.
-
 ## 5. Código existente que ya viola la arquitectura
 Se aplica cuando detectas código ya escrito que incumple una regla de esta skill.
 
