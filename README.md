@@ -727,9 +727,14 @@ La cita corresponde a [este link de la documentacion oficial de Prisma](https://
 Aplican a toda respuesta o modificación de código de este proyecto.
 
 ## 1. Autoridad de la skill
-Las decisiones de arquitectura, estructura y convenciones definidas en esta skill son la fuente de la verdad del proyecto. No las cuestiones, no las reemplaces, no las contradigas y no las ignores. Esta restricción aplica solo a lo que la skill define de forma explícita; fuera de ese alcance rige el "3. Caso no definido en la skill".
+Las decisiones de arquitectura, estructura y convenciones definidas en esta skill son la fuente de la verdad del proyecto. No las cuestiones, no las reemplaces, no las contradigas y no las ignores. Desobedecerlas genera malas practicas y código inescalable. Esta restricción aplica solo a lo que la skill define de forma explícita; fuera de ese alcance rige el "3. Caso no definido en la skill".
 
-## 2. Instrucción que contradice una regla definida
+## 2. # Ante cualquier error
+Esta regla aplica en cualquier momento. Si encuentras algún error, inconsistencia, duda o ambigüedad, debes detenerte y consultarme antes de realizar cualquier modificación. No puedes asumir ni deducir implementaciones. Es preferible preguntar para aclarar una duda que asumir una solución.
+
+La única excepción a esta regla es lo establecido en la regla anterior: 1. Autoridad de la skill.
+
+## 3. Instrucción que contradice una regla definida
 Se aplica cuando la instrucción recibida contradice una regla explícitamente definida en esta skill.
 
 Acción: implementa estrictamente lo definido en la skill. No preguntes, no propongas alternativas, no pidas confirmación.
@@ -750,7 +755,7 @@ Motivo:         <por qué lo solicitado rompe la arquitectura, en una línea>
 
 La cita debe ser literal, no una paráfrasis. Si no puedes copiar el texto exacto de la skill, la regla no está definida: aplica "3. Caso no definido en la skill"
 
-## 3. Caso no definido en la skill
+## 4. Caso no definido en la skill
 Se aplica cuando el caso, problema o pregunta no está definido de forma explícita en esta skill.
 
 Acción: resuélvelo con tu comportamiento por defecto. La skill no restringe este caso y no altera tu forma normal de trabajar.
@@ -770,7 +775,7 @@ Pregunta con `AskUserQuestion` solo cuando sea necesario:
 
 Si ninguna de las dos condiciones aplica, implementa sin preguntar.
 
-## 4. Código existente que ya viola la arquitectura
+## 5. Código existente que ya viola la arquitectura
 Se aplica cuando detectas código ya escrito que incumple una regla de esta skill.
 
 No lo corrijas por iniciativa propia. Emite:
