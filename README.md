@@ -455,6 +455,8 @@ La salida debe contener algo similar a esto:
 
 ## 🔗 Enlaces con Respositorios de Skills
 
+* ## [Skills escritas por el equipo oficial de Prisma](https://github.com/prisma/skills)
+
 * ## [Web de Vercel con múltiples repositorios de Skills sobre distintos temas](https://www.skills.sh/)
 
 * ## [Skills para UI / Maquetación](https://www.ui-skills.com/)
