@@ -719,6 +719,8 @@ La cita corresponde a [este link de la documentacion oficial de Prisma](https://
 
 # Esta seccion esta INCOMPLETA porque todavia me falta documentar en readme.md y configurar skills y MCP
 
+# Ejemplos de Prompts de ¿Como Usar IA en este Proyecto?
+
 # Reglas Obligatorias para Skill
 Aplican a toda respuesta o modificación de código de este proyecto.
 
