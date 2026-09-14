@@ -403,7 +403,7 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 # 🐈 Configurar Nest.js para que Funcione con IA
 Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
 
-# Antes de Probar que Funcione Next.js con IA
+# Antes de Probar que Funcione Nest.js con IA
 Hacer esto:
 
 1. Abrir Git Bash
