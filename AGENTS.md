@@ -18,7 +18,7 @@ Responder en español siempre, es decir, redactar en español todas las explicac
 * Código fuente (todo, **excepto los comentarios de codigo**): Identificadores, nombres de archivos y carpetas, clases, interface, enum, métodos, funciones, parámetros, variables, ruta base del controlador de Nest, ruta de endpoint de Nest
 
 # Reglas **OBLIGATORIAS** de Nest.js
-Este proyecto usa Nest.js 11. Antes de escribir código o responder, es **obligatorio** consultar estas fuentes, listadas de mayor a menor precedencia:
+Este proyecto usa Nest.js 11. Antes de escribir código o responder, es **OBLIGATORIO** consultar estas fuentes, listadas de mayor a menor precedencia:
 
 1. Este `AGENTS.md`: La regla final ante cualquier conflicto.
 
