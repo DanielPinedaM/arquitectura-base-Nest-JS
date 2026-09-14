@@ -602,22 +602,120 @@ Después de documentar cada paso, aplica la forma normal elegida al schema del O
 
 # [🔗 Enlace - Repositorios de MCP](https://mcpservers.org/es/)
 
+## ¿Como Configurar MCP?
+
+> [!NOTE]
+>
+> Esto es una guia. **NO** debes hacer lo siguiente porque el MCP ya esta configurado
+>
+> Para explicar como configurar MCP, se usa como ejemplo **prisma MCP**
+
+1. Este comando instala **prisma MCP** con el `--scope project`. Es decir, configura el MCP para que se ejecute únicamente en este proyecto y pueda compartirse con el resto del equipo mediante Git:
+
+```bash
+!claude mcp add --transport http --scope project prisma https://mcp.prisma.io/mcp
+```
+
+La salida de la terminal debe ser similar a esto:
+
+```bash
+Added HTTP MCP server prisma with URL: https://mcp.prisma.io/mcp to project config
+File modified: C:\Users\User\Documents\arquitectura\Nest-JS\.mcp.json
+
+El servidor MCP de Prisma se agregó correctamente al scope del proyecto, quedando registrado en .mcp.json.
+```
+
+2. Verificar de que el comando automaticamente haya creado archivo `.mcp.json` en la ruta raiz del proyecto que contenga:
+
+```json
+{
+  "mcpServers": {
+    "prisma": {
+      "type": "http",
+      "url": "https://mcp.prisma.io/mcp"
+    }
+  }
+}
+```
+
+3. Cerrar terminal de Claude
+
+4. Abrir Git Bash y ejecutar Claude con todos los permisos:
+
+```console
+claude --dangerously-skip-permissions
+```
+
+5. Ejecutar:
+
+```console
+/mcp
+```
+
+6. Seleccionar las siguientes opciones:
+
+* Prisma
+* Authenticate
+
+7. Se abre una nueva pestaña en el navegador
+
+8. Iniciar sesion con GitHub o Google
+
+9. Click en "autorize"
+
+10. En el navegador y el la consola de Claude debe aparecer mensaje "Authentication successful"
+
 ## prisma MCP
-Sirve para que Claude Code acceda a la documentación oficial de Prisma
+Sirve para que la IA acceda a la [documentación oficial de Prisma](https://www.prisma.io/docs). Esto permite que la IA tenga datos actualizados de como escribir codigo de Prisma.
 
-1. Abrir Git Bash
+También cuenta con muchas otras funcionalidades (tools) disponibles en este enlace. Es **IMPORTANTE** que leas este enlace:
 
-2. Abrir la carpeta del proyecto
-```console
-cd /ruta/a/carpeta/raiz/del/proyecto
+# [🔗 Enlace - Tools de **prisma MCP**](https://www.prisma.io/docs/ai/tools/mcp-server)
+
+Para que funcione el **Prisma MCP** solamente la primera vez que haces `git pull` del repositorio es necesario hacer los siguientes pasos:
+
+1. Seleccionar la opcion
+
+```txt
+2. Use this and all future MCP servers in this project
 ```
 
-3. Iniciar claude
+2. Para verificar conexión al MCP, ejecutar:
+
 ```console
-claude
+!claude mcp list
 ```
 
-# [🔗 Enlace - Tools de Prisma MCP](https://www.prisma.io/docs/ai/tools/mcp-server)
+La salida de la terminal debe ser:
+```console
+prisma: https://mcp.prisma.io/mcp (HTTP) - ⏸ Pending approval (run `claude` to approve)
+```
+
+```console
+/mcp
+```
+
+La salida de la terminal debe ser:
+```console
+❯ prisma · ✔ connected · 22 tools
+```
+
+Ejecutar este prompt:
+```console
+usar la tool search_prisma_documentation de Prisma MCP para citar textualmente "The contract and the schema"
+```
+
+La salida de la terminal debe incluir:
+
+```console
+Called prisma
+
+The contract is your description of the
+data your application needs: the models, their fields, how they relate,
+and how they map to database tables or collections. (...)
+```
+
+La cita corresponde a [este link de la documentacion oficial de Prisma](https://www.prisma.io/docs/orm/core-concepts)
 
 # Esta seccion esta INCOMPLETA porque todavia me falta documentar en readme.md y configurar skills y MCP
 
