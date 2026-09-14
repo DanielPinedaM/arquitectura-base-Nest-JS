@@ -447,6 +447,10 @@ La salida debe contener algo similar a esto:
 
 **Model Context Protocol (MCP):** Es un protocolo (no es exactamente una API REST, aunque es similar) que permite que una IA se comunique con sistemas externos —herramientas, servicios o fuentes de datos— de forma estandarizada. Un servidor MCP puede exponer *tools* (funciones que la IA puede invocar), *resources* (datos) y *prompts* (plantillas)
 
+## Diferencia Entre Prisma MCP y Skills de Prisma
+
+# INCOMPLETO - FALTA COMPLETAR ESTO
+
 # Skills
 
 ## 🔗 Enlaces con Respositorios de Skills
