@@ -795,7 +795,7 @@ Leer **bajo demanda** los archivos `.md` ubicados en `/skills/nest-architecture/
 
 ### Tabla de Contenido
 
-# INCOMPLETO - aqui me falta escribir la tabla de contenido con la estructura de archivos, carpetas y titulos de /rules
+# INCOMPLETO - aqui me falta escribir la tabla de contenido con la estructura de archivos, carpetas y titulos de /rules - para tabla de contenido usar  enlace en línea con ruta relativa ejemplo [angular-animations.md](references/angular-animations.md)
 
 # 🔌 Consumo de API
 
