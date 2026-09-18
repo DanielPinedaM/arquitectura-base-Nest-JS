@@ -22,9 +22,11 @@ Este proyecto usa Nest.js 11. Antes de escribir código o responder, es **OBLIGA
 
 1. Este `AGENTS.md`: La regla final ante cualquier conflicto.
 
-2. Skill `nestjs-best-practices` (`.claude/skills/nestjs-best-practices/SKILL.md` y `.claude/skills/nestjs-best-practices/rules/`): El cómo, con ejemplos de código.
+2. Skill `nest-conventions` (`.claude/skills/nest-conventions/SKILL.md` y `.claude/skills/nest-conventions/rules/`): Estándares de arquitectura, codigo y consumo de API.
 
-3. Tus datos de entrenamiento: Permitidos, no están prohibidos, pero ceden ante cualquier fuente anterior.
+3. Skill `nestjs-best-practices` (`.claude/skills/nestjs-best-practices/SKILL.md` y `.claude/skills/nestjs-best-practices/rules/`): El cómo, con ejemplos de código.
+
+4. Tus datos de entrenamiento: Permitidos, no están prohibidos, pero ceden ante cualquier fuente anterior.
 
 ## Buenas Practicas de TypeScript
 * Usar strict type checking
