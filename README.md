@@ -177,7 +177,7 @@ pn i
 | `pn start:test`  | Pruebas       | `environments/.env.test`       |
 | `pn start:prod`  | Producción    | `environments/.env.production` |
 
-# 🚀 Generar Carpeta `dist` (build) para Desplegar
+# 🚀 Generar Carpeta `dist` (Build) para Desplegar
 
 ```console
 pn build
@@ -250,7 +250,7 @@ En ambas formas, el debugger se vuelve a adjuntar automáticamente cada vez que 
 
 **Attach:** Es menos práctico de usar porque requiere ejecutar comandos manualmente.
 
-## 1️⃣ Launch: el editor ejecuta el script (recomendado)
+## 1️⃣ Launch: El Editor Ejecuta el Script (Recomendado)
 1. Si el backend ya esta ejecutandose con `pn start:local`, `pn start:test` o `pn start:prod`, deténgalo antes de iniciar el debugging. De lo contrario, se producirán errores.
 
 2. Colocar los breakpoints, escribiendo en el código:
@@ -279,7 +279,7 @@ debugger;
 
 7. Consumir el endpoint que se quiere depurar.
 
-## 2️⃣ Attach: adjuntarse a un proceso ya iniciado
+## 2️⃣ Attach: Adjuntarse a un Proceso Ya Iniciado
 1. Si el backend ya esta ejecutandose con `pn start:local`, `pn start:test` o `pn start:prod`, deténgalo antes de iniciar el debugging. De lo contrario, se producirán errores.
 
 2. Colocar los breakpoints, escribiendo en el código:
@@ -358,7 +358,7 @@ Sirve para importar la API en Postman, Insomnia o generar clientes automáticame
 >
 > Aunque es un texto largo, aprenderás la arquitectura, buenas prácticas y a detectar revisando el código, cuando la IA alucina
 
-# [🔗 Enlace - HTTP Cats - Explicación de los status HTTP](https://http.cat/)
+# [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
 
 # 🤖 Uso de IA
 
@@ -497,13 +497,13 @@ La salida debe contener algo similar a esto:
    - arch-avoid-circular-deps - Avoid circular module dependencies
 ```
 
-# Diferencia Entre Skills y MCP
+# Diferencia entre Skills y MCP
 
 **Skill:** Es un archivo Markdown llamado `SKILL.md` que contiene instrucciones para enseñarle a la IA cómo ejecutar un proceso, o para darle conocimiento sobre un tema. La IA carga ese contenido directamente en su contexto antes de responder.
 
 **Model Context Protocol (MCP):** Es un protocolo (no es exactamente una API REST, aunque es similar) que permite que una IA se comunique con sistemas externos —herramientas, servicios o fuentes de datos— de forma estandarizada. Un servidor MCP puede exponer *tools* (funciones que la IA puede invocar), *resources* (datos) y *prompts* (plantillas)
 
-## Diferencia Entre Prisma MCP y Skills de Prisma
+## Diferencia entre Prisma MCP y Skills de Prisma
 
 # INCOMPLETO - FALTA COMPLETAR ESTO
 
@@ -556,7 +556,7 @@ Hay dos alcances:
 
 5. Eliminar `skills-lock.json`
 
-### Forma 2 - Descargar skill sin comando
+### Forma 2 - Descargar Skill sin Comando
 1. Buscar un repositorio con una skill
 
 2. Descargar el repositorio
@@ -724,12 +724,12 @@ claude --dangerously-skip-permissions
 
 10. En el navegador y el la consola de Claude debe aparecer mensaje "Authentication successful"
 
-## prisma MCP
+## Prisma MCP
 Sirve para que la IA acceda a la [documentación oficial de Prisma](https://www.prisma.io/docs). Esto permite que la IA tenga datos actualizados de como escribir codigo de Prisma.
 
 También cuenta con muchas otras funcionalidades (tools) disponibles en este enlace. Es **IMPORTANTE** que leas este enlace:
 
-# [🔗 Enlace - Tools de **prisma MCP**](https://www.prisma.io/docs/ai/tools/mcp-server)
+# [🔗 Enlace - Tools de **Prisma MCP**](https://www.prisma.io/docs/ai/tools/mcp-server)
 
 Para que funcione el **Prisma MCP** solamente la primera vez que haces `git pull` del repositorio es necesario hacer los siguientes pasos:
 
@@ -778,20 +778,20 @@ La cita corresponde a [este link de la documentacion oficial de Prisma](https://
 
 # Esta seccion esta INCOMPLETA porque todavia me falta documentar en readme.md y configurar skills y MCP
 
-# Ejemplos de Prompts de ¿Como Usar IA en este Proyecto?
+# Ejemplos de Prompts de ¿Como Usar IA en Este Proyecto?
 
 # Reglas Obligatorias para Skill
 Aplican a toda respuesta o modificación de código de este proyecto.
 
-## 1. Autoridad de la skill
-Las decisiones de arquitectura, estructura y convenciones definidas en esta skill son la fuente de la verdad del proyecto. No las cuestiones, no las reemplaces, no las contradigas y no las ignores. Desobedecerlas genera malas practicas y código inescalable. Esta restricción aplica solo a lo que la skill define de forma explícita; fuera de ese alcance rige el [4. Caso no definido en la skill](#4-caso-no-definido-en-la-skill).
+## 1. Autoridad de la Skill
+Las decisiones de arquitectura, estructura y convenciones definidas en esta skill son la fuente de la verdad del proyecto. No las cuestiones, no las reemplaces, no las contradigas y no las ignores. Desobedecerlas genera malas practicas y código inescalable. Esta restricción aplica solo a lo que la skill define de forma explícita; fuera de ese alcance rige el [4. Caso no Definido en la Skill](#4-caso-no-definido-en-la-skill).
 
-## 2. Ante cualquier error
+## 2. Ante Cualquier Error
 Esta regla aplica en cualquier momento. Si encuentras algún error, inconsistencia, duda o ambigüedad, debes detenerte y consultarme antes de realizar cualquier modificación. No puedes asumir ni deducir implementaciones. Es preferible preguntar para aclarar una duda que asumir una solución.
 
-La única excepción a esta regla es lo establecido en la regla anterior: [1. Autoridad de la skill](#1-autoridad-de-la-skill).
+La única excepción a esta regla es lo establecido en la regla anterior: [1. Autoridad de la Skill](#1-autoridad-de-la-skill).
 
-## 3. Instrucción que contradice una regla definida
+## 3. Instrucción que Contradice una Regla Definida
 Se aplica cuando la instrucción recibida contradice una regla explícitamente definida en esta skill.
 
 Acción: implementa estrictamente lo definido en la skill. No preguntes, no propongas alternativas, no pidas confirmación.
@@ -810,14 +810,14 @@ Implementado:   <lo que define la skill>
 Motivo:         <por qué lo solicitado rompe la arquitectura, en una línea>
 ```
 
-La cita debe ser literal, no una paráfrasis. Si no puedes copiar el texto exacto de la skill, la regla no está definida: aplica [4. Caso no definido en la skill](#4-caso-no-definido-en-la-skill)
+La cita debe ser literal, no una paráfrasis. Si no puedes copiar el texto exacto de la skill, la regla no está definida: aplica [4. Caso no Definido en la Skill](#4-caso-no-definido-en-la-skill)
 
-## 4. Caso no definido en la skill
-Se aplica cuando el caso, problema o pregunta no está definido en la [tabla de contenido](#tabla-de-contenido)
+## 4. Caso no Definido en la Skill
+Se aplica cuando el caso, problema o pregunta no está definido en la [Tabla de Contenido](#tabla-de-contenido)
 
 Acción: resuélvelo con tu comportamiento por defecto. La skill no restringe este caso y no altera tu forma normal de trabajar.
 
-## 5. Código existente que ya viola la arquitectura
+## 5. Código Existente que Ya Viola la Arquitectura
 Se aplica cuando detectas código ya escrito que incumple una regla de esta skill.
 
 No lo corrijas por iniciativa propia. Emite:
@@ -846,7 +846,7 @@ NO  → dejarlo como está
 Si detectas varias infracciones en la misma pasada, agrúpalas en una sola llamada a `AskUserQuestion`, una pregunta por infracción.
 
 ## 6. ¿Como Leer la Skill?
-Leer **bajo demanda** los archivos `.md` ubicados en `/skills/nest-conventions/rules/`: usa la [tabla de contenido](#tabla-de-contenido) como referencia para inferir cuales archivos son necesarios para la tarea que estas resolviendo, y accede unicamente a esos archivos.
+Leer **bajo demanda** los archivos `.md` ubicados en `/skills/nest-conventions/rules/`: usa la [Tabla de Contenido](#tabla-de-contenido) como referencia para inferir cuales archivos son necesarios para la tarea que estas resolviendo, y accede unicamente a esos archivos.
 
 **Razon**: Leer todos los archivos consume contexto y tokens innecesariamente.
 
@@ -919,16 +919,16 @@ TU SERVICIO DE NEST
                          ├───────────────────────────────┐
                          │                               │
                          ▼                               │
-              axiosRef (AxiosInstance)                  │
-        ┌────────────────────────────────────┐          │
-        │                                    │          │
-        │  Request Interceptors  ◄───────────┤          │
-        │                                    │          │
-        │           Axios                    │          │
-        │                                    │          │
-        │  Response Interceptors ◄───────────┤          │
-        │                                    │          │
-        └────────────────────────────────────┘          │
+              axiosRef (AxiosInstance)                   │
+        ┌────────────────────────────────────┐           │
+        │                                    │           │
+        │  Request Interceptors  ◄───────────┤           │
+        │                                    │           │
+        │           Axios                    │           │
+        │                                    │           │
+        │  Response Interceptors ◄───────────┤           │
+        │                                    │           │
+        └────────────────────────────────────┘           │
                          │                               │
                          ▼                               │
                    API EXTERNA                           │
