@@ -59,7 +59,6 @@ yarn-error.log
 # IA
 # Archivos temporales con el mensaje de los commits que genera la skill git-commit
 .claude/skills/git-commit/*.txt
-# Patch temporal que genera la skill git-commit para repartir un archivo por hunks
-.claude/skills/git-commit/*.patch
+
 # Modelo relacional que genera la skill database-normalization en cada ejecución
 .claude/skills/database-normalization/result/
