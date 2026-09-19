@@ -137,13 +137,13 @@ La configuración de autocompletado, formateo de código y linter ya está inclu
 * `eslint.config.mjs`
 
 # ⚙️ Entorno de Ejecución
-Obligatorio el uso de Node.js, prohibido usar alternativas como:
+Usar Node.js, prohibido usar alternativas como:
 
 * [Bun](https://bun.com/)
 * [Deno](https://deno.com/)
 
 # 📦 Manejador de Paquetes
-Obligatorio el uso de `pnpm`, `pnpm-lock.yaml` y `pnpm dlx <paquete>` version `>=11.0.0 <12.0.0`. Esta 🚫 **BLOQUEADO** el uso de otras alternativas como:
+Usar `pnpm`, `pnpm-lock.yaml` y `pnpm dlx <paquete>` version `>=11.0.0 <12.0.0`. Esta 🚫 **BLOQUEADO** el uso de otras alternativas como:
 
 | Concepto ⬇️ / Nombre manejador de paquetes ➡️            | `npm`                                   | `yarn`                              |
 | --------------------------------------------------------- | --------------------------------------- | ----------------------------------- |
@@ -151,7 +151,7 @@ Obligatorio el uso de `pnpm`, `pnpm-lock.yaml` y `pnpm dlx <paquete>` version `>
 | Ejecutar un paquete temporal (sin instalarlo globalmente) | `npx <paquete>`<br>`npm exec <paquete>` | `yarn dlx <paquete>` *(Yarn Berry)* |
 
 # 🟢 Administrador de Versiones para Node.js
-Obligatorio el uso de `fnm`. Está prohibido usar alternativas como:
+Usar `fnm`. Está prohibido usar alternativas como:
 
 * nvm
 * volta
@@ -162,6 +162,8 @@ Este proyecto usa Node.js 24.18.0
 Para todos los comandos de `pnpm` usar el alias `pn`
 
 # 📦 Instalar Paquetes
+
+Este comando instala Nest.js, TypeScript, etc:
 
 ```console
 pn i
@@ -869,7 +871,17 @@ Leer **bajo demanda** los archivos `.md` ubicados en `/skills/nest-conventions/r
 | [React Hook Form](rules/formularios/react-hook-form.md) | Al crear o modificar cualquier formulario, o al agregar lógica condicional entre campos |
 | [Inputs reutilizables](rules/formularios/inputs-reutilizables.md) | Al crear o modificar un componente dentro de src/shared/ui/shad-cn/react-hook-form |
 
-# 🔌 Consumo de API
+# Fechas
+
+**Reglas:**
+
+1. Usar Luxon para el manejo de fechas y horas. **PROHIBIDO** utilizar `new Date()` nativo de JavaScript o cualquier otra librería de fechas diferente de Luxon.
+
+2. Mantener en UTC el `DateTime` de Luxon que entra o sale de los controllers, a través de los DTO de request y de response (`date`, `createdAt`, etc.), ya que representan un instante y no una fecha local del servidor. **PROHIBIDO** convertir ese `DateTime` a la zona horaria local (`.toLocal()`, `.setZone()`) dentro del flujo de controllers, services y entities. Si necesitas mostrar ese instante en la zona horaria del usuario, esa conversión es responsabilidad del cliente que consume la API, nunca del backend. **OBLIGATORIO** que ese valor viaje en el payload, tanto en el request como en el response, como un `string` en formato ISO 8601 UTC (`YYYY-MM-DDTHH:mm:ssZ`), por ejemplo: `2024-06-15T14:30:00Z`.
+
+3. En `src/shared/services/luxon.service.ts` existen funciones utilitarias reutilizables para el manejo y formateo de fechas y horas con Luxon. Reutilizarlas cuando cubran la necesidad. **PROHIBIDO** duplicar su funcionalidad. Estas funciones no contienen lógica de negocio.
+
+# Consumo de API
 
 > [!WARNING]
 > # ⚠️ **IMPORTANTE** 🚨
@@ -952,7 +964,7 @@ ESTA REGLA ES MUY IMPORTANTE porque incumplir esta regla hace que el consumo de 
 import axios from 'axios';
 ```
 
-4. Obligatorio usar `HttpService` **DIRECTO**
+4. Usar `HttpService` **DIRECTO**
 
 5. Está **prohibido** usar:
 * `try/catch`
