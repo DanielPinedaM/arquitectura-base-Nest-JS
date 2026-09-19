@@ -419,6 +419,41 @@ C:\Users\NOMBRE_USUARIO\.claude\settings.json
 }
 ```
 
+## Eliminar Skills Innecesarias (Bloatware) que Estan Preinstaladas en Claude Code
+Esto ayuda a mejorar el consumo de tokens y contexto de Claude
+
+1. En el explorador de archivos abrir la siguiente ruta:
+
+```console
+C:\Users\NOMBRE_USUARIO\.claude\skills\synced\ID_CARPETA
+```
+
+2. Las carpetas que estan aqui dentro son skills globales preinstaladas, puedes eliminar las siguientes carpetas:
+
+| Carpeta | ¿Para qué sirve? |
+| --- | --- |
+| `\docs` | Crear y editar documentos colaborativos en claude.ai (memo, spec, PRD, runbook) a través del connector Claude Docs. |
+| `\docx` | Crear, leer y editar archivos de Word (`.docx`, `.dotx`) |
+| `\import-memory` | Importar a la memoria de Claude las memorias exportadas desde otro asistente de IA (ChatGPT, Gemini, etc.). |
+| `\morning` | Generar un resumen matutino del día en HTML, o programarlo como tarea recurrente entre semana. |
+| `\pdf` | Crear, leer y editar archivos de PDF |
+| `\pptx` | Crear, leer y editar diapositivas de PowerPoint (`.pptx`, `.potx`) |
+| `\xlsx` | Crear, leer y editar archivos de Excel (`.xlsx`, `.xlsm`, `.csv`, `.tsv`) |
+
+3. Borrar esas carpetas solo las elimina del computador: Claude Code las vuelve a descargar en la siguiente sincronizacion con la cuenta de claude.ai. Para evitarlo, abrir de nuevo el archivo:
+
+```console
+C:\Users\NOMBRE_USUARIO\.claude\settings.json
+```
+
+4. Agregar la propiedad [`syncClaudeAiSkills`](https://code.claude.com/docs/es/settings-reference#syncclaudeaiskills) con el valor `false`:
+
+```json
+{
+  "syncClaudeAiSkills": false
+}
+```
+
 # 🐈 Configurar Nest.js para que Funcione con IA
 Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
 
