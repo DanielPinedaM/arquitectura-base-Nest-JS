@@ -401,7 +401,9 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 
 * Uso de Skills y MCP para reducir las _alucinaciones_ de la IA, permitiéndole a la IA consultar documentación oficial actualizada y seguir buenas prácticas.
 
-# [Cambiar Idioma de Claude Code a Español](https://code.claude.com/docs/es/settings-reference#language)
+# Configurar Claude Code
+
+## Cambiar Idioma de Claude Code a Español
 
 1. Abrir el archivo que esta en la ruta
 
@@ -409,11 +411,11 @@ Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
 C:\Users\NOMBRE_USUARIO\.claude\settings.json
 ```
 
-2. Modificar el archivo para que contenga lo siguiente:
+2. Agregar la propiedad [`language`](https://code.claude.com/docs/es/settings-reference#language) con el valor `spanish`:
 
 ```json
 {
-  "language": "spanish",
+  "language": "spanish"
 }
 ```
 
