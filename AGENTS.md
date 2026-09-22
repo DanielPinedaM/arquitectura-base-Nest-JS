@@ -5,34 +5,26 @@
 * Manejador de paquetes: pnpm
 * Archivo de bloqueo: pnpm-lock.yaml
 
-# Reglas de Idioma
-
-## Excepciones, Responder en Ingles
-* Términos técnicos de uso común en desarrollo de software: middleware, service, controller, repository, signal, interceptor, provider, endpoint, payload, patrones de diseño, etc.
-
-* Nombres de frameworks, librerías, paquetes, APIs
-
-* Código fuente (todo, **excepto los comentarios de codigo**): Identificadores, nombres de archivos y carpetas, clases, interface, enum, métodos, funciones, parámetros, variables, ruta base del controlador de Nest, ruta de endpoint de Nest
 
 # Reglas **OBLIGATORIAS** de Nest.js
-Este proyecto usa Nest.js 11. Antes de escribir código o responder, es **OBLIGATORIO** consultar estas fuentes, listadas de mayor a menor precedencia:
+Este proyecto usa Nest.js 11. Antes de escribir código o responder, consultar estas fuentes, listadas de mayor a menor precedencia:
 
-1. Este `AGENTS.md`: La regla final ante cualquier conflicto.
+1. Skill `nest-conventions` (`.claude/skills/nest-conventions/SKILL.md` y `.claude/skills/nest-conventions/rules/`): Reglas propias del proyecto que definen su arquitectura.
 
-2. Skill `nest-conventions` (`.claude/skills/nest-conventions/SKILL.md` y `.claude/skills/nest-conventions/rules/`): Estándares de arquitectura, codigo y consumo de API.
+2. Skill `nestjs-best-practices` (`.claude/skills/nestjs-best-practices/SKILL.md` y `.claude/skills/nestjs-best-practices/rules/`): El cómo, con ejemplos de código.
 
-3. Skill `nestjs-best-practices` (`.claude/skills/nestjs-best-practices/SKILL.md` y `.claude/skills/nestjs-best-practices/rules/`): El cómo, con ejemplos de código.
+3. Tus datos de entrenamiento: Permitidos, no están prohibidos, pero ceden ante cualquier fuente anterior.
 
-4. Tus datos de entrenamiento: Permitidos, no están prohibidos, pero ceden ante cualquier fuente anterior.
+# Resumen de la Skill `nest-conventions`
 
-## Buenas Practicas de TypeScript
+## Tipado en TypeScript
 * Usar strict type checking
 
 * Preferir la inferencia de tipos cuando el tipo sea obvio
 
 * Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto.
 
-* Preferir `interface` para tipos de objeto (`Producto`) y para el tipo de los elementos en arrays de objetos (`Producto[]`).
+* Preferir `interface` para tipos de objeto (`Task`) y para el tipo de los elementos en arrays de objetos (`Task[]`).
 
 * Usar `Record<Clave, Valor>` para objetos con claves dinámicas.
 
