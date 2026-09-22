@@ -881,6 +881,45 @@ Leer **bajo demanda** los archivos `.md` ubicados en `/skills/nest-conventions/r
 
 3. En `src/shared/services/luxon.service.ts` existen funciones utilitarias reutilizables para el manejo y formateo de fechas y horas con Luxon. Reutilizarlas cuando cubran la necesidad. **PROHIBIDO** duplicar su funcionalidad. Estas funciones no contienen lógica de negocio.
 
+# Estructura del Proyecto
+
+## Idioma de Código, Archivos y Carpetas
+Todo el código fuente se escribe en inglés: clases, interfaces, enums, métodos, variables, nombres de archivos y carpetas, ruta base del `@Controller()` y ruta de cada endpoint, etc., excepto [Qué va en español](#qué-va-en-español).
+
+### Qué va en español
+1. Los comentarios de código.
+
+2. Los textos que lee una persona: el `summary` y la `description` de Swagger, y el `message` de las respuestas de la API.
+
+**Explicación**
+La URL de la API es un contrato técnico que consumen otros sistemas, no un texto que lea una persona. Por eso las rutas van en inglés, igual que el resto del código.
+
+**Ejemplo**
+
+```ts
+// src/app/features/auth/auth.controller.ts
+
+@Controller({
+  path: 'auth', // ruta base del controlador → inglés
+})
+export class AuthController {
+  @ApiOperation({ summary: 'iniciar sesión' }) // se lee en Swagger → español
+  @Post('login') // ruta del endpoint → inglés
+  login(@Body() loginDto: LoginDto): Promise<ILoginResponse> {
+    return this.authService.login(loginDto.email, loginDto.password);
+  }
+}
+```
+
+```ts
+// src/app/features/auth/auth.service.ts
+
+// el cliente muestra este `message` al usuario final → español
+return { message: 'inicio de sesión exitoso', data };
+```
+
+URL resultante: `POST /auth/login`
+
 # Consumo de API
 
 > [!WARNING]
@@ -984,3 +1023,176 @@ import axios from 'axios';
 
 8. La razon de esto es que el interceptor ya se encarga de estandarizar y manejar los errores
 
+# Buenas Practicas
+
+## Tipado en TypeScript
+
+### Strict Type Checking
+Usar strict type checking
+
+**Incorrecto:**
+
+```jsonc
+// tsconfig.json
+{
+  "compilerOptions": {
+    "strict": false
+  }
+}
+```
+
+**Correcto:**
+
+```jsonc
+// tsconfig.json
+{
+  "compilerOptions": {
+    "strict": true,
+    "strictTemplates": true,
+    "strictStandalone": true
+  }
+}
+```
+
+### Inferencia de Tipos
+Preferir la inferencia de tipos cuando el tipo sea obvio
+
+**Incorrecto:**
+
+```ts
+// el tipo es obvio, anotarlo es ruido
+const total: number = 10;
+const isActive: boolean = true;
+const tags: string[] = ['angular', 'signals'];
+```
+
+**Correcto:**
+
+```ts
+const total = 10;
+const isActive = true;
+const tags = ['angular', 'signals'];
+```
+
+### `unknown` en Lugar de `any`
+Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto.
+
+**Incorrecto:**
+
+```ts
+function parseTitle(value: any): string {
+  // any desactiva el chequeo de tipos: esto compila y falla en runtime
+  return value.toUpperCase();
+}
+```
+
+**Correcto:**
+
+```ts
+function parseTitle(value: unknown): string {
+  // unknown obliga a comprobar el tipo antes de usarlo
+  if (typeof value === 'string') return value;
+
+  return '';
+}
+```
+
+### `interface` para Tipos de Objeto
+Preferir `interface` para tipos de objeto (`Task`) y para el tipo de los elementos en arrays de objetos (`Task[]`).
+
+**Incorrecto:**
+
+```ts
+// un objeto no se modela con type
+type Task = {
+  id: number;
+  title: string;
+  completed: boolean;
+};
+
+// ni con el objeto escrito en línea
+const tasks: { id: number; title: string; completed: boolean }[] = [];
+```
+
+**Correcto:**
+
+```ts
+interface Task {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+const tasks: Task[] = [];
+```
+
+### `Record<Clave, Valor>` para Claves Dinámicas
+Usar `Record<Clave, Valor>` para objetos con claves dinámicas.
+
+**Incorrecto:**
+
+```ts
+interface TasksById {
+  [key: number]: Task;
+}
+```
+
+**Correcto:**
+
+```ts
+const tasksById: Record<number, Task> = {};
+const labels: Record<string, string> = { pending: 'Pendiente', done: 'Hecha' };
+```
+
+### `type` para Primitivos, Literales y Uniones
+Usar `type` para tipos primitivos, literales y uniones.
+
+**Incorrecto:**
+
+```ts
+// una union no se modela con interface
+interface TaskStatus {
+  value: 'pending' | 'in-progress' | 'done';
+}
+```
+
+**Correcto:**
+
+```ts
+type TaskStatus = 'pending' | 'in-progress' | 'done';
+type TaskFilter = TaskStatus | 'all';
+
+interface TaskStatus {
+  value: TaskStatus;
+}
+```
+
+## Rutas Absolutas en los `import`
+Siempre usar ruta absoluta en los `import`, utilizando los alias definidos en `paths` de `tsconfig.json`. Está **prohibido** usar rutas relativas (`./`, `../`).
+
+**Correcto:**
+
+```ts
+// usar el alias @/ definido en tsconfig.json
+import { CryptoService } from '@/shared/services/crypto.service';
+
+// usar el alias environments/ definido en tsconfig.json
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config';
+```
+
+**Incorrecto:**
+
+```ts
+// incorrecto porque se escribe ../ en lugar de usar el alias @/
+import { CryptoService } from '../../../shared/services/crypto.service';
+```
+
+```ts
+// incorrecto porque se escribe ./ en lugar de usar el alias @/
+import { AuthInterface } from './data-types/interface/auth.interfaces';
+```
+
+```ts
+// incorrecto porque se escribe ../ en lugar de usar el alias environments/
+import { ENV_VARS, EnvironmentClass } from '../../../../environments/env-config';
+```
