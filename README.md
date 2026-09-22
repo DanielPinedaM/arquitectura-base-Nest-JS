@@ -517,6 +517,10 @@ La salida debe contener algo similar a esto:
 
 * ## [Skills para UI / Maquetación](https://www.ui-skills.com/)
 
+* ## [Skills de Anthropic AI](https://github.com/anthropics/skills/tree/main/skills)
+
+* ## [Skills de Open AI](https://github.com/openai/plugins)
+
 ## ¿Como Configurar Skills?
 
 > [!NOTE]
