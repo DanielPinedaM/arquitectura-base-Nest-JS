@@ -5,13 +5,12 @@
 * Manejador de paquetes: pnpm
 * Archivo de bloqueo: pnpm-lock.yaml
 
-
 # Reglas **OBLIGATORIAS** de Nest.js
 Este proyecto usa Nest.js 11. Antes de escribir código o responder, consultar estas fuentes, listadas de mayor a menor precedencia:
 
-1. Skill `nest-conventions` (`.claude/skills/nest-conventions/SKILL.md` y `.claude/skills/nest-conventions/rules/`): Reglas propias del proyecto que definen su arquitectura.
+1. [Skill `nest-conventions`](.claude/skills/nest-conventions/SKILL.md): Reglas propias del proyecto que definen su arquitectura.
 
-2. Skill `nestjs-best-practices` (`.claude/skills/nestjs-best-practices/SKILL.md` y `.claude/skills/nestjs-best-practices/rules/`): El cómo, con ejemplos de código.
+2. [Skill `nestjs-best-practices`](.claude/skills/nestjs-best-practices/): El cómo, con ejemplos de código.
 
 3. Tus datos de entrenamiento: Permitidos, no están prohibidos, pero ceden ante cualquier fuente anterior.
 
