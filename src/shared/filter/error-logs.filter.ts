@@ -7,7 +7,6 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import type { Request as ExpressRequest } from 'express';
 
 @Catch()
@@ -15,7 +14,7 @@ export class ErrorLogsFilter implements ExceptionFilter {
   constructor(private readonly logger: LoggerService) {}
 
   catch(exception: unknown, host: ArgumentsHost): void {
-    const ctx: HttpArgumentsHost = host.switchToHttp();
+    const ctx = host.switchToHttp();
     const req: ExpressRequest = ctx.getRequest<ExpressRequest>();
 
     this.#logError(exception, req);
