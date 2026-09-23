@@ -8,7 +8,10 @@ export class LuxonService {
   /**
   convierte cualquier fecha (string, Date o DateTime) al formato personalizado indicado,
   siempre retornando un DateTime de luxon (o null si la fecha es inválida) */
-  formatDate = (rawDate: string | Date | DateTime, format: string = ISO_8601): DateTime | null => {
+  formatDate = (
+    rawDate: string | Date | DateTime,
+    format: string = ISO_8601,
+  ): DateTime | null => {
     let convertedDateTime: DateTime;
 
     if (rawDate instanceof DateTime) {
@@ -23,7 +26,10 @@ export class LuxonService {
 
     if (!convertedDateTime.isValid) return null;
 
-    const formattedDate: string = convertedDateTime.toUTC().setLocale('es').toFormat(format);
+    const formattedDate: string = convertedDateTime
+      .toUTC()
+      .setLocale('es')
+      .toFormat(format);
     const reparsedDateTime = DateTime.fromFormat(formattedDate, format, {
       locale: 'es',
       zone: 'utc',

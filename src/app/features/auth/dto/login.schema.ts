@@ -12,6 +12,7 @@ const loginSchema = z.object({
     .min(1, 'Contraseña es obligatoria'),
 });
 
-const LoginDtoBase: ZodDto<typeof loginSchema, false> = createZodDto(loginSchema);
+const LoginDtoBase: ZodDto<typeof loginSchema, false> =
+  createZodDto(loginSchema);
 
 export class LoginDto extends LoginDtoBase {}

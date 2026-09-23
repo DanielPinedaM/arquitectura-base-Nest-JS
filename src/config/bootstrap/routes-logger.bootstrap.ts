@@ -111,14 +111,12 @@ export function routesLogger(app: INestApplication): void {
 
   const availableRoutes: IRoute[] = router.stack
     .filter((layer: IRouteLayer) => layer?.route)
-    .map(
-      (layer: IRouteLayer): IRoute => ({
-        path: layer?.route?.path ?? '',
-        methods: Object.keys(layer?.route?.methods ?? {})
-          .map((method: string) => method?.toUpperCase())
-          .join(', '),
-      }),
-    )
+    .map((layer: IRouteLayer): IRoute => ({
+      path: layer?.route?.path ?? '',
+      methods: Object.keys(layer?.route?.methods ?? {})
+        .map((method: string) => method?.toUpperCase())
+        .join(', '),
+    }))
     .filter((item: IRoute) => (item?.path ?? '').includes(`/${GLOBAL_PREFIX}`));
 
   if (availableRoutes.length === 0) {
