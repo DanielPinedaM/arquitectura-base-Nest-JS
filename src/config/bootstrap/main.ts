@@ -7,6 +7,7 @@ import { json } from 'express';
 
 // #region configuracion de Nest JS
 import {
+  configCookies,
   configCore,
   configExceptionFilter,
   configPipes,
@@ -38,6 +39,7 @@ async function bootstrap(): Promise<void> {
   configPipes(app);
 
   app.use(json({ limit: '5mb' }));
+  configCookies(app);
 
   configCore(app);
   configSwagger(app);

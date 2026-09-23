@@ -4,6 +4,7 @@ import {
 } from '@/shared/data-types/constants/api.const';
 import { log } from '@/shared/data-types/constants/logger.const';
 import { INestApplication, VersioningType } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
 import { ZodValidationPipe } from 'nestjs-zod';
 
 // #region Exception Filter
@@ -24,6 +25,12 @@ export function configExceptionFilter(app: INestApplication): void {
 Pipes */
 export function configPipes(app: INestApplication): void {
   app.useGlobalPipes(new ZodValidationPipe());
+}
+
+/**
+Cookie Parser */
+export function configCookies(app: INestApplication): void {
+  app.use(cookieParser());
 }
 
 /**
