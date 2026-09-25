@@ -163,7 +163,7 @@ Para todos los comandos de `pnpm` usar el alias `pn`
 
 # 📦 Instalar Paquetes
 
-Este comando instala Nest.js, TypeScript, etc:
+Este comando instala los paquetes que estan en `package.json` que son Nest.js, TypeScript, etc:
 
 ```console
 pn i
