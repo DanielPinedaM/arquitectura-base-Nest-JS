@@ -556,7 +556,7 @@ Hay dos alcances:
 | Global  | Disponible para la persona que la instala en **todos sus proyectos** | ❌ **No**                                      |
 | Project | Disponible **solo en el proyecto actual** donde se instala           | ✅ **Sí**                                      |
 
-4. Mover `.agents\skills\nestjs-best-practices` a `.claude\skills\nestjs-best-practices`
+4. Verificar que la skill se guarde en `.agents\skills\nestjs-best-practices`
 
 5. Eliminar `skills-lock.json`
 
@@ -565,7 +565,7 @@ Hay dos alcances:
 
 2. Descargar el repositorio
 
-3. Mover la skill a `.claude\skills\NOMBRE-DE-LA-SKILL\SKILL.md`
+3. Mover la skill a `.agents\skills\NOMBRE-DE-LA-SKILL\SKILL.md`
 
 ### Ver Skills Instaladas
 Para ver la lista de skills ejecutar el comando `/skills` dentro de Claude Code
@@ -577,7 +577,7 @@ Trabajar bajo el principio:
 
 > 1 commit = 1 feature
 
-El skill `.claude\skills\git-commit\SKILL.md` te permite realizar commits.
+El skill `.agents\skills\git-commit\SKILL.md` te permite realizar commits.
 
 ***Ejemplos de prompt:***
 
@@ -650,9 +650,9 @@ Estructura de la skill:
 
 | Ruta                                                      | Qué contiene                                                                                                                                          |
 |-----------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `.claude\skills\database-normalization\rules\theory.md`   | Teoría general. Se lee **siempre**                                                                                                                    |
-| `.claude\skills\database-normalization\rules\<SIGLA>.md`  | Teoría de cada forma normal. Solo se lee, nunca se modifica                                                                                           |
-| `.claude\skills\database-normalization\result\<SIGLA>.md` | El modelo relacional del proyecto en el paso de la forma normal seleccionada, con sus primary key y foreign key. Lo genera la skill en cada ejecución |
+| `.agents\skills\database-normalization\rules\theory.md`   | Teoría general. Se lee **siempre**                                                                                                                    |
+| `.agents\skills\database-normalization\rules\<SIGLA>.md`  | Teoría de cada forma normal. Solo se lee, nunca se modifica                                                                                           |
+| `.agents\skills\database-normalization\result\<SIGLA>.md` | El modelo relacional del proyecto en el paso de la forma normal seleccionada, con sus primary key y foreign key. Lo genera la skill en cada ejecución |
 
 Después de documentar cada paso, aplica la forma normal elegida al schema del ORM y deja el código que lo consume coherente con el nuevo esquema. Si el proyecto usa migrations, la genera pero **no la ejecuta** sin que lo autorices.
 
