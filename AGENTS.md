@@ -8,9 +8,9 @@
 # Reglas **OBLIGATORIAS** de Nest.js
 Este proyecto usa Nest.js 11. Antes de editar código y responder, consultar estas fuentes. Cuando las fuentes se contradicen, gana la de número menor:
 
-1. [Skill `nestjs-conventions`](/skills/nestjs-conventions/SKILL.md): Reglas propias del proyecto que definen su arquitectura. Ignorarla genera código inescalable.
+1. [Skill `nestjs-conventions`](.agents/skills/nestjs-conventions/SKILL.md): Reglas propias del proyecto que definen su arquitectura. Ignorarla genera código inescalable.
 
-2. [Skill `nestjs-best-practices`](/skills/nestjs-best-practices/): Buenas prácticas generales de NestJS
+2. [Skill `nestjs-best-practices`](.agents/skills/nestjs-best-practices/): Buenas prácticas generales de NestJS
 
 3. Datos de entrenamiento: válidos, pero ceden ante todo lo anterior.
 

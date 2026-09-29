@@ -31,7 +31,7 @@ Se imprime una sola vez por ejecución de la skill.
 
 ## 2. Leer la teoría base — siempre
 
-Leer `.claude/skills/database-normalization/rules/theory.md` **en toda ejecución**, sin importar qué forma normal elija el usuario. Contiene la definición de normalización, las anomalías de inserción, actualización y eliminación, la tabla de restricciones de cada forma normal y el ejemplo completo paso a paso.
+Leer `.agents/skills/database-normalization/rules/theory.md` **en toda ejecución**, sin importar qué forma normal elija el usuario. Contiene la definición de normalización, las anomalías de inserción, actualización y eliminación, la tabla de restricciones de cada forma normal y el ejemplo completo paso a paso.
 
 ## 3. Preguntar hasta qué forma normal normalizar
 
@@ -88,50 +88,50 @@ Reglas del recorrido:
 
 ## 5. Leer solo la teoría de las formas normales que se ejecutan
 
-Cada archivo de `.claude/skills/database-normalization/rules/` contiene la teoría de una forma normal: su definición formal, un diseño que la viola y un diseño que la cumple.
+Cada archivo de `.agents/skills/database-normalization/rules/` contiene la teoría de una forma normal: su definición formal, un diseño que la viola y un diseño que la cumple.
 
 Antes de ejecutar el paso de una forma normal, leer su archivo de teoría:
 
 ```
-.claude/skills/database-normalization/rules/UNF.md
-.claude/skills/database-normalization/rules/1NF.md
-.claude/skills/database-normalization/rules/2NF.md
-.claude/skills/database-normalization/rules/3NF.md
-.claude/skills/database-normalization/rules/EKNF.md
-.claude/skills/database-normalization/rules/BCNF.md
-.claude/skills/database-normalization/rules/4NF.md
-.claude/skills/database-normalization/rules/ETNF.md
-.claude/skills/database-normalization/rules/5NF.md
-.claude/skills/database-normalization/rules/DKNF.md
-.claude/skills/database-normalization/rules/6NF.md
+.agents/skills/database-normalization/rules/UNF.md
+.agents/skills/database-normalization/rules/1NF.md
+.agents/skills/database-normalization/rules/2NF.md
+.agents/skills/database-normalization/rules/3NF.md
+.agents/skills/database-normalization/rules/EKNF.md
+.agents/skills/database-normalization/rules/BCNF.md
+.agents/skills/database-normalization/rules/4NF.md
+.agents/skills/database-normalization/rules/ETNF.md
+.agents/skills/database-normalization/rules/5NF.md
+.agents/skills/database-normalization/rules/DKNF.md
+.agents/skills/database-normalization/rules/6NF.md
 ```
 
 **Solo se leen los archivos de las formas normales que se ejecutan.** Si el objetivo es `3NF`, se leen `theory.md`, `UNF.md`, `1NF.md`, `2NF.md` y `3NF.md`, y **no se lee ninguno de los otros seis**: ni `EKNF.md`, ni `BCNF.md`, ni `4NF.md`, ni `ETNF.md`, ni `5NF.md`, ni `DKNF.md`, ni `6NF.md`.
 
 ## 6. Documentar el modelo relacional de cada paso
 
-Por cada forma normal ejecutada se crea un markdown propio en `.claude/skills/database-normalization/result/`, nombrado con la sigla de la forma normal:
+Por cada forma normal ejecutada se crea un markdown propio en `.agents/skills/database-normalization/result/`, nombrado con la sigla de la forma normal:
 
 ```
-.claude/skills/database-normalization/result/UNF.md
-.claude/skills/database-normalization/result/1NF.md
-.claude/skills/database-normalization/result/2NF.md
-.claude/skills/database-normalization/result/3NF.md
-.claude/skills/database-normalization/result/EKNF.md
-.claude/skills/database-normalization/result/BCNF.md
-.claude/skills/database-normalization/result/4NF.md
-.claude/skills/database-normalization/result/ETNF.md
-.claude/skills/database-normalization/result/5NF.md
-.claude/skills/database-normalization/result/DKNF.md
-.claude/skills/database-normalization/result/6NF.md
+.agents/skills/database-normalization/result/UNF.md
+.agents/skills/database-normalization/result/1NF.md
+.agents/skills/database-normalization/result/2NF.md
+.agents/skills/database-normalization/result/3NF.md
+.agents/skills/database-normalization/result/EKNF.md
+.agents/skills/database-normalization/result/BCNF.md
+.agents/skills/database-normalization/result/4NF.md
+.agents/skills/database-normalization/result/ETNF.md
+.agents/skills/database-normalization/result/5NF.md
+.agents/skills/database-normalization/result/DKNF.md
+.agents/skills/database-normalization/result/6NF.md
 ```
 
 ### Dos familias de archivos con el mismo nombre — no confundirlas
 
 | Ruta | Qué contiene | Quién la escribe |
 |---|---|---|
-| `.claude/skills/database-normalization/rules/<SIGLA>.md` | La **teoría** de esa forma normal. Es material de referencia fijo. | Nadie: **solo se lee, nunca se modifica** |
-| `.claude/skills/database-normalization/result/<SIGLA>.md` | El **modelo relacional** del proyecto en ese paso. | La skill, en cada ejecución |
+| `.agents/skills/database-normalization/rules/<SIGLA>.md` | La **teoría** de esa forma normal. Es material de referencia fijo. | Nadie: **solo se lee, nunca se modifica** |
+| `.agents/skills/database-normalization/result/<SIGLA>.md` | El **modelo relacional** del proyecto en ese paso. | La skill, en cada ejecución |
 
 ### Contenido del markdown de cada paso
 

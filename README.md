@@ -351,7 +351,7 @@ Sirve para importar la API en Postman, Insomnia o generar clientes automáticame
 > Hazle preguntas a la IA sobre:
 >
 > 1. [`AGENTS.md`](https://youtu.be/eS5HmdpcqnM?si=D7X-HFPQAfCkZ4Ks)
-> 2. `.claude/skills/***`
+> 2. `.agents/skills/***`
 > 3. Los **"🔗 Enlaces"**
 >
 > Hasta comprender cómo funciona el proyecto.
