@@ -6,7 +6,7 @@
 * Archivo de bloqueo: pnpm-lock.yaml
 
 # Reglas **OBLIGATORIAS** de Nest.js
-Este proyecto usa Nest.js 11. Antes de escribir código y responder, consultar estas fuentes. Cuando las fuentes se contradicen, gana la de número menor:
+Este proyecto usa Nest.js 11. Antes de editar código y responder, consultar estas fuentes. Cuando las fuentes se contradicen, gana la de número menor:
 
 1. [Skill `nest-conventions`](.claude/skills/nest-conventions/SKILL.md): Reglas propias del proyecto que definen su arquitectura. Ignorarlo genera codigo inescalable.
 
