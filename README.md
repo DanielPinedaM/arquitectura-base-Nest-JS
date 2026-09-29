@@ -785,9 +785,9 @@ La cita corresponde a [este link de la documentacion oficial de Prisma](https://
 # Ejemplos de Prompts de ¿Como Usar IA en Este Proyecto?
 
 # CLI
-Puedes instalar CLIs para que la IA ejecute comandos y automatizar procesos
+Puedes instalar CLIs para que la IA ejecute comandos y automatice procesos.
 
-Tambien puedes crear skills que le expliquen a la IA como ejecutar los comandos del CLI
+También puedes crear skills que le expliquen a la IA cómo ejecutar los comandos del CLI.
 
 ## GitHub CLI
 
