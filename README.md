@@ -1114,7 +1114,7 @@ function parseTitle(value: unknown): string {
 }
 ```
 
-### `interface` para Tipos de Objeto
+### Uso de `interface`
 Preferir `interface` para tipos de objeto (`Task`) y para el tipo de los elementos en arrays de objetos (`Task[]`).
 
 **Incorrecto:**
@@ -1140,7 +1140,11 @@ interface Task {
   completed: boolean;
 }
 
-const tasks: Task[] = [];
+// elementos en arrays de objetos Task[]
+const arrayOfTaskObjects: Task[] = [];
+
+// tipos de objeto Task
+const literalTaskObject: Task = {};
 ```
 
 ### `Record<Clave, Valor>` para Claves Dinámicas
