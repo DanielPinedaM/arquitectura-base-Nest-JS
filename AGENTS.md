@@ -16,19 +16,6 @@ Este proyecto usa Nest.js 11. Antes de editar código y responder, consultar est
 
 # Resumen de la Skill `nest-conventions`
 
-## Tipado en TypeScript
-* Usar strict type checking
-
-* Preferir la inferencia de tipos cuando el tipo sea obvio
-
-* Prohibido el tipo `any`; usa `unknown` cuando el tipo sea incierto.
-
-* Preferir `interface` para tipos de objeto (`Task`) y para el tipo de los elementos en arrays de objetos (`Task[]`).
-
-* Usar `Record<Clave, Valor>` para objetos con claves dinámicas.
-
-* Usar `type` para tipos primitivos, literales y uniones.
-
 ## Validaciones
 * Usar `nestjs-zod` para validar DTOs: definir el schema con Zod (`z.object({...})`), crear el DTO con `createZodDto(schema)` como clase (no como `type`/`z.infer`), y aplicar la validación global con el `ZodValidationPipe` de `nestjs-zod` en lugar del `ValidationPipe` nativo
 
