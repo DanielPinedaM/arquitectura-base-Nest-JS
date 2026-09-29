@@ -789,6 +789,25 @@ Puedes instalar CLIs para que la IA ejecute comandos y automatice procesos.
 
 También puedes crear skills que le expliquen a la IA cómo ejecutar los comandos del CLI.
 
+## ¿Por qué Usar un CLI y no un MCP?
+
+**Respuesta resumida:**
+Cuando el MCP y el CLI sirven para lo mismo, es mejor usar el CLI porque consume menos contexto que el MCP.
+
+**Ejemplos:**
+
+| MCP                                                                              | CLI                                                                                                    |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [Playwright MCP](https://github.com/microsoft/playwright-mcp)                    | [Playwright CLI](https://github.com/microsoft/playwright-cli/blob/main/skills/playwright-cli/SKILL.md) |
+| [Atlassian / Jira MCP](https://www.atlassian.com/platform/rovo-mcp)              | [Atlassian / Jira CLI](https://developer.atlassian.com/cloud/acli/guides/introduction/)                |
+| [GitHub MCP](https://github.com/github/github-mcp-server)                        | [GitHub CLI](https://youtu.be/oZRFOkLUZdk)                                                             |
+| [Azure MCP](https://learn.microsoft.com/es-es/azure/developer/azure-mcp-server/) | [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/)                                              |
+
+**Explicación:**
+Por defecto, Claude Code difiere las definiciones de las tools de un MCP usando ([MCP tool search](https://code.claude.com/docs/en/mcp#scale-with-mcp-tool-search)): al iniciar la sesión solo carga en el contexto los nombres de las tools y las instrucciones del servidor, y la descripcion de lo que hace cada tool se carga cuando el modelo la necesita.
+
+Un CLI es más eficiente en contexto porque no agrega ningún listado de tools: el modelo ejecuta los comandos directamente en la terminal ([documentación oficial](https://code.claude.com/docs/en/costs#reduce-mcp-server-overhead)).
+
 ## GitHub CLI
 
 # este sub-titulo de GitHub CLI esta INCOMPLETO, falta  agregar  video tutorial de fazt y explicar como usar GitHub CLI con IA
