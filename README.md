@@ -663,7 +663,16 @@ Después de documentar cada paso, aplica la forma normal elegida al schema del O
 
 # MCP
 
-# [🔗 Enlace - Repositorios de MCP](https://mcpservers.org/es/)
+## 🔗 Enlaces - Mas Ejemplos de MCP
+Esto no esta configurado en este proyecto:
+
+* [Repositorios de MCP](https://mcpservers.org/es/)
+
+* [Figma MCP:](https://youtu.be/uZ6Nbwp8GtU?si=cf4h9SxQdnXbc3KI) Sirve para convertir un mockup de Figma a codigo de CSS/Sass/Tailwind/Bootstrap
+
+* [Chrome DevTools MCP](https://youtu.be/2wxCXppbpgs?si=tFR4TWmJUy3CSSW3)
+
+* [Vercel Agent Browser](https://github.com/vercel-labs/agent-browser/tree/main)
 
 ## ¿Como Configurar MCP?
 
