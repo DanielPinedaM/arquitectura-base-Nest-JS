@@ -18,7 +18,7 @@ Este proyecto usa Nest.js 11. Antes de editar código y responder, consultar est
 
 1. [Skill `nestjs-conventions`](.agents/skills/nestjs-conventions/SKILL.md): Reglas propias del proyecto que definen su arquitectura. Ignorarla genera código inescalable.
 
-2. [Skill `nestjs-best-practices`](.agents/skills/nestjs-best-practices/): Buenas prácticas generales de NestJS
+2. [Skill `nestjs-best-practices`](.agents/skills/nestjs-best-practices/): Buenas prácticas generales de Nest.js
 
 3. Datos de entrenamiento: válidos, pero ceden ante todo lo anterior.
 
