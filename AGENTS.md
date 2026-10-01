@@ -13,8 +13,6 @@ Si encuentras un error, inconsistencia, duda o ambigüedad, detente y pregúntam
 
 **Razón**: una suposición incorrecta genera código que después hay que revisar y deshacer; preguntar cuesta menos que corregir una implementación equivocada.
 
-**Excepción**: lo que la skill `nestjs-conventions` define explícitamente no se pregunta, se aplica (regla "1. Autoridad de la Skill").
-
 # Reglas **OBLIGATORIAS** de Nest.js
 Este proyecto usa Nest.js 11. Antes de editar código y responder, consultar estas fuentes. Cuando las fuentes se contradicen, gana la de número menor:
 
