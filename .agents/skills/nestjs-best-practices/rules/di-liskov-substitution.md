@@ -1,28 +1,28 @@
 ---
-title: Honor Liskov Substitution Principle
+title: Respeta el Liskov Substitution Principle
 impact: HIGH
-impactDescription: Ensures implementations are truly interchangeable without breaking callers
+impactDescription: Asegura que las implementaciones sean realmente intercambiables sin romper a quienes las llaman
 tags: dependency-injection, inheritance, solid, lsp
 ---
 
-## Honor Liskov Substitution Principle
+## Respeta el Liskov Substitution Principle
 
-Subtypes must be substitutable for their base types without altering program correctness. In NestJS with dependency injection, this means any implementation of an interface or abstract class must honor the contract completely. A mock payment service used in tests must behave like a real payment service (return similar shapes, handle errors the same way). Violating LSP causes subtle bugs when swapping implementations.
+Los subtipos deben poder sustituir a sus tipos base sin alterar la corrección del programa. En NestJS con inyección de dependencias, esto significa que cualquier implementación de una interfaz o clase abstracta debe respetar el contrato por completo. Un servicio de pagos mock usado en los tests debe comportarse como un servicio de pagos real (devolver estructuras similares, manejar los errores de la misma forma). Violar el LSP provoca bugs sutiles al intercambiar implementaciones.
 
-**Incorrect (implementation violates the contract):**
+**Incorrecto (la implementación viola el contrato):**
 
 ```typescript
-// Base interface with clear contract
+// Interfaz base con un contrato claro
 interface PaymentGateway {
   /**
-   * Charges the specified amount.
-   * @returns PaymentResult on success
-   * @throws PaymentFailedException on payment failure
+   * Cobra el monto especificado.
+   * @returns PaymentResult en caso de éxito
+   * @throws PaymentFailedException si el pago falla
    */
   charge(amount: number, currency: string): Promise<PaymentResult>;
 }
 
-// Production implementation - follows the contract
+// Implementación de producción - sigue el contrato
 @Injectable()
 export class StripeService implements PaymentGateway {
   async charge(amount: number, currency: string): Promise<PaymentResult> {
@@ -31,62 +31,62 @@ export class StripeService implements PaymentGateway {
   }
 }
 
-// Mock that violates LSP - different behavior!
+// Mock que viola el LSP - ¡comportamiento diferente!
 @Injectable()
 export class MockPaymentService implements PaymentGateway {
   async charge(amount: number, currency: string): Promise<PaymentResult> {
-    // VIOLATION 1: Throws for valid input (contract says return PaymentResult)
+    // VIOLACIÓN 1: Lanza una excepción con un input válido (el contrato dice que devuelve PaymentResult)
     if (amount > 1000) {
       throw new Error('Mock does not support large amounts');
     }
 
-    // VIOLATION 2: Returns null instead of PaymentResult
+    // VIOLACIÓN 2: Devuelve null en lugar de PaymentResult
     if (currency !== 'USD') {
-      return null as any; // Real service would convert or reject properly
+      return null as any; // El servicio real convertiría o rechazaría correctamente
     }
 
-    // VIOLATION 3: Missing required field
-    return { success: true } as PaymentResult; // Missing transactionId!
+    // VIOLACIÓN 3: Falta un campo obligatorio
+    return { success: true } as PaymentResult; // ¡Falta transactionId!
   }
 }
 
-// Consumer trusts the contract
+// El consumidor confía en el contrato
 @Injectable()
 export class OrdersService {
   constructor(@Inject(PAYMENT_GATEWAY) private payment: PaymentGateway) {}
 
   async checkout(order: Order): Promise<void> {
     const result = await this.payment.charge(order.total, order.currency);
-    // These fail with MockPaymentService:
-    await this.saveTransaction(result.transactionId); // undefined!
-    await this.sendReceipt(result); // might be null!
+    // Esto falla con MockPaymentService:
+    await this.saveTransaction(result.transactionId); // ¡undefined!
+    await this.sendReceipt(result); // ¡podría ser null!
   }
 }
 ```
 
-**Correct (implementations honor the contract):**
+**Correcto (las implementaciones respetan el contrato):**
 
 ```typescript
-// Well-defined interface with documented behavior
+// Interfaz bien definida con el comportamiento documentado
 interface PaymentGateway {
   /**
-   * Charges the specified amount.
-   * @param amount - Amount in smallest currency unit (cents)
-   * @param currency - ISO 4217 currency code
-   * @returns PaymentResult with transactionId, success status, and amount
-   * @throws PaymentFailedException if charge is declined
-   * @throws InvalidCurrencyException if currency is not supported
+   * Cobra el monto especificado.
+   * @param amount - Monto en la unidad monetaria más pequeña (centavos)
+   * @param currency - Código de moneda ISO 4217
+   * @returns PaymentResult con transactionId, estado de éxito y monto
+   * @throws PaymentFailedException si el cobro es rechazado
+   * @throws InvalidCurrencyException si la moneda no está soportada
    */
   charge(amount: number, currency: string): Promise<PaymentResult>;
 
   /**
-   * Refunds a previous charge.
-   * @throws TransactionNotFoundException if transactionId is invalid
+   * Reembolsa un cobro previo.
+   * @throws TransactionNotFoundException si transactionId es inválido
    */
   refund(transactionId: string, amount?: number): Promise<RefundResult>;
 }
 
-// Production implementation
+// Implementación de producción
 @Injectable()
 export class StripeService implements PaymentGateway {
   async charge(amount: number, currency: string): Promise<PaymentResult> {
@@ -106,27 +106,27 @@ export class StripeService implements PaymentGateway {
   }
 
   async refund(transactionId: string, amount?: number): Promise<RefundResult> {
-    // Implementation...
+    // Implementación...
   }
 }
 
-// Mock that honors LSP - same contract, same behavior shape
+// Mock que respeta el LSP - mismo contrato, misma forma de comportamiento
 @Injectable()
 export class MockPaymentService implements PaymentGateway {
   private transactions = new Map<string, PaymentResult>();
 
   async charge(amount: number, currency: string): Promise<PaymentResult> {
-    // Honor the contract: validate currency like real service would
+    // Respeta el contrato: valida la moneda como lo haría el servicio real
     if (!['USD', 'EUR', 'GBP'].includes(currency)) {
       throw new InvalidCurrencyException(`Unsupported currency: ${currency}`);
     }
 
-    // Simulate decline for specific test scenarios
+    // Simula un rechazo para escenarios de test específicos
     if (amount === 99999) {
       throw new PaymentFailedException('Card declined (test scenario)');
     }
 
-    // Return same shape as production
+    // Devuelve la misma estructura que producción
     const result: PaymentResult = {
       success: true,
       transactionId: `mock_${Date.now()}_${Math.random().toString(36)}`,
@@ -138,7 +138,7 @@ export class MockPaymentService implements PaymentGateway {
   }
 
   async refund(transactionId: string, amount?: number): Promise<RefundResult> {
-    // Honor the contract: throw if transaction not found
+    // Respeta el contrato: lanza una excepción si no se encuentra la transacción
     if (!this.transactions.has(transactionId)) {
       throw new TransactionNotFoundException(transactionId);
     }
@@ -151,7 +151,7 @@ export class MockPaymentService implements PaymentGateway {
   }
 }
 
-// Consumer can swap implementations safely
+// El consumidor puede intercambiar implementaciones de forma segura
 @Injectable()
 export class OrdersService {
   constructor(@Inject(PAYMENT_GATEWAY) private payment: PaymentGateway) {}
@@ -159,7 +159,7 @@ export class OrdersService {
   async checkout(order: Order): Promise<Order> {
     try {
       const result = await this.payment.charge(order.total, order.currency);
-      // Works with both StripeService and MockPaymentService
+      // Funciona tanto con StripeService como con MockPaymentService
       order.transactionId = result.transactionId;
       order.status = 'paid';
       return order;
@@ -174,10 +174,10 @@ export class OrdersService {
 }
 ```
 
-**Testing LSP compliance:**
+**Testing del cumplimiento del LSP:**
 
 ```typescript
-// Shared test suite that any implementation must pass
+// Suite de tests compartida que cualquier implementación debe pasar
 function testPaymentGatewayContract(
   createGateway: () => PaymentGateway,
 ) {
@@ -208,7 +208,7 @@ function testPaymentGatewayContract(
   });
 }
 
-// Run against all implementations
+// Ejecútalo contra todas las implementaciones
 describe('StripeService', () => {
   testPaymentGatewayContract(() => new StripeService(mockStripeClient));
 });
@@ -218,4 +218,4 @@ describe('MockPaymentService', () => {
 });
 ```
 
-Reference: [Liskov Substitution Principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle)
+Referencia: [Liskov Substitution Principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle)

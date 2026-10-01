@@ -1,29 +1,29 @@
 ---
-title: Use DTOs and Serialization for API Responses
+title: Usa DTOs y serialización para las respuestas de la API
 impact: MEDIUM
-impactDescription: Response DTOs prevent accidental data exposure and ensure consistency
+impactDescription: Los DTOs de respuesta evitan la exposición accidental de datos y aseguran la consistencia
 tags: api, dto, serialization, nestjs-zod
 ---
 
-## Use DTOs and Serialization for API Responses
+## Usa DTOs y serialización para las respuestas de la API
 
-Never return entity objects directly from controllers. Use response DTOs created with `createZodDto` and applied with `@ZodSerializerDto()` to control exactly what data is sent to clients. This prevents accidental exposure of sensitive fields and provides a stable API contract.
+Nunca devuelvas objetos de entidad directamente desde los controllers. Usa DTOs de respuesta creados con `createZodDto` y aplicados con `@ZodSerializerDto()` para controlar exactamente qué datos se envían a los clientes. Esto evita la exposición accidental de campos sensibles y proporciona un contrato de API estable.
 
-**Incorrect (returning entities directly or manual spreading):**
+**Incorrecto (devolver entidades directamente o hacer spread manual):**
 
 ```typescript
-// Return entities directly
+// Devuelve las entidades directamente
 @Controller('users')
 export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findById(id);
-    // Returns: { id, email, passwordHash, ssn, internalNotes, ... }
-    // Exposes sensitive data!
+    // Devuelve: { id, email, passwordHash, ssn, internalNotes, ... }
+    // ¡Expone datos sensibles!
   }
 }
 
-// Manual object spreading (error-prone)
+// Spread manual del objeto (propenso a errores)
 @Get(':id')
 async findOne(@Param('id') id: string) {
   const user = await this.usersService.findById(id);
@@ -31,47 +31,47 @@ async findOne(@Param('id') id: string) {
     id: user.id,
     email: user.email,
     name: user.name,
-    // Easy to forget to exclude sensitive fields
-    // Hard to maintain across endpoints
+    // Es fácil olvidar excluir los campos sensibles
+    // Difícil de mantener entre endpoints
   };
 }
 ```
 
-**Correct (use nestjs-zod serialization with response DTOs):**
+**Correcto (usa la serialización de nestjs-zod con DTOs de respuesta):**
 
 ```typescript
-// Enable zod serialization globally
+// Habilita la serialización de zod globalmente
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalInterceptors(new ZodSerializerInterceptor(app.get(Reflector)));
   await app.listen(3000);
 }
 
-// Response schema with serialization control
+// Schema de respuesta con control de la serialización
 const userResponseSchema = z.object({
   id: z.uuid(),
   email: z.email(),
   name: z.string(),
   createdAt: z.date(),
 });
-// passwordHash, ssn and internalNotes are not part of the schema, so they are
-// never included in responses. isAdmin is still allowed in request DTOs
+// passwordHash, ssn e internalNotes no forman parte del schema, por lo que
+// nunca se incluyen en las respuestas. isAdmin sigue estando permitido en los DTOs de petición
 
 export class UserResponseDto extends createZodDto(userResponseSchema) {}
 
-// Now returning entity is safe
+// Ahora devolver la entidad es seguro
 @Controller('users')
 export class UsersController {
   @Get(':id')
   @ZodSerializerDto(UserResponseDto)
   async findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findById(id);
-    // Returns: { id, email, name, createdAt }
-    // Sensitive fields excluded automatically
+    // Devuelve: { id, email, name, createdAt }
+    // Los campos sensibles se excluyen automáticamente
   }
 }
 
-// For different response shapes, use explicit DTOs
+// Para estructuras de respuesta diferentes, usa DTOs explícitos
 const userBaseSchema = z.object({
   id: z.uuid(),
   email: z.email(),
@@ -94,7 +94,7 @@ const userDetailSchema = userBaseSchema.extend({
 
 export class UserDetailResponseDto extends createZodDto(userDetailSchema) {}
 
-// Controller with explicit DTOs
+// Controller con DTOs explícitos
 @Controller('users')
 export class UsersController {
   @Get()
@@ -106,12 +106,12 @@ export class UsersController {
   @Get(':id')
   @ZodSerializerDto(UserDetailResponseDto)
   async findOne(@Param('id') id: string): Promise<User> {
-    // Extraneous values are stripped by the schema
+    // El schema elimina los valores sobrantes
     return this.usersService.findByIdWithPosts(id);
   }
 }
 
-// Separate schemas for conditional serialization
+// Schemas separados para la serialización condicional
 const publicUserSchema = userBaseSchema.pick({ id: true, name: true });
 
 const adminUserSchema = publicUserSchema.extend({
@@ -134,22 +134,22 @@ export class UsersController {
   @Get()
   @ZodSerializerDto([PublicUserDto])
   async findAllPublic(): Promise<User[]> {
-    // Returns: { id, name }
+    // Devuelve: { id, name }
   }
 
   @Get('admin')
   @UseGuards(AdminGuard)
   @ZodSerializerDto([AdminUserDto])
   async findAllAdmin(): Promise<User[]> {
-    // Returns: { id, name, email, createdAt }
+    // Devuelve: { id, name, email, createdAt }
   }
 
   @Get('me')
   @ZodSerializerDto(OwnerUserDto)
   async getProfile(@CurrentUser() user: User): Promise<User> {
-    // Returns: { id, name, settings }
+    // Devuelve: { id, name, settings }
   }
 }
 ```
 
-Reference: [NestJS Serialization](https://docs.nestjs.com/techniques/serialization)
+Referencia: [NestJS Serialization](https://docs.nestjs.com/techniques/serialization)

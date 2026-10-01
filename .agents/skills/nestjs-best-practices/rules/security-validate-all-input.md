@@ -1,59 +1,59 @@
 ---
-title: Validate All Input with DTOs and Pipes
+title: Valida todo el input con DTOs y pipes
 impact: HIGH
-impactDescription: First line of defense against attacks
+impactDescription: Primera línea de defensa contra los ataques
 tags: security, validation, dto, pipes
 ---
 
-## Validate All Input with DTOs and Pipes
+## Valida todo el input con DTOs y pipes
 
-Always validate incoming data using zod schemas turned into DTOs with `createZodDto` and the global `ZodValidationPipe` from nestjs-zod. Never trust user input. Validate all request bodies, query parameters, and route parameters before processing.
+Valida siempre los datos entrantes usando schemas de zod convertidos en DTOs con `createZodDto` y el `ZodValidationPipe` global de nestjs-zod. Nunca confíes en el input del usuario. Valida todos los bodies de las peticiones, los query parameters y los route parameters antes de procesarlos.
 
-**Incorrect (trust raw input without validation):**
+**Incorrecto (confiar en el input en bruto sin validación):**
 
 ```typescript
-// Trust raw input without validation
+// Confía en el input en bruto sin validación
 @Controller('users')
 export class UsersController {
   @Post()
   create(@Body() body: any) {
-    // body could contain anything - SQL injection, XSS, etc.
+    // body podría contener cualquier cosa - SQL injection, XSS, etc.
     return this.usersService.create(body);
   }
 
   @Get()
   findAll(@Query() query: any) {
-    // query.limit could be "'; DROP TABLE users; --"
+    // query.limit podría ser "'; DROP TABLE users; --"
     return this.usersService.findAll(query.limit);
   }
 }
 
-// DTOs without a zod schema
+// DTOs sin un schema de zod
 export class CreateUserDto {
-  name: string;    // No validation
-  email: string;   // Could be "not-an-email"
-  age: number;     // Could be "abc" or -999
+  name: string;    // Sin validación
+  email: string;   // Podría ser "not-an-email"
+  age: number;     // Podría ser "abc" o -999
 }
 ```
 
-**Correct (validated DTOs with global ZodValidationPipe):**
+**Correcto (DTOs validados con un ZodValidationPipe global):**
 
 ```typescript
-// Enable ZodValidationPipe globally in main.ts
+// Habilita ZodValidationPipe globalmente en main.ts
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Auto-transform to the types declared in each zod schema
+  // Transforma automáticamente a los tipos declarados en cada schema de zod
   app.useGlobalPipes(new ZodValidationPipe());
 
   await app.listen(3000);
 }
 
-// Create well-validated DTOs
+// Crea DTOs bien validados
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
-// z.object() strips unknown properties, z.strictObject() throws on them
+// z.object() elimina las propiedades desconocidas, z.strictObject() lanza una excepción ante ellas
 const createUserSchema = z.strictObject({
   name: z.string().trim().min(2).max(100),
 
@@ -72,7 +72,7 @@ const createUserSchema = z.strictObject({
 
 export class CreateUserDto extends createZodDto(createUserSchema) {}
 
-// Query DTO with defaults and transformation
+// DTO de query con valores por defecto y transformación
 const findUsersQuerySchema = z.object({
   search: z.string().max(100).optional(),
 
@@ -83,7 +83,7 @@ const findUsersQuerySchema = z.object({
 
 export class FindUsersQueryDto extends createZodDto(findUsersQuerySchema) {}
 
-// Param validation
+// Validación de parámetros
 const userIdParamSchema = z.object({
   id: z.uuidv4(),
 });
@@ -94,22 +94,22 @@ export class UserIdParamDto extends createZodDto(userIdParamSchema) {}
 export class UsersController {
   @Post()
   create(@Body() dto: CreateUserDto): Promise<User> {
-    // dto is guaranteed to be valid
+    // Se garantiza que dto es válido
     return this.usersService.create(dto);
   }
 
   @Get()
   findAll(@Query() query: FindUsersQueryDto): Promise<User[]> {
-    // query.limit is a number, query.search is sanitized
+    // query.limit es un número, query.search está sanitizado
     return this.usersService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param() params: UserIdParamDto): Promise<User> {
-    // params.id is a valid UUID
+    // params.id es un UUID válido
     return this.usersService.findById(params.id);
   }
 }
 ```
 
-Reference: [NestJS Validation](https://docs.nestjs.com/techniques/validation)
+Referencia: [NestJS Validation](https://docs.nestjs.com/techniques/validation)

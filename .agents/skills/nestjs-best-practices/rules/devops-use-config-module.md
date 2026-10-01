@@ -1,45 +1,45 @@
 ---
-title: Use ConfigModule for Environment Configuration
+title: Usa ConfigModule para la configuración de entornos
 impact: LOW-MEDIUM
-impactDescription: Proper configuration prevents deployment failures
+impactDescription: Una configuración correcta evita fallos en los deployments
 tags: devops, configuration, environment, validation
 ---
 
-## Use ConfigModule for Environment Configuration
+## Usa ConfigModule para la configuración de entornos
 
-Use `@nestjs/config` for environment-based configuration. Validate configuration at startup to fail fast on misconfigurations. Use namespaced configuration for organization and type safety.
+Usa `@nestjs/config` para la configuración basada en entornos. Valida la configuración al arrancar para fallar rápido ante configuraciones incorrectas. Usa configuración con namespaces para la organización y la type safety.
 
-**Incorrect (accessing process.env directly):**
+**Incorrecto (acceder a process.env directamente):**
 
 ```typescript
-// Access process.env directly
+// Accede a process.env directamente
 @Injectable()
 export class DatabaseService {
   constructor() {
-    // No validation, can fail at runtime
+    // Sin validación, puede fallar en runtime
     this.connection = new Pool({
       host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT), // NaN if missing
-      password: process.env.DB_PASSWORD, // undefined if missing
+      port: parseInt(process.env.DB_PORT), // NaN si falta
+      password: process.env.DB_PASSWORD, // undefined si falta
     });
   }
 }
 
-// Scattered env access
+// Acceso disperso a las variables de entorno
 @Injectable()
 export class EmailService {
   sendEmail() {
-    // Different services access env differently
+    // Distintos servicios acceden al entorno de forma diferente
     const apiKey = process.env.SENDGRID_API_KEY || 'default';
-    // Typos go unnoticed: process.env.SENDGRID_API_KY
+    // Los errores tipográficos pasan desapercibidos: process.env.SENDGRID_API_KY
   }
 }
 ```
 
-**Correct (use @nestjs/config with validation):**
+**Correcto (usa @nestjs/config con validación):**
 
 ```typescript
-// Setup validated configuration
+// Configura una configuración validada
 import { ConfigModule, ConfigService, registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
 
@@ -78,12 +78,12 @@ export const validationSchema = Joi.object({
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Available everywhere without importing
+      isGlobal: true, // Disponible en todas partes sin importarlo
       load: [databaseConfig, appConfig],
       validationSchema,
       validationOptions: {
-        abortEarly: true, // Stop on first error
-        allowUnknown: true, // Allow other env vars
+        abortEarly: true, // Se detiene en el primer error
+        allowUnknown: true, // Permite otras variables de entorno
       },
     }),
     TypeOrmModule.forRootAsync({
@@ -102,7 +102,7 @@ export const validationSchema = Joi.object({
 })
 export class AppModule {}
 
-// Type-safe configuration access
+// Acceso a la configuración con type safety
 export interface AppConfig {
   port: number;
   environment: 'development' | 'production' | 'test';
@@ -117,13 +117,13 @@ export interface DatabaseConfig {
   database: string;
 }
 
-// Type-safe access
+// Acceso con type safety
 @Injectable()
 export class AppService {
   constructor(private config: ConfigService) {}
 
   getPort(): number {
-    // Type-safe with generic
+    // Type safety con genéricos
     return this.config.get<number>('app.port');
   }
 
@@ -132,20 +132,20 @@ export class AppService {
   }
 }
 
-// Inject namespaced config directly
+// Inyecta directamente la configuración con namespace
 @Injectable()
 export class DatabaseService {
   constructor(
     @Inject(databaseConfig.KEY)
     private dbConfig: ConfigType<typeof databaseConfig>,
   ) {
-    // Full type inference!
+    // ¡Inferencia de tipos completa!
     const host = this.dbConfig.host; // string
     const port = this.dbConfig.port; // number
   }
 }
 
-// Environment files support
+// Soporte de archivos de entorno
 ConfigModule.forRoot({
   envFilePath: [
     `.env.${process.env.NODE_ENV}.local`,
@@ -164,4 +164,4 @@ ConfigModule.forRoot({
 // DB_PORT=5432
 ```
 
-Reference: [NestJS Configuration](https://docs.nestjs.com/techniques/configuration)
+Referencia: [NestJS Configuration](https://docs.nestjs.com/techniques/configuration)

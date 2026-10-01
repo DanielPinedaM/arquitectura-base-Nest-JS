@@ -1,49 +1,49 @@
 ---
-title: Implement Rate Limiting
+title: Implementa rate limiting
 impact: HIGH
-impactDescription: Protects against abuse and ensures fair resource usage
+impactDescription: Protege contra el abuso y asegura un uso justo de los recursos
 tags: security, rate-limiting, throttler, protection
 ---
 
-## Implement Rate Limiting
+## Implementa rate limiting
 
-Use `@nestjs/throttler` to limit request rates per client. Apply different limits for different endpoints - stricter for auth endpoints, more relaxed for read operations. Consider using Redis for distributed rate limiting in clustered deployments.
+Usa `@nestjs/throttler` para limitar la tasa de peticiones por cliente. Aplica límites diferentes para endpoints diferentes: más estrictos para los endpoints de autenticación y más relajados para las operaciones de lectura. Considera usar Redis para un rate limiting distribuido en deployments en clúster.
 
-**Incorrect (no rate limiting on sensitive endpoints):**
+**Incorrecto (sin rate limiting en los endpoints sensibles):**
 
 ```typescript
-// No rate limiting on sensitive endpoints
+// Sin rate limiting en los endpoints sensibles
 @Controller('auth')
 export class AuthController {
   @Post('login')
   async login(@Body() dto: LoginDto): Promise<TokenResponse> {
-    // Attackers can brute-force credentials
+    // Los atacantes pueden hacer fuerza bruta sobre las credenciales
     return this.authService.login(dto);
   }
 
   @Post('forgot-password')
   async forgotPassword(@Body() dto: ForgotPasswordDto): Promise<void> {
-    // Can be abused to spam users with emails
+    // Se puede abusar para enviar spam de emails a los usuarios
     return this.authService.sendResetEmail(dto.email);
   }
 }
 
-// Same limits for all endpoints
+// Los mismos límites para todos los endpoints
 @UseGuards(ThrottlerGuard)
 @Controller('api')
 export class ApiController {
   @Get('public-data')
-  async getPublic() {} // Should allow more requests
+  async getPublic() {} // Debería permitir más peticiones
 
   @Post('process-payment')
-  async payment() {} // Should be more restrictive
+  async payment() {} // Debería ser más restrictivo
 }
 ```
 
-**Correct (configured throttler with endpoint-specific limits):**
+**Correcto (throttler configurado con límites específicos por endpoint):**
 
 ```typescript
-// Configure throttler globally with multiple limits
+// Configura el throttler globalmente con múltiples límites
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
@@ -51,18 +51,18 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
     ThrottlerModule.forRoot([
       {
         name: 'short',
-        ttl: 1000, // 1 second
-        limit: 3, // 3 requests per second
+        ttl: 1000, // 1 segundo
+        limit: 3, // 3 peticiones por segundo
       },
       {
         name: 'medium',
-        ttl: 10000, // 10 seconds
-        limit: 20, // 20 requests per 10 seconds
+        ttl: 10000, // 10 segundos
+        limit: 20, // 20 peticiones cada 10 segundos
       },
       {
         name: 'long',
-        ttl: 60000, // 1 minute
-        limit: 100, // 100 requests per minute
+        ttl: 60000, // 1 minuto
+        limit: 100, // 100 peticiones por minuto
       },
     ]),
   ],
@@ -75,23 +75,23 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 })
 export class AppModule {}
 
-// Override limits per endpoint
+// Sobrescribe los límites por endpoint
 @Controller('auth')
 export class AuthController {
   @Post('login')
-  @Throttle({ short: { limit: 5, ttl: 60000 } }) // 5 attempts per minute
+  @Throttle({ short: { limit: 5, ttl: 60000 } }) // 5 intentos por minuto
   async login(@Body() dto: LoginDto): Promise<TokenResponse> {
     return this.authService.login(dto);
   }
 
   @Post('forgot-password')
-  @Throttle({ short: { limit: 3, ttl: 3600000 } }) // 3 per hour
+  @Throttle({ short: { limit: 3, ttl: 3600000 } }) // 3 por hora
   async forgotPassword(@Body() dto: ForgotPasswordDto): Promise<void> {
     return this.authService.sendResetEmail(dto.email);
   }
 }
 
-// Skip throttling for certain routes
+// Omite el throttling para ciertas rutas
 @Controller('health')
 export class HealthController {
   @Get()
@@ -101,25 +101,25 @@ export class HealthController {
   }
 }
 
-// Custom throttle per user type
+// Throttle personalizado por tipo de usuario
 @Injectable()
 export class CustomThrottlerGuard extends ThrottlerGuard {
   protected async getTracker(req: Request): Promise<string> {
-    // Use user ID if authenticated, IP otherwise
+    // Usa el ID del usuario si está autenticado; de lo contrario, la IP
     return req.user?.id || req.ip;
   }
 
   protected async getLimit(context: ExecutionContext): Promise<number> {
     const request = context.switchToHttp().getRequest();
 
-    // Higher limits for authenticated users
+    // Límites más altos para los usuarios autenticados
     if (request.user) {
       return request.user.isPremium ? 1000 : 200;
     }
 
-    return 50; // Anonymous users
+    return 50; // Usuarios anónimos
   }
 }
 ```
 
-Reference: [NestJS Throttler](https://docs.nestjs.com/security/rate-limiting)
+Referencia: [NestJS Throttler](https://docs.nestjs.com/security/rate-limiting)

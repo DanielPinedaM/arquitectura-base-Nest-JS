@@ -1,18 +1,18 @@
 ---
-title: Single Responsibility for Services
+title: Responsabilidad única para los servicios
 impact: CRITICAL
-impactDescription: "40%+ improvement in testability"
+impactDescription: "Más de un 40% de mejora en la testeabilidad"
 tags: architecture, services, single-responsibility
 ---
 
-## Single Responsibility for Services
+## Responsabilidad única para los servicios
 
-Each service should have a single, well-defined responsibility. Avoid "god services" that handle multiple unrelated concerns. If a service name includes "And" or handles more than one domain concept, it likely violates single responsibility. This reduces complexity and improves testability by 40%+.
+Cada servicio debe tener una responsabilidad única y bien definida. Evita los "god services" que manejan múltiples asuntos no relacionados. Si el nombre de un servicio incluye "And" o maneja más de un concepto del dominio, probablemente viola la responsabilidad única. Esto reduce la complejidad y mejora la testeabilidad en más de un 40%.
 
-**Incorrect (god service anti-pattern):**
+**Incorrecto (anti-pattern de god service):**
 
 ```typescript
-// God service anti-pattern
+// Anti-pattern de god service
 @Injectable()
 export class UserAndOrderService {
   constructor(
@@ -36,19 +36,19 @@ export class UserAndOrderService {
   }
 
   async calculateOrderStats(userId: string) {
-    // Stats logic mixed in
+    // Lógica de estadísticas mezclada
   }
 
   async validatePayment(orderId: string) {
-    // Payment logic mixed in
+    // Lógica de pagos mezclada
   }
 }
 ```
 
-**Correct (focused services with single responsibility):**
+**Correcto (servicios enfocados con responsabilidad única):**
 
 ```typescript
-// Focused services with single responsibility
+// Servicios enfocados con responsabilidad única
 @Injectable()
 export class UsersService {
   constructor(private userRepo: UserRepository) {}
@@ -80,11 +80,11 @@ export class OrderStatsService {
   constructor(private orderRepo: OrderRepository) {}
 
   async calculateForUser(userId: string): Promise<OrderStats> {
-    // Focused stats calculation
+    // Cálculo de estadísticas enfocado
   }
 }
 
-// Orchestration in controller or dedicated orchestrator
+// Orquestación en el controller o en un orquestador dedicado
 @Controller('orders')
 export class OrdersController {
   constructor(
@@ -103,4 +103,4 @@ export class OrdersController {
 }
 ```
 
-Reference: [NestJS Providers](https://docs.nestjs.com/providers)
+Referencia: [NestJS Providers](https://docs.nestjs.com/providers)

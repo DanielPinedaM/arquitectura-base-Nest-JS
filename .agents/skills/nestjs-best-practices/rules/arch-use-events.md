@@ -1,18 +1,18 @@
 ---
-title: Use Event-Driven Architecture for Decoupling
+title: Usa una arquitectura basada en eventos para el desacoplamiento
 impact: MEDIUM-HIGH
-impactDescription: Enables async processing and modularity
+impactDescription: Permite el procesamiento asíncrono y la modularidad
 tags: architecture, events, decoupling
 ---
 
-## Use Event-Driven Architecture for Decoupling
+## Usa una arquitectura basada en eventos para el desacoplamiento
 
-Use `@nestjs/event-emitter` for intra-service events and message brokers for inter-service communication. Events allow modules to react to changes without direct dependencies, improving modularity and enabling async processing.
+Usa `@nestjs/event-emitter` para los eventos dentro de un servicio y message brokers para la comunicación entre servicios. Los eventos permiten que los módulos reaccionen a los cambios sin dependencias directas, lo que mejora la modularidad y permite el procesamiento asíncrono.
 
-**Incorrect (direct service coupling):**
+**Incorrecto (acoplamiento directo entre servicios):**
 
 ```typescript
-// Direct service coupling
+// Acoplamiento directo entre servicios
 @Injectable()
 export class OrdersService {
   constructor(
@@ -26,26 +26,26 @@ export class OrdersService {
   async createOrder(dto: CreateOrderDto): Promise<Order> {
     const order = await this.repo.save(dto);
 
-    // Tight coupling - OrdersService knows about all consumers
+    // Acoplamiento fuerte - OrdersService conoce a todos los consumidores
     await this.inventoryService.reserve(order.items);
     await this.emailService.sendConfirmation(order);
     await this.analyticsService.track('order_created', order);
     await this.notificationService.push(order.userId, 'Order placed');
     await this.loyaltyService.addPoints(order.userId, order.total);
 
-    // Adding new behavior requires modifying this service
+    // Agregar un nuevo comportamiento requiere modificar este servicio
     return order;
   }
 }
 ```
 
-**Correct (event-driven decoupling):**
+**Correcto (desacoplamiento basado en eventos):**
 
 ```typescript
-// Use EventEmitter for decoupling
+// Usa EventEmitter para el desacoplamiento
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-// Define event
+// Define el evento
 export class OrderCreatedEvent {
   constructor(
     public readonly orderId: string,
@@ -55,7 +55,7 @@ export class OrderCreatedEvent {
   ) {}
 }
 
-// Service emits events
+// El servicio emite eventos
 @Injectable()
 export class OrdersService {
   constructor(
@@ -66,7 +66,7 @@ export class OrdersService {
   async createOrder(dto: CreateOrderDto): Promise<Order> {
     const order = await this.repo.save(dto);
 
-    // Emit event - no knowledge of consumers
+    // Emite el evento - sin conocer a los consumidores
     this.eventEmitter.emit(
       'order.created',
       new OrderCreatedEvent(order.id, order.userId, order.items, order.total),
@@ -76,7 +76,7 @@ export class OrdersService {
   }
 }
 
-// Listeners in separate modules
+// Listeners en módulos separados
 @Injectable()
 export class InventoryListener {
   @OnEvent('order.created')
@@ -105,4 +105,4 @@ export class AnalyticsListener {
 }
 ```
 
-Reference: [NestJS Events](https://docs.nestjs.com/techniques/events)
+Referencia: [NestJS Events](https://docs.nestjs.com/techniques/events)

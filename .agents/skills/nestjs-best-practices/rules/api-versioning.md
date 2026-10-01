@@ -1,59 +1,59 @@
 ---
-title: Use API Versioning for Breaking Changes
+title: Usa el versionado de la API para los breaking changes
 impact: MEDIUM
-impactDescription: Versioning allows you to evolve APIs without breaking existing clients
+impactDescription: El versionado te permite evolucionar las APIs sin romper a los clientes existentes
 tags: api, versioning, breaking-changes, compatibility
 ---
 
-## Use API Versioning for Breaking Changes
+## Usa el versionado de la API para los breaking changes
 
-Use NestJS built-in versioning when making breaking changes to your API. Choose a versioning strategy (URI, header, or media type) and apply it consistently. This allows old clients to continue working while new clients use updated endpoints.
+Usa el versionado integrado de NestJS al hacer breaking changes en tu API. Elige una estrategia de versionado (URI, header o media type) y aplícala de forma consistente. Esto permite que los clientes antiguos sigan funcionando mientras los clientes nuevos usan los endpoints actualizados.
 
-**Incorrect (breaking changes without versioning):**
+**Incorrecto (breaking changes sin versionado):**
 
 ```typescript
-// Breaking changes without versioning
+// Breaking changes sin versionado
 @Controller('users')
 export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
-    // Original response: { id, name, email }
-    // Later changed to: { id, firstName, lastName, emailAddress }
-    // Old clients break!
+    // Respuesta original: { id, name, email }
+    // Más adelante cambió a: { id, firstName, lastName, emailAddress }
+    // ¡Los clientes antiguos se rompen!
     return this.usersService.findOne(id);
   }
 }
 
-// Manual versioning in routes
+// Versionado manual en las rutas
 @Controller('v1/users')
 export class UsersV1Controller {}
 
 @Controller('v2/users')
 export class UsersV2Controller {}
-// Inconsistent, error-prone, hard to maintain
+// Inconsistente, propenso a errores, difícil de mantener
 ```
 
-**Correct (use NestJS built-in versioning):**
+**Correcto (usa el versionado integrado de NestJS):**
 
 ```typescript
-// Enable versioning in main.ts
+// Habilita el versionado en main.ts
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // URI versioning: /v1/users, /v2/users
+  // Versionado por URI: /v1/users, /v2/users
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',
   });
 
-  // Or header versioning: X-API-Version: 1
+  // O versionado por header: X-API-Version: 1
   app.enableVersioning({
     type: VersioningType.HEADER,
     header: 'X-API-Version',
     defaultVersion: '1',
   });
 
-  // Or media type: Accept: application/json;v=1
+  // O por media type: Accept: application/json;v=1
   app.enableVersioning({
     type: VersioningType.MEDIA_TYPE,
     key: 'v=',
@@ -63,14 +63,14 @@ async function bootstrap() {
   await app.listen(3000);
 }
 
-// Version-specific controllers
+// Controllers específicos de cada versión
 @Controller('users')
 @Version('1')
 export class UsersV1Controller {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserV1Response> {
     const user = await this.usersService.findOne(id);
-    // V1 response format
+    // Formato de respuesta V1
     return {
       id: user.id,
       name: user.name,
@@ -85,7 +85,7 @@ export class UsersV2Controller {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserV2Response> {
     const user = await this.usersService.findOne(id);
-    // V2 response format with breaking changes
+    // Formato de respuesta V2 con breaking changes
     return {
       id: user.id,
       firstName: user.firstName,
@@ -96,7 +96,7 @@ export class UsersV2Controller {
   }
 }
 
-// Per-route versioning - different versions for different routes
+// Versionado por ruta - versiones diferentes para rutas diferentes
 @Controller('users')
 export class UsersController {
   @Get()
@@ -112,19 +112,19 @@ export class UsersController {
   }
 
   @Get(':id')
-  @Version(['1', '2']) // Same handler for multiple versions
+  @Version(['1', '2']) // El mismo handler para múltiples versiones
   findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findOne(id);
   }
 
   @Post()
-  @Version(VERSION_NEUTRAL) // Available in all versions
+  @Version(VERSION_NEUTRAL) // Disponible en todas las versiones
   create(@Body() dto: CreateUserDto): Promise<User> {
     return this.usersService.create(dto);
   }
 }
 
-// Shared service with version-specific logic
+// Servicio compartido con lógica específica de cada versión
 @Injectable()
 export class UsersService {
   async findOne(id: string, version: string): Promise<any> {
@@ -155,7 +155,7 @@ export class UsersService {
   }
 }
 
-// Controller extracts version
+// El controller extrae la versión
 @Controller('users')
 export class UsersController {
   @Get(':id')
@@ -167,12 +167,12 @@ export class UsersController {
   }
 }
 
-// Deprecation strategy - mark old versions as deprecated
+// Estrategia de deprecación - marca las versiones antiguas como deprecadas
 @Controller('users')
 @Version('1')
 @UseInterceptors(DeprecationInterceptor)
 export class UsersV1Controller {
-  // All V1 routes will include deprecation warning
+  // Todas las rutas V1 incluirán una advertencia de deprecación
 }
 
 @Injectable()
@@ -188,4 +188,4 @@ export class DeprecationInterceptor implements NestInterceptor {
 }
 ```
 
-Reference: [NestJS Versioning](https://docs.nestjs.com/techniques/versioning)
+Referencia: [NestJS Versioning](https://docs.nestjs.com/techniques/versioning)

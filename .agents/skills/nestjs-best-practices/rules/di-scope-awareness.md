@@ -1,46 +1,46 @@
 ---
-title: Understand Provider Scopes
+title: Comprende los scopes de los providers
 impact: CRITICAL
-impactDescription: Prevents data leaks and performance issues
+impactDescription: Evita fugas de datos y problemas de rendimiento
 tags: dependency-injection, scopes, request-context
 ---
 
-## Understand Provider Scopes
+## Comprende los scopes de los providers
 
-NestJS has three provider scopes: DEFAULT (singleton), REQUEST (per-request instance), and TRANSIENT (new instance for each injection). Most providers should be singletons. Request-scoped providers have performance implications as they bubble up through the dependency tree. Understanding scopes prevents memory leaks and incorrect data sharing.
+NestJS tiene tres scopes de providers: DEFAULT (singleton), REQUEST (una instancia por petición) y TRANSIENT (una nueva instancia por cada inyección). La mayoría de los providers deben ser singletons. Los providers con scope de petición tienen implicaciones de rendimiento, ya que se propagan hacia arriba por el árbol de dependencias. Comprender los scopes evita fugas de memoria y que los datos se compartan de forma incorrecta.
 
-**Incorrect (wrong scope usage):**
+**Incorrecto (uso incorrecto del scope):**
 
 ```typescript
-// Request-scoped when not needed (performance hit)
+// Scope de petición cuando no es necesario (impacto en el rendimiento)
 @Injectable({ scope: Scope.REQUEST })
 export class UsersService {
-  // This creates a new instance for EVERY request
-  // All dependencies also become request-scoped
+  // Esto crea una nueva instancia para CADA petición
+  // Todas las dependencias también pasan a tener scope de petición
   async findAll() {
     return this.userRepo.find();
   }
 }
 
-// Singleton with mutable request state
-@Injectable() // Default: singleton
+// Singleton con estado mutable de la petición
+@Injectable() // Por defecto: singleton
 export class RequestContextService {
-  private userId: string; // DANGER: Shared across all requests!
+  private userId: string; // PELIGRO: ¡Compartido entre todas las peticiones!
 
   setUser(userId: string) {
-    this.userId = userId; // Overwrites for all concurrent requests
+    this.userId = userId; // Lo sobrescribe para todas las peticiones concurrentes
   }
 
   getUser() {
-    return this.userId; // Returns wrong user!
+    return this.userId; // ¡Devuelve el usuario equivocado!
   }
 }
 ```
 
-**Correct (appropriate scope for each use case):**
+**Correcto (scope apropiado para cada caso de uso):**
 
 ```typescript
-// Singleton for stateless services (default, most common)
+// Singleton para servicios sin estado (por defecto, lo más común)
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepo: UserRepository) {}
@@ -50,7 +50,7 @@ export class UsersService {
   }
 }
 
-// Request-scoped ONLY when you need request context
+// Scope de petición SOLO cuando necesitas el contexto de la petición
 @Injectable({ scope: Scope.REQUEST })
 export class RequestContextService {
   private userId: string;
@@ -64,7 +64,7 @@ export class RequestContextService {
   }
 }
 
-// Better: Use NestJS built-in request context
+// Mejor: usa el contexto de petición integrado de NestJS
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 
@@ -77,10 +77,10 @@ export class AuditService {
   }
 }
 
-// Best: Use ClsModule for async context (no scope bubble-up)
+// Lo mejor: usa ClsModule para el contexto asíncrono (sin propagación del scope)
 import { ClsService } from 'nestjs-cls';
 
-@Injectable() // Stays singleton!
+@Injectable() // ¡Sigue siendo singleton!
 export class AuditService {
   constructor(private cls: ClsService) {}
 
@@ -91,4 +91,4 @@ export class AuditService {
 }
 ```
 
-Reference: [NestJS Injection Scopes](https://docs.nestjs.com/fundamentals/injection-scopes)
+Referencia: [NestJS Injection Scopes](https://docs.nestjs.com/fundamentals/injection-scopes)

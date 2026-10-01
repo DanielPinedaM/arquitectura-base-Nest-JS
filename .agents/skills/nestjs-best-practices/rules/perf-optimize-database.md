@@ -1,23 +1,23 @@
 ---
-title: Optimize Database Queries
+title: Optimiza las queries a la base de datos
 impact: HIGH
-impactDescription: Database queries are typically the largest source of latency
+impactDescription: Las queries a la base de datos suelen ser la mayor fuente de latencia
 tags: performance, database, queries, optimization
 ---
 
-## Optimize Database Queries
+## Optimiza las queries a la base de datos
 
-Select only needed columns, use proper indexes, avoid over-fetching relations, and consider query performance when designing your data access. Most API slowness traces back to inefficient database queries.
+Selecciona solo las columnas necesarias, usa índices apropiados, evita obtener relaciones de más y considera el rendimiento de las queries al diseñar tu acceso a datos. La mayor parte de la lentitud de las APIs se debe a queries ineficientes a la base de datos.
 
-**Incorrect (over-fetching data and missing indexes):**
+**Incorrecto (obtener datos de más y faltan índices):**
 
 ```typescript
-// Select everything when you need few fields
+// Selecciona todo cuando necesitas pocos campos
 @Injectable()
 export class UsersService {
   async findAllEmails(): Promise<string[]> {
     const users = await this.repo.find();
-    // Fetches ALL columns for ALL users
+    // Obtiene TODAS las columnas de TODOS los usuarios
     return users.map((u) => u.email);
   }
 
@@ -26,36 +26,36 @@ export class UsersService {
       where: { id },
       relations: ['posts', 'posts.comments', 'posts.comments.author', 'followers'],
     });
-    // Over-fetches massive relation tree
+    // Obtiene de más un árbol de relaciones enorme
     return { name: user.name, postCount: user.posts.length };
   }
 }
 
-// No indexes on frequently queried columns
+// Sin índices en las columnas consultadas con frecuencia
 @Entity()
 export class Order {
   @Column()
-  userId: string; // No index - full table scan on every lookup
+  userId: string; // Sin índice - escaneo completo de la tabla en cada búsqueda
 
   @Column()
-  status: string; // No index - slow status filtering
+  status: string; // Sin índice - filtrado por estado lento
 }
 ```
 
-**Correct (select only needed data with proper indexes):**
+**Correcto (selecciona solo los datos necesarios con índices apropiados):**
 
 ```typescript
-// Select only needed columns
+// Selecciona solo las columnas necesarias
 @Injectable()
 export class UsersService {
   async findAllEmails(): Promise<string[]> {
     const users = await this.repo.find({
-      select: ['email'], // Only fetch email column
+      select: ['email'], // Obtiene solo la columna email
     });
     return users.map((u) => u.email);
   }
 
-  // Use QueryBuilder for complex selections
+  // Usa QueryBuilder para selecciones complejas
   async getUserSummary(id: string): Promise<UserSummary> {
     return this.repo
       .createQueryBuilder('user')
@@ -67,11 +67,11 @@ export class UsersService {
       .getRawOne();
   }
 
-  // Fetch relations only when needed
+  // Obtén las relaciones solo cuando sea necesario
   async getFullProfile(id: string): Promise<User> {
     return this.repo.findOne({
       where: { id },
-      relations: ['posts'], // Only immediate relation
+      relations: ['posts'], // Solo la relación inmediata
       select: {
         id: true,
         name: true,
@@ -85,12 +85,12 @@ export class UsersService {
   }
 }
 
-// Add indexes on frequently queried columns
+// Agrega índices en las columnas consultadas con frecuencia
 @Entity()
 @Index(['userId'])
 @Index(['status'])
 @Index(['createdAt'])
-@Index(['userId', 'status']) // Composite index for common query pattern
+@Index(['userId', 'status']) // Índice compuesto para un patrón de query común
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -105,7 +105,7 @@ export class Order {
   createdAt: Date;
 }
 
-// Always paginate large datasets
+// Pagina siempre los conjuntos de datos grandes
 @Injectable()
 export class OrdersService {
   async findAll(page = 1, limit = 20): Promise<PaginatedResult<Order>> {
@@ -128,4 +128,4 @@ export class OrdersService {
 }
 ```
 
-Reference: [TypeORM Query Builder](https://typeorm.io/select-query-builder)
+Referencia: [TypeORM Query Builder](https://typeorm.io/select-query-builder)

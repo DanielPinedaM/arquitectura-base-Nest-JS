@@ -1,38 +1,38 @@
 ---
-title: Handle Async Errors Properly
+title: Maneja correctamente los errores asíncronos
 impact: HIGH
-impactDescription: Prevents process crashes from unhandled rejections
+impactDescription: Evita que el proceso haga crash por rejections no manejadas
 tags: error-handling, async, promises
 ---
 
-## Handle Async Errors Properly
+## Maneja correctamente los errores asíncronos
 
-NestJS automatically catches errors from async route handlers, but errors from background tasks, event handlers, and manually created promises can crash your application. Always handle async errors explicitly and use global handlers as a safety net.
+NestJS captura automáticamente los errores de los route handlers asíncronos, pero los errores de las tareas en segundo plano, de los event handlers y de las promises creadas manualmente pueden hacer que tu aplicación haga crash. Maneja siempre los errores asíncronos de forma explícita y usa handlers globales como red de seguridad.
 
-**Incorrect (fire-and-forget without error handling):**
+**Incorrecto (fire-and-forget sin manejo de errores):**
 
 ```typescript
-// Fire-and-forget without error handling
+// Fire-and-forget sin manejo de errores
 @Injectable()
 export class UsersService {
   async createUser(dto: CreateUserDto): Promise<User> {
     const user = await this.repo.save(dto);
 
-    // Fire and forget - if this fails, error is unhandled!
+    // Fire and forget - si esto falla, ¡el error no se maneja!
     this.emailService.sendWelcome(user.email);
 
     return user;
   }
 }
 
-// Unhandled promise in event handler
+// Promise no manejada en un event handler
 @Injectable()
 export class OrdersService {
   @OnEvent('order.created')
   handleOrderCreated(event: OrderCreatedEvent) {
-    // This returns a promise but it's not awaited!
+    // ¡Esto devuelve una promise pero no se hace await!
     this.processOrder(event);
-    // Errors will crash the process
+    // Los errores harán crash del proceso
   }
 
   private async processOrder(event: OrderCreatedEvent): Promise<void> {
@@ -41,18 +41,18 @@ export class OrdersService {
   }
 }
 
-// Missing try-catch in scheduled tasks
+// Falta un try-catch en las tareas programadas
 @Cron('0 0 * * *')
 async dailyCleanup(): Promise<void> {
   await this.cleanupService.run();
-  // If this throws, no error handling
+  // Si esto lanza una excepción, no hay manejo de errores
 }
 ```
 
-**Correct (explicit async error handling):**
+**Correcto (manejo explícito de errores asíncronos):**
 
 ```typescript
-// Handle fire-and-forget with explicit catch
+// Maneja el fire-and-forget con un catch explícito
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
@@ -60,17 +60,17 @@ export class UsersService {
   async createUser(dto: CreateUserDto): Promise<User> {
     const user = await this.repo.save(dto);
 
-    // Explicitly catch and log errors
+    // Captura y registra los errores de forma explícita
     this.emailService.sendWelcome(user.email).catch((error) => {
       this.logger.error('Failed to send welcome email', error.stack);
-      // Optionally queue for retry
+      // Opcionalmente, encólalo para reintentar
     });
 
     return user;
   }
 }
 
-// Properly handle async event handlers
+// Maneja correctamente los event handlers asíncronos
 @Injectable()
 export class OrdersService {
   private readonly logger = new Logger(OrdersService.name);
@@ -81,13 +81,13 @@ export class OrdersService {
       await this.processOrder(event);
     } catch (error) {
       this.logger.error('Failed to process order', { event, error });
-      // Don't rethrow - would crash the process
+      // No vuelvas a lanzarlo - haría crash del proceso
       await this.deadLetterQueue.add('order.created', event);
     }
   }
 }
 
-// Safe scheduled tasks
+// Tareas programadas seguras
 @Injectable()
 export class CleanupService {
   private readonly logger = new Logger(CleanupService.name);
@@ -99,12 +99,12 @@ export class CleanupService {
       this.logger.log('Daily cleanup completed');
     } catch (error) {
       this.logger.error('Daily cleanup failed', error.stack);
-      // Alert or retry logic
+      // Lógica de alerta o de reintento
     }
   }
 }
 
-// Global unhandled rejection handler in main.ts
+// Handler global de rejections no manejadas en main.ts
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
@@ -122,4 +122,4 @@ async function bootstrap() {
 }
 ```
 
-Reference: [Node.js Unhandled Rejections](https://nodejs.org/api/process.html#event-unhandledrejection)
+Referencia: [Node.js Unhandled Rejections](https://nodejs.org/api/process.html#event-unhandledrejection)

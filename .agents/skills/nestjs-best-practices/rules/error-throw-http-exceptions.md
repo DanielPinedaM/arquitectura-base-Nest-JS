@@ -1,24 +1,24 @@
 ---
-title: Throw HTTP Exceptions from Services
+title: Lanza HTTP exceptions desde los servicios
 impact: HIGH
-impactDescription: Keeps controllers thin and simplifies error handling
+impactDescription: Mantiene los controllers delgados y simplifica el manejo de errores
 tags: error-handling, exceptions, services
 ---
 
-## Throw HTTP Exceptions from Services
+## Lanza HTTP exceptions desde los servicios
 
-It's acceptable (and often preferable) to throw `HttpException` subclasses from services in HTTP applications. This keeps controllers thin and allows services to communicate appropriate error states. For truly layer-agnostic services, use domain exceptions that map to HTTP status codes.
+Es aceptable (y a menudo preferible) lanzar subclases de `HttpException` desde los servicios en las aplicaciones HTTP. Esto mantiene los controllers delgados y permite que los servicios comuniquen los estados de error apropiados. Para los servicios verdaderamente independientes de la capa, usa excepciones de dominio que se mapeen a códigos de estado HTTP.
 
-**Incorrect (return error objects instead of throwing):**
+**Incorrecto (devolver objetos de error en lugar de lanzar excepciones):**
 
 ```typescript
-// Return error objects instead of throwing
+// Devuelve objetos de error en lugar de lanzar excepciones
 @Injectable()
 export class UsersService {
   async findById(id: string): Promise<{ user?: User; error?: string }> {
     const user = await this.repo.findOne({ where: { id } });
     if (!user) {
-      return { error: 'User not found' }; // Controller must check this
+      return { error: 'User not found' }; // El controller debe verificar esto
     }
     return { user };
   }
@@ -37,10 +37,10 @@ export class UsersController {
 }
 ```
 
-**Correct (throw exceptions directly from service):**
+**Correcto (lanza las excepciones directamente desde el servicio):**
 
 ```typescript
-// Throw exceptions directly from service
+// Lanza las excepciones directamente desde el servicio
 @Injectable()
 export class UsersService {
   constructor(private readonly repo: UserRepository) {}
@@ -64,13 +64,13 @@ export class UsersService {
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
-    const user = await this.findById(id); // Throws if not found
+    const user = await this.findById(id); // Lanza una excepción si no lo encuentra
     Object.assign(user, dto);
     return this.repo.save(user);
   }
 }
 
-// Controller stays thin
+// El controller se mantiene delgado
 @Controller('users')
 export class UsersController {
   @Get(':id')
@@ -84,7 +84,7 @@ export class UsersController {
   }
 }
 
-// For layer-agnostic services, use domain exceptions
+// Para servicios independientes de la capa, usa excepciones de dominio
 export class EntityNotFoundException extends Error {
   constructor(
     public readonly entity: string,
@@ -94,7 +94,7 @@ export class EntityNotFoundException extends Error {
   }
 }
 
-// Map to HTTP in exception filter
+// Mapéala a HTTP en un exception filter
 @Catch(EntityNotFoundException)
 export class EntityNotFoundFilter implements ExceptionFilter {
   catch(exception: EntityNotFoundException, host: ArgumentsHost) {
@@ -111,4 +111,4 @@ export class EntityNotFoundFilter implements ExceptionFilter {
 }
 ```
 
-Reference: [NestJS Exception Filters](https://docs.nestjs.com/exception-filters)
+Referencia: [NestJS Exception Filters](https://docs.nestjs.com/exception-filters)

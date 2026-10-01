@@ -1,48 +1,48 @@
 ---
-title: Use Database Migrations
+title: Usa migraciones de base de datos
 impact: HIGH
-impactDescription: Enables safe, repeatable database schema changes
+impactDescription: Permite cambios de schema de la base de datos seguros y repetibles
 tags: database, migrations, typeorm, schema
 ---
 
-## Use Database Migrations
+## Usa migraciones de base de datos
 
-Never use `synchronize: true` in production. Use migrations for all schema changes. Migrations provide version control for your database, enable safe rollbacks, and ensure consistency across all environments.
+Nunca uses `synchronize: true` en producción. Usa migraciones para todos los cambios de schema. Las migraciones proporcionan control de versiones para tu base de datos, permiten rollbacks seguros y aseguran la consistencia en todos los entornos.
 
-**Incorrect (using synchronize or manual SQL):**
+**Incorrecto (usar synchronize o SQL manual):**
 
 ```typescript
-// Use synchronize in production
+// Usa synchronize en producción
 TypeOrmModule.forRoot({
   type: 'postgres',
-  synchronize: true, // DANGEROUS in production!
-  // Can drop columns, tables, or data
+  synchronize: true, // ¡PELIGROSO en producción!
+  // Puede eliminar columnas, tablas o datos
 });
 
-// Manual SQL in production
+// SQL manual en producción
 @Injectable()
 export class DatabaseService {
   async addColumn(): Promise<void> {
     await this.dataSource.query('ALTER TABLE users ADD COLUMN age INT');
-    // No version control, no rollback, inconsistent across envs
+    // Sin control de versiones, sin rollback, inconsistente entre entornos
   }
 }
 
-// Modify entities without migration
+// Modifica las entidades sin migración
 @Entity()
 export class User {
   @Column()
   email: string;
 
-  @Column() // Added without migration
-  newField: string; // Will crash in production if synchronize is false
+  @Column() // Agregado sin migración
+  newField: string; // Hará crash en producción si synchronize es false
 }
 ```
 
-**Correct (use migrations for all schema changes):**
+**Correcto (usa migraciones para todos los cambios de schema):**
 
 ```typescript
-// Configure TypeORM for migrations
+// Configura TypeORM para las migraciones
 // data-source.ts
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -53,8 +53,8 @@ export const dataSource = new DataSource({
   database: process.env.DB_NAME,
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
-  synchronize: false, // Always false in production
-  migrationsRun: true, // Run migrations on startup
+  synchronize: false, // Siempre false en producción
+  migrationsRun: true, // Ejecuta las migraciones al arrancar
 });
 
 // app.module.ts
@@ -63,7 +63,7 @@ TypeOrmModule.forRootAsync({
   useFactory: (config: ConfigService) => ({
     type: 'postgres',
     host: config.get('DB_HOST'),
-    synchronize: config.get('NODE_ENV') === 'development', // Only in dev
+    synchronize: config.get('NODE_ENV') === 'development', // Solo en dev
     migrations: ['dist/migrations/*.js'],
     migrationsRun: true,
   }),
@@ -76,43 +76,43 @@ export class AddUserAge1705312800000 implements MigrationInterface {
   name = 'AddUserAge1705312800000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    // Add column with default to handle existing rows
+    // Agrega la columna con un valor por defecto para manejar las filas existentes
     await queryRunner.query(`
       ALTER TABLE "users" ADD "age" integer DEFAULT 0
     `);
 
-    // Add index for frequently queried columns
+    // Agrega un índice para las columnas consultadas con frecuencia
     await queryRunner.query(`
       CREATE INDEX "IDX_users_age" ON "users" ("age")
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    // Always implement down for rollback
+    // Implementa siempre down para el rollback
     await queryRunner.query(`DROP INDEX "IDX_users_age"`);
     await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "age"`);
   }
 }
 
-// Safe column rename (two-step)
+// Renombrado seguro de una columna (en dos pasos)
 export class RenameNameToFullName1705312900000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    // Step 1: Add new column
+    // Paso 1: Agrega la nueva columna
     await queryRunner.query(`
       ALTER TABLE "users" ADD "full_name" varchar(255)
     `);
 
-    // Step 2: Copy data
+    // Paso 2: Copia los datos
     await queryRunner.query(`
       UPDATE "users" SET "full_name" = "name"
     `);
 
-    // Step 3: Add NOT NULL constraint
+    // Paso 3: Agrega la restricción NOT NULL
     await queryRunner.query(`
       ALTER TABLE "users" ALTER COLUMN "full_name" SET NOT NULL
     `);
 
-    // Step 4: Drop old column (after verifying app works)
+    // Paso 4: Elimina la columna anterior (después de verificar que la app funciona)
     await queryRunner.query(`
       ALTER TABLE "users" DROP COLUMN "name"
     `);
@@ -126,4 +126,4 @@ export class RenameNameToFullName1705312900000 implements MigrationInterface {
 }
 ```
 
-Reference: [TypeORM Migrations](https://typeorm.io/migrations)
+Referencia: [TypeORM Migrations](https://typeorm.io/migrations)

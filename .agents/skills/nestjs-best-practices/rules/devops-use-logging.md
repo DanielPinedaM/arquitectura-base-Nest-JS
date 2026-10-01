@@ -1,47 +1,47 @@
 ---
-title: Use Structured Logging
+title: Usa logging estructurado
 impact: MEDIUM-HIGH
-impactDescription: Structured logging enables effective debugging and monitoring
+impactDescription: El logging estructurado permite una depuración y un monitoreo efectivos
 tags: devops, logging, structured-logs, pino
 ---
 
-## Use Structured Logging
+## Usa logging estructurado
 
-Use NestJS Logger with structured JSON output in production. Include contextual information (request ID, user ID, operation) to trace requests across services. Avoid console.log and implement proper log levels.
+Usa el Logger de NestJS con salida JSON estructurada en producción. Incluye información contextual (ID de la petición, ID del usuario, operación) para rastrear las peticiones entre servicios. Evita console.log e implementa niveles de log adecuados.
 
-**Incorrect (using console.log in production):**
+**Incorrecto (usar console.log en producción):**
 
 ```typescript
-// Use console.log in production
+// Usa console.log en producción
 @Injectable()
 export class UsersService {
   async createUser(dto: CreateUserDto): Promise<User> {
     console.log('Creating user:', dto);
-    // Not structured, no levels, lost in production logs
+    // Sin estructura, sin niveles, se pierde en los logs de producción
 
     try {
       const user = await this.repo.save(dto);
       console.log('User created:', user.id);
       return user;
     } catch (error) {
-      console.log('Error:', error); // Using log for errors
+      console.log('Error:', error); // Usa log para los errores
       throw error;
     }
   }
 }
 
-// Log sensitive data
-console.log('Login attempt:', { email, password }); // SECURITY RISK!
+// Registra datos sensibles
+console.log('Login attempt:', { email, password }); // ¡RIESGO DE SEGURIDAD!
 
-// Inconsistent log format
+// Formato de log inconsistente
 logger.log('User ' + userId + ' created at ' + new Date());
-// Hard to parse, no structure
+// Difícil de parsear, sin estructura
 ```
 
-**Correct (use structured logging with context):**
+**Correcto (usa logging estructurado con contexto):**
 
 ```typescript
-// Configure logger in main.ts
+// Configura el logger en main.ts
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger:
@@ -51,7 +51,7 @@ async function bootstrap() {
   });
 }
 
-// Use NestJS Logger with context
+// Usa el Logger de NestJS con contexto
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
@@ -72,7 +72,7 @@ export class UsersService {
   }
 }
 
-// Custom logger for JSON output
+// Logger personalizado para la salida JSON
 @Injectable()
 export class JsonLogger implements LoggerService {
   log(message: string, context?: object): void {
@@ -121,7 +121,7 @@ export class JsonLogger implements LoggerService {
   }
 }
 
-// Request context logging with ClsModule
+// Logging con el contexto de la petición usando ClsModule
 import { ClsModule, ClsService } from 'nestjs-cls';
 
 @Module({
@@ -137,7 +137,7 @@ import { ClsModule, ClsService } from 'nestjs-cls';
 })
 export class AppModule {}
 
-// Middleware to set request context
+// Middleware para establecer el contexto de la petición
 @Injectable()
 export class RequestContextMiddleware implements NestMiddleware {
   constructor(private cls: ClsService) {}
@@ -152,7 +152,7 @@ export class RequestContextMiddleware implements NestMiddleware {
   }
 }
 
-// Logger that includes request context
+// Logger que incluye el contexto de la petición
 @Injectable()
 export class ContextLogger {
   constructor(private cls: ClsService) {}
@@ -186,7 +186,7 @@ export class ContextLogger {
   }
 }
 
-// Pino integration for high-performance logging
+// Integración con Pino para un logging de alto rendimiento
 import { LoggerModule } from 'nestjs-pino';
 
 @Module({
@@ -215,7 +215,7 @@ import { LoggerModule } from 'nestjs-pino';
 })
 export class AppModule {}
 
-// Usage with Pino
+// Uso con Pino
 @Injectable()
 export class UsersService {
   constructor(private logger: PinoLogger) {
@@ -224,9 +224,9 @@ export class UsersService {
 
   async findOne(id: string): Promise<User> {
     this.logger.info({ userId: id }, 'Finding user');
-    // Pino uses first arg for data, second for message
+    // Pino usa el primer argumento para los datos y el segundo para el mensaje
   }
 }
 ```
 
-Reference: [NestJS Logger](https://docs.nestjs.com/techniques/logger)
+Referencia: [NestJS Logger](https://docs.nestjs.com/techniques/logger)

@@ -1,50 +1,50 @@
 ---
-title: Mock External Services in Tests
+title: Haz mock de los servicios externos en los tests
 impact: HIGH
-impactDescription: Ensures fast, reliable, deterministic tests
+impactDescription: Asegura tests rápidos, confiables y deterministas
 tags: testing, mocking, external-services, jest
 ---
 
-## Mock External Services in Tests
+## Haz mock de los servicios externos en los tests
 
-Never call real external services (APIs, databases, message queues) in unit tests. Mock them to ensure tests are fast, deterministic, and don't incur costs. Use realistic mock data and test edge cases like timeouts and errors.
+Nunca llames a servicios externos reales (APIs, bases de datos, colas de mensajes) en los unit tests. Haz mock de ellos para asegurar que los tests sean rápidos, deterministas y no generen costos. Usa datos mock realistas y testea casos límite como timeouts y errores.
 
-**Incorrect (calling real APIs and databases):**
+**Incorrecto (llamar a APIs y bases de datos reales):**
 
 ```typescript
-// Call real APIs in tests
+// Llama a APIs reales en los tests
 describe('PaymentService', () => {
   it('should process payment', async () => {
     const service = new PaymentService(new StripeClient(realApiKey));
-    // Hits real Stripe API!
+    // ¡Accede a la API real de Stripe!
     const result = await service.charge('tok_visa', 1000);
-    // Slow, costs money, flaky
+    // Lento, cuesta dinero, inestable
   });
 });
 
-// Use real database
+// Usa la base de datos real
 describe('UsersService', () => {
   beforeEach(async () => {
-    await connection.query('DELETE FROM users'); // Modifies real DB
+    await connection.query('DELETE FROM users'); // Modifica la base de datos real
   });
 
   it('should create user', async () => {
     const user = await service.create({ email: 'test@test.com' });
-    // Side effects on shared database
+    // Efectos secundarios en una base de datos compartida
   });
 });
 
-// Incomplete mocks
+// Mocks incompletos
 const mockHttpService = {
   get: jest.fn().mockResolvedValue({ data: {} }),
-  // Missing error scenarios, missing other methods
+  // Faltan los escenarios de error, faltan otros métodos
 };
 ```
 
-**Correct (mock all external dependencies):**
+**Correcto (haz mock de todas las dependencias externas):**
 
 ```typescript
-// Mock HTTP service properly
+// Haz mock correctamente del servicio HTTP
 describe('WeatherService', () => {
   let service: WeatherService;
   let httpService: jest.Mocked<HttpService>;
@@ -102,7 +102,7 @@ describe('WeatherService', () => {
   });
 });
 
-// Mock repository instead of database
+// Haz mock del repository en lugar de la base de datos
 describe('UsersService', () => {
   let service: UsersService;
   let repo: jest.Mocked<Repository<User>>;
@@ -138,7 +138,7 @@ describe('UsersService', () => {
   });
 });
 
-// Create mock factory for complex SDKs
+// Crea una factory de mocks para los SDKs complejos
 function createMockStripe(): jest.Mocked<Stripe> {
   return {
     paymentIntents: {
@@ -154,7 +154,7 @@ function createMockStripe(): jest.Mocked<Stripe> {
   } as any;
 }
 
-// Mock time for time-dependent tests
+// Haz mock del tiempo para los tests que dependen del tiempo
 describe('TokenService', () => {
   beforeEach(() => {
     jest.useFakeTimers();
@@ -168,7 +168,7 @@ describe('TokenService', () => {
   it('should expire token after 1 hour', async () => {
     const token = await service.createToken();
 
-    // Fast-forward time
+    // Adelanta el tiempo
     jest.advanceTimersByTime(61 * 60 * 1000);
 
     expect(await service.isValid(token)).toBe(false);
@@ -176,4 +176,4 @@ describe('TokenService', () => {
 });
 ```
 
-Reference: [Jest Mocking](https://jestjs.io/docs/mock-functions)
+Referencia: [Jest Mocking](https://jestjs.io/docs/mock-functions)

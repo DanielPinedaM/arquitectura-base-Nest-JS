@@ -1,18 +1,18 @@
 ---
-title: Use Supertest for E2E Testing
+title: Usa Supertest para el testing E2E
 impact: HIGH
-impactDescription: Validates the full request/response cycle
+impactDescription: Valida el ciclo completo de petición/respuesta
 tags: testing, e2e, supertest, integration
 ---
 
-## Use Supertest for E2E Testing
+## Usa Supertest para el testing E2E
 
-End-to-end tests use Supertest to make real HTTP requests against your NestJS application. They test the full stack including middleware, guards, pipes, and interceptors. E2E tests catch integration issues that unit tests miss.
+Los tests end-to-end usan Supertest para hacer peticiones HTTP reales contra tu aplicación de NestJS. Testean el stack completo, incluidos el middleware, los guards, los pipes y los interceptors. Los tests E2E detectan problemas de integración que los unit tests pasan por alto.
 
-**Incorrect (no proper E2E setup or teardown):**
+**Incorrecto (sin un setup o teardown E2E correctos):**
 
 ```typescript
-// Only unit test controllers
+// Solo unit tests de los controllers
 describe('UsersController', () => {
   it('should return users', async () => {
     const service = { findAll: jest.fn().mockResolvedValue([]) };
@@ -21,25 +21,25 @@ describe('UsersController', () => {
     const result = await controller.findAll();
 
     expect(result).toEqual([]);
-    // Doesn't test: routes, guards, pipes, serialization
+    // No testea: rutas, guards, pipes, serialización
   });
 });
 
-// E2E tests without proper setup/teardown
+// Tests E2E sin un setup/teardown correctos
 describe('Users API', () => {
   it('should create user', async () => {
     const app = await NestFactory.create(AppModule);
-    // No proper initialization
-    // No cleanup after test
-    // Hits real database
+    // Sin una inicialización correcta
+    // Sin limpieza después del test
+    // Accede a la base de datos real
   });
 });
 ```
 
-**Correct (proper E2E setup with Supertest):**
+**Correcto (setup E2E correcto con Supertest):**
 
 ```typescript
-// Proper E2E test setup
+// Setup correcto de los tests E2E
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { ZodValidationPipe } from 'nestjs-zod';
@@ -56,7 +56,7 @@ describe('UsersController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
 
-    // Apply same config as production
+    // Aplica la misma configuración que en producción
     app.useGlobalPipes(new ZodValidationPipe());
 
     await app.init();
@@ -99,7 +99,7 @@ describe('UsersController (e2e)', () => {
   });
 });
 
-// Testing with authentication
+// Testing con autenticación
 describe('Protected Routes (e2e)', () => {
   let app: INestApplication;
   let authToken: string;
@@ -113,7 +113,7 @@ describe('Protected Routes (e2e)', () => {
     app.useGlobalPipes(new ZodValidationPipe());
     await app.init();
 
-    // Get auth token
+    // Obtiene el token de autenticación
     const loginResponse = await request(app.getHttpServer())
       .post('/auth/login')
       .send({ email: 'test@test.com', password: 'password' });
@@ -138,7 +138,7 @@ describe('Protected Routes (e2e)', () => {
   });
 });
 
-// Database isolation for E2E tests
+// Aislamiento de la base de datos para los tests E2E
 describe('Orders API (e2e)', () => {
   let app: INestApplication;
   let dataSource: DataSource;
@@ -147,7 +147,7 @@ describe('Orders API (e2e)', () => {
     const moduleFixture = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
-          envFilePath: '.env.test', // Test database config
+          envFilePath: '.env.test', // Configuración de la base de datos de test
         }),
         AppModule,
       ],
@@ -159,7 +159,7 @@ describe('Orders API (e2e)', () => {
   });
 
   beforeEach(async () => {
-    // Clean database between tests
+    // Limpia la base de datos entre tests
     await dataSource.synchronize(true);
   });
 
@@ -170,4 +170,4 @@ describe('Orders API (e2e)', () => {
 });
 ```
 
-Reference: [NestJS E2E Testing](https://docs.nestjs.com/fundamentals/testing#end-to-end-testing)
+Referencia: [NestJS E2E Testing](https://docs.nestjs.com/fundamentals/testing#end-to-end-testing)

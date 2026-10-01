@@ -1,18 +1,18 @@
 ---
-title: Use Exception Filters for Error Handling
+title: Usa exception filters para el manejo de errores
 impact: HIGH
-impactDescription: Consistent, centralized error handling
+impactDescription: Manejo de errores consistente y centralizado
 tags: error-handling, exception-filters, consistency
 ---
 
-## Use Exception Filters for Error Handling
+## Usa exception filters para el manejo de errores
 
-Never catch exceptions and manually format error responses in controllers. Use NestJS exception filters to handle errors consistently across your application. Create custom exception filters for specific error types and a global filter for unhandled exceptions.
+Nunca captures excepciones ni formatees manualmente las respuestas de error en los controllers. Usa los exception filters de NestJS para manejar los errores de forma consistente en toda tu aplicación. Crea exception filters personalizados para tipos de error específicos y un filter global para las excepciones no manejadas.
 
-**Incorrect (manual error handling in controllers):**
+**Incorrecto (manejo manual de errores en los controllers):**
 
 ```typescript
-// Manual error handling in controllers
+// Manejo manual de errores en los controllers
 @Controller('users')
 export class UsersController {
   @Get(':id')
@@ -37,10 +37,10 @@ export class UsersController {
 }
 ```
 
-**Correct (exception filters with consistent handling):**
+**Correcto (exception filters con un manejo consistente):**
 
 ```typescript
-// Use built-in and custom exceptions
+// Usa excepciones integradas y personalizadas
 @Controller('users')
 export class UsersController {
   @Get(':id')
@@ -53,7 +53,7 @@ export class UsersController {
   }
 }
 
-// Custom domain exception
+// Excepción de dominio personalizada
 export class UserNotFoundException extends NotFoundException {
   constructor(userId: string) {
     super({
@@ -65,7 +65,7 @@ export class UserNotFoundException extends NotFoundException {
   }
 }
 
-// Custom exception filter for domain errors
+// Exception filter personalizado para los errores de dominio
 @Catch(DomainException)
 export class DomainExceptionFilter implements ExceptionFilter {
   catch(exception: DomainException, host: ArgumentsHost) {
@@ -85,7 +85,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
   }
 }
 
-// Global exception filter for unhandled errors
+// Exception filter global para los errores no manejados
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly logger: Logger) {}
@@ -119,13 +119,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
   }
 }
 
-// Register globally in main.ts
+// Regístralos globalmente en main.ts
 app.useGlobalFilters(
   new AllExceptionsFilter(app.get(Logger)),
   new DomainExceptionFilter(),
 );
 
-// Or via module
+// O mediante el módulo
 @Module({
   providers: [
     {
@@ -137,4 +137,4 @@ app.useGlobalFilters(
 export class AppModule {}
 ```
 
-Reference: [NestJS Exception Filters](https://docs.nestjs.com/exception-filters)
+Referencia: [NestJS Exception Filters](https://docs.nestjs.com/exception-filters)

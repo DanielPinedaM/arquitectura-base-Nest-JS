@@ -1,67 +1,67 @@
 ---
-title: Implement Graceful Shutdown
+title: Implementa el graceful shutdown
 impact: MEDIUM-HIGH
-impactDescription: Proper shutdown handling ensures zero-downtime deployments
+impactDescription: Un manejo correcto del apagado asegura deployments sin tiempo de inactividad
 tags: devops, graceful-shutdown, lifecycle, kubernetes
 ---
 
-## Implement Graceful Shutdown
+## Implementa el graceful shutdown
 
-Handle SIGTERM and SIGINT signals to gracefully shutdown your NestJS application. Stop accepting new requests, wait for in-flight requests to complete, close database connections, and clean up resources. This prevents data loss and connection errors during deployments.
+Maneja las señales SIGTERM y SIGINT para apagar de forma ordenada tu aplicación de NestJS. Deja de aceptar nuevas peticiones, espera a que terminen las peticiones en curso, cierra las conexiones a la base de datos y libera los recursos. Esto evita la pérdida de datos y los errores de conexión durante los deployments.
 
-**Incorrect (ignoring shutdown signals):**
+**Incorrecto (ignorar las señales de apagado):**
 
 ```typescript
-// Ignore shutdown signals
+// Ignora las señales de apagado
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);
-  // App crashes immediately on SIGTERM
-  // In-flight requests fail
-  // Database connections are abruptly closed
+  // La app hace crash de inmediato con SIGTERM
+  // Las peticiones en curso fallan
+  // Las conexiones a la base de datos se cierran abruptamente
 }
 
-// Long-running tasks without cancellation
+// Tareas de larga duración sin cancelación
 @Injectable()
 export class ProcessingService {
   async processLargeFile(file: File): Promise<void> {
-    // No way to interrupt this during shutdown
+    // No hay forma de interrumpir esto durante el apagado
     for (let i = 0; i < file.chunks.length; i++) {
       await this.processChunk(file.chunks[i]);
-      // May run for minutes, blocking shutdown
+      // Puede ejecutarse durante minutos, bloqueando el apagado
     }
   }
 }
 ```
 
-**Correct (enable shutdown hooks and handle cleanup):**
+**Correcto (habilita los shutdown hooks y maneja la limpieza):**
 
 ```typescript
-// Enable shutdown hooks in main.ts
+// Habilita los shutdown hooks en main.ts
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable shutdown hooks
+  // Habilita los shutdown hooks
   app.enableShutdownHooks();
 
-  // Optional: Add timeout for forced shutdown
+  // Opcional: agrega un timeout para el apagado forzado
   const server = await app.listen(3000);
-  server.setTimeout(30000); // 30 second timeout
+  server.setTimeout(30000); // Timeout de 30 segundos
 
-  // Handle graceful shutdown
+  // Maneja el graceful shutdown
   const signals = ['SIGTERM', 'SIGINT'];
   signals.forEach((signal) => {
     process.on(signal, async () => {
       console.log(`Received ${signal}, starting graceful shutdown...`);
 
-      // Stop accepting new connections
+      // Deja de aceptar nuevas conexiones
       server.close(async () => {
         console.log('HTTP server closed');
         await app.close();
         process.exit(0);
       });
 
-      // Force exit after timeout
+      // Fuerza la salida después del timeout
       setTimeout(() => {
         console.error('Forced shutdown after timeout');
         process.exit(1);
@@ -70,7 +70,7 @@ async function bootstrap() {
   });
 }
 
-// Lifecycle hooks for cleanup
+// Lifecycle hooks para la limpieza
 @Injectable()
 export class DatabaseService implements OnApplicationShutdown {
   private readonly connections: Connection[] = [];
@@ -78,7 +78,7 @@ export class DatabaseService implements OnApplicationShutdown {
   async onApplicationShutdown(signal?: string): Promise<void> {
     console.log(`Database service shutting down on ${signal}`);
 
-    // Close all connections gracefully
+    // Cierra todas las conexiones de forma ordenada
     await Promise.all(
       this.connections.map((conn) => conn.close()),
     );
@@ -87,7 +87,7 @@ export class DatabaseService implements OnApplicationShutdown {
   }
 }
 
-// Queue processor with graceful shutdown
+// Procesador de colas con graceful shutdown
 @Injectable()
 export class QueueService implements OnApplicationShutdown, OnModuleDestroy {
   private isShuttingDown = false;
@@ -97,7 +97,7 @@ export class QueueService implements OnApplicationShutdown, OnModuleDestroy {
   }
 
   async onApplicationShutdown(): Promise<void> {
-    // Wait for current jobs to complete
+    // Espera a que terminen los trabajos actuales
     await this.queue.close();
   }
 
@@ -109,22 +109,22 @@ export class QueueService implements OnApplicationShutdown, OnModuleDestroy {
   }
 }
 
-// WebSocket gateway cleanup
+// Limpieza del gateway de WebSocket
 @WebSocketGateway()
 export class EventsGateway implements OnApplicationShutdown {
   @WebSocketServer()
   server: Server;
 
   async onApplicationShutdown(): Promise<void> {
-    // Notify all connected clients
+    // Notifica a todos los clientes conectados
     this.server.emit('shutdown', { message: 'Server is shutting down' });
 
-    // Close all connections
+    // Cierra todas las conexiones
     this.server.disconnectSockets();
   }
 }
 
-// Health check integration
+// Integración con el health check
 @Injectable()
 export class ShutdownService {
   private isShuttingDown = false;
@@ -145,7 +145,7 @@ export class HealthController {
   @Get('ready')
   @HealthCheck()
   readiness(): Promise<HealthCheckResult> {
-    // Return 503 during shutdown - k8s stops sending traffic
+    // Devuelve 503 durante el apagado - k8s deja de enviar tráfico
     if (this.shutdownService.isShutdown()) {
       throw new ServiceUnavailableException('Shutting down');
     }
@@ -156,23 +156,23 @@ export class HealthController {
   }
 }
 
-// Integrate with shutdown
+// Integración con el apagado
 @Injectable()
 export class AppShutdownService implements OnApplicationShutdown {
   constructor(private shutdownService: ShutdownService) {}
 
   async onApplicationShutdown(): Promise<void> {
-    // Mark as unhealthy first
+    // Primero lo marca como no sano
     this.shutdownService.startShutdown();
 
-    // Wait for k8s to update endpoints
+    // Espera a que k8s actualice los endpoints
     await this.sleep(5000);
 
-    // Then proceed with cleanup
+    // Luego procede con la limpieza
   }
 }
 
-// Request tracking for in-flight requests
+// Seguimiento de las peticiones en curso
 @Injectable()
 export class RequestTracker implements NestMiddleware, OnApplicationShutdown {
   private activeRequests = 0;
@@ -207,7 +207,7 @@ export class RequestTracker implements NestMiddleware, OnApplicationShutdown {
         this.resolveShutdown = resolve;
       });
 
-      // Wait with timeout
+      // Espera con un timeout
       await Promise.race([
         this.shutdownPromise,
         new Promise((resolve) => setTimeout(resolve, 30000)),
@@ -219,4 +219,4 @@ export class RequestTracker implements NestMiddleware, OnApplicationShutdown {
 }
 ```
 
-Reference: [NestJS Lifecycle Events](https://docs.nestjs.com/fundamentals/lifecycle-events)
+Referencia: [NestJS Lifecycle Events](https://docs.nestjs.com/fundamentals/lifecycle-events)

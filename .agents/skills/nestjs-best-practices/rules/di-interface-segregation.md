@@ -1,18 +1,18 @@
 ---
-title: Apply Interface Segregation Principle
+title: Aplica el Interface Segregation Principle
 impact: HIGH
-impactDescription: Reduces coupling and improves testability by 30-50%
+impactDescription: Reduce el acoplamiento y mejora la testeabilidad entre un 30 y un 50%
 tags: dependency-injection, interfaces, solid, isp
 ---
 
-## Apply Interface Segregation Principle
+## Aplica el Interface Segregation Principle
 
-Clients should not be forced to depend on interfaces they don't use. In NestJS, this means keeping interfaces small and focused on specific capabilities rather than creating "fat" interfaces that bundle unrelated methods. When a service only needs to send emails, it shouldn't depend on an interface that also includes SMS, push notifications, and logging. Split large interfaces into role-based ones.
+Los clientes no deben verse obligados a depender de interfaces que no usan. En NestJS, esto significa mantener las interfaces pequeñas y enfocadas en capacidades específicas, en lugar de crear interfaces "gordas" que agrupen métodos no relacionados. Cuando un servicio solo necesita enviar emails, no debería depender de una interfaz que también incluye SMS, notificaciones push y logging. Divide las interfaces grandes en interfaces basadas en roles.
 
-**Incorrect (fat interface forcing unused dependencies):**
+**Incorrecto (interfaz gorda que fuerza dependencias sin usar):**
 
 ```typescript
-// Fat interface - forces all consumers to depend on everything
+// Interfaz gorda - obliga a todos los consumidores a depender de todo
 interface NotificationService {
   sendEmail(to: string, subject: string, body: string): Promise<void>;
   sendSms(phone: string, message: string): Promise<void>;
@@ -24,11 +24,11 @@ interface NotificationService {
   scheduleNotification(dto: ScheduleDto): Promise<string>;
 }
 
-// Consumer only needs email, but must mock everything for tests
+// El consumidor solo necesita email, pero debe hacer mock de todo para los tests
 @Injectable()
 export class OrdersService {
   constructor(
-    private notifications: NotificationService, // Depends on 8 methods, uses 1
+    private notifications: NotificationService, // Depende de 8 métodos, usa 1
   ) {}
 
   async confirmOrder(order: Order): Promise<void> {
@@ -40,23 +40,23 @@ export class OrdersService {
   }
 }
 
-// Testing is painful - must mock unused methods
+// El testing es tedioso - hay que hacer mock de métodos sin usar
 const mockNotificationService = {
   sendEmail: jest.fn(),
-  sendSms: jest.fn(),           // Never used, but required
-  sendPush: jest.fn(),          // Never used, but required
-  sendSlack: jest.fn(),         // Never used, but required
-  logNotification: jest.fn(),   // Never used, but required
-  getDeliveryStatus: jest.fn(), // Never used, but required
-  retryFailed: jest.fn(),       // Never used, but required
-  scheduleNotification: jest.fn(), // Never used, but required
+  sendSms: jest.fn(),           // Nunca se usa, pero es obligatorio
+  sendPush: jest.fn(),          // Nunca se usa, pero es obligatorio
+  sendSlack: jest.fn(),         // Nunca se usa, pero es obligatorio
+  logNotification: jest.fn(),   // Nunca se usa, pero es obligatorio
+  getDeliveryStatus: jest.fn(), // Nunca se usa, pero es obligatorio
+  retryFailed: jest.fn(),       // Nunca se usa, pero es obligatorio
+  scheduleNotification: jest.fn(), // Nunca se usa, pero es obligatorio
 };
 ```
 
-**Correct (segregated interfaces by capability):**
+**Correcto (interfaces segregadas por capacidad):**
 
 ```typescript
-// Segregated interfaces - each focused on one capability
+// Interfaces segregadas - cada una enfocada en una capacidad
 interface EmailSender {
   sendEmail(to: string, subject: string, body: string): Promise<void>;
 }
@@ -77,35 +77,35 @@ interface NotificationScheduler {
   scheduleNotification(dto: ScheduleDto): Promise<string>;
 }
 
-// Implementation can implement multiple interfaces
+// La implementación puede implementar múltiples interfaces
 @Injectable()
 export class NotificationService implements EmailSender, SmsSender, PushSender {
   async sendEmail(to: string, subject: string, body: string): Promise<void> {
-    // Email implementation
+    // Implementación de email
   }
 
   async sendSms(phone: string, message: string): Promise<void> {
-    // SMS implementation
+    // Implementación de SMS
   }
 
   async sendPush(userId: string, notification: PushPayload): Promise<void> {
-    // Push implementation
+    // Implementación de push
   }
 }
 
-// Or separate implementations
+// O implementaciones separadas
 @Injectable()
 export class SendGridEmailService implements EmailSender {
   async sendEmail(to: string, subject: string, body: string): Promise<void> {
-    // SendGrid-specific implementation
+    // Implementación específica de SendGrid
   }
 }
 
-// Consumer depends only on what it needs
+// El consumidor depende solo de lo que necesita
 @Injectable()
 export class OrdersService {
   constructor(
-    @Inject(EMAIL_SENDER) private emailSender: EmailSender, // Minimal dependency
+    @Inject(EMAIL_SENDER) private emailSender: EmailSender, // Dependencia mínima
   ) {}
 
   async confirmOrder(order: Order): Promise<void> {
@@ -117,12 +117,12 @@ export class OrdersService {
   }
 }
 
-// Testing is simple - only mock what's used
+// El testing es simple - solo se hace mock de lo que se usa
 const mockEmailSender: EmailSender = {
   sendEmail: jest.fn(),
 };
 
-// Module registration with tokens
+// Registro en el módulo con tokens
 export const EMAIL_SENDER = Symbol('EMAIL_SENDER');
 export const SMS_SENDER = Symbol('SMS_SENDER');
 
@@ -136,16 +136,16 @@ export const SMS_SENDER = Symbol('SMS_SENDER');
 export class NotificationModule {}
 ```
 
-**Combining interfaces when needed:**
+**Combinar interfaces cuando sea necesario:**
 
 ```typescript
-// Sometimes a consumer legitimately needs multiple capabilities
+// A veces un consumidor legítimamente necesita múltiples capacidades
 interface EmailAndSmsSender extends EmailSender, SmsSender {}
 
-// Or use intersection types
+// O usa intersection types
 type MultiChannelSender = EmailSender & SmsSender & PushSender;
 
-// Consumer that genuinely needs multiple channels
+// Consumidor que realmente necesita múltiples canales
 @Injectable()
 export class AlertService {
   constructor(
@@ -162,4 +162,4 @@ export class AlertService {
 }
 ```
 
-Reference: [Interface Segregation Principle](https://en.wikipedia.org/wiki/Interface_segregation_principle)
+Referencia: [Interface Segregation Principle](https://en.wikipedia.org/wiki/Interface_segregation_principle)

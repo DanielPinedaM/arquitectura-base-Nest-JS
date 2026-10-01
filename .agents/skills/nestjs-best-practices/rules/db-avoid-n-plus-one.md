@@ -1,26 +1,26 @@
 ---
-title: Avoid N+1 Query Problems
+title: Evita los problemas de queries N+1
 impact: HIGH
-impactDescription: N+1 queries are one of the most common performance killers
+impactDescription: Las queries N+1 son uno de los asesinos del rendimiento más comunes
 tags: database, n-plus-one, queries, performance
 ---
 
-## Avoid N+1 Query Problems
+## Evita los problemas de queries N+1
 
-N+1 queries occur when you fetch a list of entities, then make an additional query for each entity to load related data. Use eager loading with `relations`, query builder joins, or DataLoader to batch queries efficiently.
+Las queries N+1 ocurren cuando obtienes una lista de entidades y luego haces una query adicional por cada entidad para cargar los datos relacionados. Usa eager loading con `relations`, joins con el query builder o DataLoader para agrupar las queries de forma eficiente.
 
-**Incorrect (lazy loading in loops causes N+1):**
+**Incorrecto (el lazy loading dentro de bucles provoca N+1):**
 
 ```typescript
-// Lazy loading in loops causes N+1
+// El lazy loading dentro de bucles provoca N+1
 @Injectable()
 export class OrdersService {
   async getOrdersWithItems(userId: string): Promise<Order[]> {
     const orders = await this.orderRepo.find({ where: { userId } });
-    // 1 query for orders
+    // 1 query para las órdenes
 
     for (const order of orders) {
-      // N additional queries - one per order!
+      // N queries adicionales - ¡una por orden!
       order.items = await this.itemRepo.find({ where: { orderId: order.id } });
     }
 
@@ -28,26 +28,26 @@ export class OrdersService {
   }
 }
 
-// Accessing lazy relations without loading
+// Acceder a relaciones lazy sin cargarlas
 @Controller('users')
 export class UsersController {
   @Get()
   async findAll(): Promise<User[]> {
     const users = await this.userRepo.find();
-    // If User.posts is lazy-loaded, serializing triggers N queries
-    return users; // Each user.posts access = 1 query
+    // Si User.posts usa lazy loading, la serialización dispara N queries
+    return users; // Cada acceso a user.posts = 1 query
   }
 }
 ```
 
-**Correct (use relations for eager loading):**
+**Correcto (usa relations para el eager loading):**
 
 ```typescript
-// Use relations option for eager loading
+// Usa la opción relations para el eager loading
 @Injectable()
 export class OrdersService {
   async getOrdersWithItems(userId: string): Promise<Order[]> {
-    // Single query with JOIN
+    // Una sola query con JOIN
     return this.orderRepo.find({
       where: { userId },
       relations: ['items', 'items.product'],
@@ -55,7 +55,7 @@ export class OrdersService {
   }
 }
 
-// Use QueryBuilder for complex joins
+// Usa QueryBuilder para joins complejos
 @Injectable()
 export class UsersService {
   async getUsersWithPostCounts(): Promise<UserWithPostCount[]> {
@@ -80,7 +80,7 @@ export class UsersService {
   }
 }
 
-// Use find options for specific fields
+// Usa las opciones de find para campos específicos
 async getOrderSummaries(userId: string): Promise<OrderSummary[]> {
   return this.orderRepo.find({
     where: { userId },
@@ -98,7 +98,7 @@ async getOrderSummaries(userId: string): Promise<OrderSummary[]> {
   });
 }
 
-// Use DataLoader for GraphQL to batch and cache queries
+// Usa DataLoader en GraphQL para agrupar y cachear las queries
 import DataLoader from 'dataloader';
 
 @Injectable({ scope: Scope.REQUEST })
@@ -106,10 +106,10 @@ export class PostsLoader {
   constructor(private postsService: PostsService) {}
 
   readonly batchPosts = new DataLoader<string, Post[]>(async (userIds) => {
-    // Single query for all users' posts
+    // Una sola query para los posts de todos los usuarios
     const posts = await this.postsService.findByUserIds([...userIds]);
 
-    // Group by userId
+    // Agrupa por userId
     const postsMap = new Map<string, Post[]>();
     for (const post of posts) {
       const userPosts = postsMap.get(post.userId) || [];
@@ -117,23 +117,23 @@ export class PostsLoader {
       postsMap.set(post.userId, userPosts);
     }
 
-    // Return in same order as input
+    // Devuelve en el mismo orden que el input
     return userIds.map((id) => postsMap.get(id) || []);
   });
 }
 
-// In resolver
+// En el resolver
 @ResolveField()
 async posts(@Parent() user: User): Promise<Post[]> {
-  // DataLoader batches multiple calls into single query
+  // DataLoader agrupa múltiples llamadas en una sola query
   return this.postsLoader.batchPosts.load(user.id);
 }
 
-// Enable query logging in development to detect N+1
+// Habilita el logging de queries en desarrollo para detectar N+1
 TypeOrmModule.forRoot({
   logging: ['query', 'error'],
   logger: 'advanced-console',
 });
 ```
 
-Reference: [TypeORM Relations](https://typeorm.io/relations)
+Referencia: [TypeORM Relations](https://typeorm.io/relations)

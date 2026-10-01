@@ -1,34 +1,34 @@
 ---
-title: Avoid Service Locator Anti-Pattern
+title: Evita el anti-pattern Service Locator
 impact: HIGH
-impactDescription: Hides dependencies and breaks testability
+impactDescription: Oculta las dependencias y rompe la testeabilidad
 tags: dependency-injection, anti-patterns, testing
 ---
 
-## Avoid Service Locator Anti-Pattern
+## Evita el anti-pattern Service Locator
 
-Avoid using `ModuleRef.get()` or global containers to resolve dependencies at runtime. This hides dependencies, makes code harder to test, and breaks the benefits of dependency injection. Use constructor injection instead.
+Evita usar `ModuleRef.get()` o contenedores globales para resolver dependencias en runtime. Esto oculta las dependencias, hace que el código sea más difícil de testear y rompe los beneficios de la inyección de dependencias. En su lugar, usa la inyección por constructor.
 
-**Incorrect (service locator anti-pattern):**
+**Incorrecto (anti-pattern Service Locator):**
 
 ```typescript
-// Use ModuleRef to get dependencies dynamically
+// Usa ModuleRef para obtener dependencias dinámicamente
 @Injectable()
 export class OrdersService {
   constructor(private moduleRef: ModuleRef) {}
 
   async createOrder(dto: CreateOrderDto): Promise<Order> {
-    // Dependencies are hidden - not visible in constructor
+    // Las dependencias están ocultas - no son visibles en el constructor
     const usersService = this.moduleRef.get(UsersService);
     const inventoryService = this.moduleRef.get(InventoryService);
     const paymentService = this.moduleRef.get(PaymentService);
 
     const user = await usersService.findOne(dto.userId);
-    // ... rest of logic
+    // ... resto de la lógica
   }
 }
 
-// Global singleton container
+// Contenedor singleton global
 class ServiceContainer {
   private static instance: ServiceContainer;
   private services = new Map<string, any>();
@@ -46,10 +46,10 @@ class ServiceContainer {
 }
 ```
 
-**Correct (constructor injection with explicit dependencies):**
+**Correcto (inyección por constructor con dependencias explícitas):**
 
 ```typescript
-// Use constructor injection - dependencies are explicit
+// Usa la inyección por constructor - las dependencias son explícitas
 @Injectable()
 export class OrdersService {
   constructor(
@@ -61,11 +61,11 @@ export class OrdersService {
   async createOrder(dto: CreateOrderDto): Promise<Order> {
     const user = await this.usersService.findOne(dto.userId);
     const inventory = await this.inventoryService.check(dto.items);
-    // Dependencies are clear and testable
+    // Las dependencias son claras y testeables
   }
 }
 
-// Easy to test with mocks
+// Fácil de testear con mocks
 describe('OrdersService', () => {
   let service: OrdersService;
 
@@ -83,7 +83,7 @@ describe('OrdersService', () => {
   });
 });
 
-// VALID: Factory pattern for dynamic instantiation
+// VÁLIDO: Factory pattern para la instanciación dinámica
 @Injectable()
 export class HandlerFactory {
   constructor(private moduleRef: ModuleRef) {}
@@ -101,4 +101,4 @@ export class HandlerFactory {
 }
 ```
 
-Reference: [NestJS Module Reference](https://docs.nestjs.com/fundamentals/module-ref)
+Referencia: [NestJS Module Reference](https://docs.nestjs.com/fundamentals/module-ref)

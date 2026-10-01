@@ -1,18 +1,18 @@
 ---
-title: Use Interceptors for Cross-Cutting Concerns
+title: Usa interceptors para los cross-cutting concerns
 impact: MEDIUM-HIGH
-impactDescription: Interceptors provide clean separation for cross-cutting logic
+impactDescription: Los interceptors proporcionan una separación limpia para la lógica transversal
 tags: api, interceptors, logging, caching
 ---
 
-## Use Interceptors for Cross-Cutting Concerns
+## Usa interceptors para los cross-cutting concerns
 
-Interceptors can transform responses, add logging, handle caching, and measure performance without polluting your business logic. They wrap the route handler execution, giving you access to both the request and response streams.
+Los interceptors pueden transformar las respuestas, agregar logging, manejar el caching y medir el rendimiento sin contaminar tu lógica de negocio. Envuelven la ejecución del route handler, lo que te da acceso tanto al stream de la petición como al de la respuesta.
 
-**Incorrect (logging and transformation in every method):**
+**Incorrecto (logging y transformación en cada método):**
 
 ```typescript
-// Logging in every controller method
+// Logging en cada método del controller
 @Controller('users')
 export class UsersController {
   @Get()
@@ -36,10 +36,10 @@ export class UsersController {
     this.logger.log(`findOne completed in ${Date.now() - start}ms`);
     return user;
   }
-  // Repeated in every method!
+  // ¡Repetido en cada método!
 }
 
-// Manual response wrapping
+// Envoltura manual de la respuesta
 @Get()
 async findAll(): Promise<{ data: User[]; meta: Meta }> {
   const users = await this.usersService.findAll();
@@ -50,10 +50,10 @@ async findAll(): Promise<{ data: User[]; meta: Meta }> {
 }
 ```
 
-**Correct (use interceptors for cross-cutting concerns):**
+**Correcto (usa interceptors para los cross-cutting concerns):**
 
 ```typescript
-// Logging interceptor
+// Interceptor de logging
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger('HTTP');
@@ -82,7 +82,7 @@ export class LoggingInterceptor implements NestInterceptor {
   }
 }
 
-// Response transformation interceptor
+// Interceptor de transformación de la respuesta
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
@@ -98,7 +98,7 @@ export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> 
   }
 }
 
-// Timeout interceptor
+// Interceptor de timeout
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -114,7 +114,7 @@ export class TimeoutInterceptor implements NestInterceptor {
   }
 }
 
-// Apply globally or per-controller
+// Aplícalo globalmente o por controller
 @Module({
   providers: [
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
@@ -123,18 +123,18 @@ export class TimeoutInterceptor implements NestInterceptor {
 })
 export class AppModule {}
 
-// Or per-controller
+// O por controller
 @Controller('users')
 @UseInterceptors(LoggingInterceptor)
 export class UsersController {
   @Get()
   async findAll(): Promise<User[]> {
-    // Clean business logic only
+    // Solo lógica de negocio limpia
     return this.usersService.findAll();
   }
 }
 
-// Custom cache interceptor with TTL
+// Interceptor de caché personalizado con TTL
 @Injectable()
 export class HttpCacheInterceptor implements NestInterceptor {
   constructor(
@@ -145,7 +145,7 @@ export class HttpCacheInterceptor implements NestInterceptor {
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
 
-    // Only cache GET requests
+    // Cachea solo las peticiones GET
     if (request.method !== 'GET') {
       return next.handle();
     }
@@ -170,7 +170,7 @@ export class HttpCacheInterceptor implements NestInterceptor {
   }
 }
 
-// Usage with custom TTL
+// Uso con un TTL personalizado
 @Get()
 @SetMetadata('cacheTTL', 600)
 @UseInterceptors(HttpCacheInterceptor)
@@ -178,7 +178,7 @@ async findAll(): Promise<User[]> {
   return this.usersService.findAll();
 }
 
-// Error mapping interceptor
+// Interceptor de mapeo de errores
 @Injectable()
 export class ErrorMappingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -199,4 +199,4 @@ export class ErrorMappingInterceptor implements NestInterceptor {
 }
 ```
 
-Reference: [NestJS Interceptors](https://docs.nestjs.com/interceptors)
+Referencia: [NestJS Interceptors](https://docs.nestjs.com/interceptors)

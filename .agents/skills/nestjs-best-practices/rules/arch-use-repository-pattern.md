@@ -1,18 +1,18 @@
 ---
-title: Use Repository Pattern for Data Access
+title: Usa el Repository Pattern para el acceso a datos
 impact: HIGH
-impactDescription: Decouples business logic from database
+impactDescription: Desacopla la lógica de negocio de la base de datos
 tags: architecture, repository, data-access
 ---
 
-## Use Repository Pattern for Data Access
+## Usa el Repository Pattern para el acceso a datos
 
-Create custom repositories to encapsulate complex queries and database logic. This keeps services focused on business logic, makes testing easier with mock repositories, and allows changing database implementations without affecting business code.
+Crea repositories personalizados para encapsular las queries complejas y la lógica de la base de datos. Esto mantiene los servicios enfocados en la lógica de negocio, facilita el testing con repositories mock y permite cambiar las implementaciones de la base de datos sin afectar al código de negocio.
 
-**Incorrect (complex queries in services):**
+**Incorrecto (queries complejas en los servicios):**
 
 ```typescript
-// Complex queries in services
+// Queries complejas en los servicios
 @Injectable()
 export class UsersService {
   constructor(
@@ -20,7 +20,7 @@ export class UsersService {
   ) {}
 
   async findActiveWithOrders(minOrders: number): Promise<User[]> {
-    // Complex query logic mixed with business logic
+    // Lógica de queries compleja mezclada con lógica de negocio
     return this.repo
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.orders', 'order')
@@ -32,14 +32,14 @@ export class UsersService {
       .getMany();
   }
 
-  // Service becomes bloated with query logic
+  // El servicio se sobrecarga con lógica de queries
 }
 ```
 
-**Correct (custom repository with encapsulated queries):**
+**Correcto (repository personalizado con queries encapsuladas):**
 
 ```typescript
-// Custom repository with encapsulated queries
+// Repository personalizado con queries encapsuladas
 @Injectable()
 export class UsersRepository {
   constructor(
@@ -71,7 +71,7 @@ export class UsersRepository {
   }
 }
 
-// Clean service with business logic only
+// Servicio limpio, solo con lógica de negocio
 @Injectable()
 export class UsersService {
   constructor(private usersRepo: UsersRepository) {}
@@ -94,4 +94,4 @@ export class UsersService {
 }
 ```
 
-Reference: [Repository Pattern](https://martinfowler.com/eaaCatalog/repository.html)
+Referencia: [Repository Pattern](https://martinfowler.com/eaaCatalog/repository.html)

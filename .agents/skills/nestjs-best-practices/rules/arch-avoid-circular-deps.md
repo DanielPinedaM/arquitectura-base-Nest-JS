@@ -1,20 +1,20 @@
 ---
-title: Avoid Circular Dependencies
+title: Evita las dependencias circulares
 impact: CRITICAL
-impactDescription: "#1 cause of runtime crashes"
+impactDescription: "Causa número 1 de crashes en runtime"
 tags: architecture, modules, dependencies
 ---
 
-## Avoid Circular Dependencies
+## Evita las dependencias circulares
 
-Circular dependencies occur when Module A imports Module B, and Module B imports Module A (directly or transitively). NestJS can sometimes resolve these through forward references, but they indicate architectural problems and should be avoided. This is the #1 cause of runtime crashes in NestJS applications.
+Las dependencias circulares ocurren cuando el Módulo A importa el Módulo B, y el Módulo B importa el Módulo A (directa o transitivamente). A veces NestJS puede resolverlas mediante forward references, pero indican problemas de arquitectura y deben evitarse. Esta es la causa número 1 de crashes en runtime en las aplicaciones de NestJS.
 
-**Incorrect (circular module imports):**
+**Incorrecto (imports circulares entre módulos):**
 
 ```typescript
 // users.module.ts
 @Module({
-  imports: [OrdersModule], // Orders needs Users, Users needs Orders = circular
+  imports: [OrdersModule], // Orders necesita a Users, Users necesita a Orders = circular
   providers: [UsersService],
   exports: [UsersService],
 })
@@ -22,17 +22,17 @@ export class UsersModule {}
 
 // orders.module.ts
 @Module({
-  imports: [UsersModule], // Circular dependency!
+  imports: [UsersModule], // ¡Dependencia circular!
   providers: [OrdersService],
   exports: [OrdersService],
 })
 export class OrdersModule {}
 ```
 
-**Correct (extract shared logic or use events):**
+**Correcto (extrae la lógica compartida o usa eventos):**
 
 ```typescript
-// Option 1: Extract shared logic to a third module
+// Opción 1: Extrae la lógica compartida a un tercer módulo
 // shared.module.ts
 @Module({
   providers: [SharedService],
@@ -54,7 +54,7 @@ export class UsersModule {}
 })
 export class OrdersModule {}
 
-// Option 2: Use events for decoupled communication
+// Opción 2: Usa eventos para una comunicación desacoplada
 // users.service.ts
 @Injectable()
 export class UsersService {
@@ -72,9 +72,9 @@ export class UsersService {
 export class OrdersService {
   @OnEvent('user.created')
   handleUserCreated(user: User) {
-    // React to user creation without direct dependency
+    // Reacciona a la creación del usuario sin una dependencia directa
   }
 }
 ```
 
-Reference: [NestJS Circular Dependency](https://docs.nestjs.com/fundamentals/circular-dependency)
+Referencia: [NestJS Circular Dependency](https://docs.nestjs.com/fundamentals/circular-dependency)

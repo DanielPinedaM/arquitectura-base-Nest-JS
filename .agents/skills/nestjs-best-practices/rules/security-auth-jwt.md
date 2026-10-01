@@ -1,41 +1,41 @@
 ---
-title: Implement Secure JWT Authentication
+title: Implementa una autenticación JWT segura
 impact: CRITICAL
-impactDescription: Essential for secure APIs
+impactDescription: Esencial para APIs seguras
 tags: security, jwt, authentication, tokens
 ---
 
-## Implement Secure JWT Authentication
+## Implementa una autenticación JWT segura
 
-Use `@nestjs/jwt` with `@nestjs/passport` for authentication. Store secrets securely, use appropriate token lifetimes, implement refresh tokens, and validate tokens properly. Never expose sensitive data in JWT payloads.
+Usa `@nestjs/jwt` con `@nestjs/passport` para la autenticación. Almacena los secretos de forma segura, usa tiempos de vida apropiados para los tokens, implementa refresh tokens y valida correctamente los tokens. Nunca expongas datos sensibles en los payloads de los JWT.
 
-**Incorrect (insecure JWT implementation):**
+**Incorrecto (implementación de JWT insegura):**
 
 ```typescript
-// Hardcode secrets
+// Secretos hardcodeados
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'my-secret-key', // Exposed in code
-      signOptions: { expiresIn: '7d' }, // Too long
+      secret: 'my-secret-key', // Expuesto en el código
+      signOptions: { expiresIn: '7d' }, // Demasiado largo
     }),
   ],
 })
 export class AuthModule {}
 
-// Store sensitive data in JWT
+// Almacena datos sensibles en el JWT
 async login(user: User): Promise<{ accessToken: string }> {
   const payload = {
     sub: user.id,
     email: user.email,
-    password: user.password, // NEVER include password!
-    ssn: user.ssn, // NEVER include sensitive data!
-    isAdmin: user.isAdmin, // Can be tampered if not verified
+    password: user.password, // ¡NUNCA incluyas la contraseña!
+    ssn: user.ssn, // ¡NUNCA incluyas datos sensibles!
+    isAdmin: user.isAdmin, // Puede ser manipulado si no se verifica
   };
   return { accessToken: this.jwtService.sign(payload) };
 }
 
-// Skip token validation
+// Omite la validación del token
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
@@ -46,15 +46,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any): Promise<any> {
-    return payload; // No validation of user existence
+    return payload; // No valida que el usuario exista
   }
 }
 ```
 
-**Correct (secure JWT with refresh tokens):**
+**Correcto (JWT seguro con refresh tokens):**
 
 ```typescript
-// Secure JWT configuration
+// Configuración segura de JWT
 @Module({
   imports: [
     JwtModule.registerAsync({
@@ -63,7 +63,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       useFactory: (config: ConfigService) => ({
         secret: config.get<string>('JWT_SECRET'),
         signOptions: {
-          expiresIn: '15m', // Short-lived access tokens
+          expiresIn: '15m', // Access tokens de corta duración
           issuer: config.get<string>('JWT_ISSUER'),
           audience: config.get<string>('JWT_AUDIENCE'),
         },
@@ -74,11 +74,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 })
 export class AuthModule {}
 
-// Minimal JWT payload
+// Payload mínimo del JWT
 @Injectable()
 export class AuthService {
   async login(user: User): Promise<TokenResponse> {
-    // Only include necessary, non-sensitive data
+    // Incluye solo los datos necesarios y no sensibles
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,
@@ -99,14 +99,14 @@ export class AuthService {
     await this.refreshTokenRepo.save({
       userId,
       token: hashedToken,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 días
     });
 
     return token;
   }
 }
 
-// Proper JWT strategy with validation
+// Estrategia JWT correcta con validación
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -123,14 +123,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-    // Verify user still exists and is active
+    // Verifica que el usuario todavía exista y esté activo
     const user = await this.usersService.findById(payload.sub);
 
     if (!user || !user.isActive) {
       throw new UnauthorizedException('User not found or inactive');
     }
 
-    // Verify token wasn't issued before password change
+    // Verifica que el token no se haya emitido antes del cambio de contraseña
     if (user.passwordChangedAt) {
       const tokenIssuedAt = new Date(payload.iat * 1000);
       if (tokenIssuedAt < user.passwordChangedAt) {
@@ -143,4 +143,4 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 }
 ```
 
-Reference: [NestJS Authentication](https://docs.nestjs.com/security/authentication)
+Referencia: [NestJS Authentication](https://docs.nestjs.com/security/authentication)

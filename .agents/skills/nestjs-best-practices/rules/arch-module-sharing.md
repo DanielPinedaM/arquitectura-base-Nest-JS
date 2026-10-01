@@ -1,22 +1,22 @@
 ---
-title: Use Proper Module Sharing Patterns
+title: Usa patrones correctos para compartir módulos
 impact: CRITICAL
-impactDescription: Prevents duplicate instances, memory leaks, and state inconsistency
+impactDescription: Evita instancias duplicadas, fugas de memoria e inconsistencias de estado
 tags: architecture, modules, sharing, exports
 ---
 
-## Use Proper Module Sharing Patterns
+## Usa patrones correctos para compartir módulos
 
-NestJS modules are singletons by default. When a service is properly exported from a module and that module is imported elsewhere, the same instance is shared. However, providing a service in multiple modules creates separate instances, leading to memory waste, state inconsistency, and confusing behavior. Always encapsulate services in dedicated modules, export them explicitly, and import the module where needed.
+Los módulos de NestJS son singletons por defecto. Cuando un servicio se exporta correctamente desde un módulo y ese módulo se importa en otro lugar, se comparte la misma instancia. Sin embargo, proveer un servicio en múltiples módulos crea instancias separadas, lo que provoca desperdicio de memoria, inconsistencias de estado y un comportamiento confuso. Encapsula siempre los servicios en módulos dedicados, expórtalos explícitamente e importa el módulo donde se necesite.
 
-**Incorrect (service provided in multiple modules):**
+**Incorrecto (servicio provisto en múltiples módulos):**
 
 ```typescript
-// StorageService provided directly in multiple modules - WRONG
+// StorageService provisto directamente en múltiples módulos - INCORRECTO
 // storage.service.ts
 @Injectable()
 export class StorageService {
-  private cache = new Map(); // Each instance has separate state!
+  private cache = new Map(); // ¡Cada instancia tiene un estado separado!
 
   store(key: string, value: any) {
     this.cache.set(key, value);
@@ -25,38 +25,38 @@ export class StorageService {
 
 // app.module.ts
 @Module({
-  providers: [StorageService], // Instance #1
+  providers: [StorageService], // Instancia #1
   controllers: [AppController],
 })
 export class AppModule {}
 
 // videos.module.ts
 @Module({
-  providers: [StorageService], // Instance #2 - different from AppModule!
+  providers: [StorageService], // Instancia #2 - ¡diferente de la de AppModule!
   controllers: [VideosController],
 })
 export class VideosModule {}
 
-// Problems:
-// 1. Two separate StorageService instances exist
-// 2. cache.set() in VideosModule doesn't affect AppModule's cache
-// 3. Memory wasted on duplicate instances
-// 4. Debugging nightmares when state doesn't sync
+// Problemas:
+// 1. Existen dos instancias separadas de StorageService
+// 2. cache.set() en VideosModule no afecta a la caché de AppModule
+// 3. Memoria desperdiciada en instancias duplicadas
+// 4. Pesadillas de depuración cuando el estado no se sincroniza
 ```
 
-**Correct (dedicated module with exports):**
+**Correcto (módulo dedicado con exports):**
 
 ```typescript
 // storage/storage.module.ts
 @Module({
   providers: [StorageService],
-  exports: [StorageService], // Make available to importers
+  exports: [StorageService], // Lo hace disponible para quienes lo importen
 })
 export class StorageModule {}
 
 // videos/videos.module.ts
 @Module({
-  imports: [StorageModule], // Import the module, not the service
+  imports: [StorageModule], // Importa el módulo, no el servicio
   controllers: [VideosController],
   providers: [VideosService],
 })
@@ -64,7 +64,7 @@ export class VideosModule {}
 
 // channels/channels.module.ts
 @Module({
-  imports: [StorageModule], // Same instance shared
+  imports: [StorageModule], // Se comparte la misma instancia
   controllers: [ChannelsController],
   providers: [ChannelsService],
 })
@@ -73,20 +73,20 @@ export class ChannelsModule {}
 // app.module.ts
 @Module({
   imports: [
-    StorageModule, // Only if AppModule itself needs StorageService
+    StorageModule, // Solo si el propio AppModule necesita StorageService
     VideosModule,
     ChannelsModule,
   ],
 })
 export class AppModule {}
 
-// Now all modules share the SAME StorageService instance
+// Ahora todos los módulos comparten la MISMA instancia de StorageService
 ```
 
-**When to use @Global() (sparingly):**
+**Cuándo usar @Global() (con moderación):**
 
 ```typescript
-// ONLY for truly cross-cutting concerns
+// SOLO para cross-cutting concerns verdaderamente transversales
 @Global()
 @Module({
   providers: [ConfigService, LoggerService],
@@ -94,48 +94,48 @@ export class AppModule {}
 })
 export class CoreModule {}
 
-// Import once in AppModule
+// Impórtalo una sola vez en AppModule
 @Module({
-  imports: [CoreModule], // Registered globally, available everywhere
+  imports: [CoreModule], // Registrado globalmente, disponible en todas partes
 })
 export class AppModule {}
 
-// Other modules don't need to import CoreModule
+// Los demás módulos no necesitan importar CoreModule
 @Module({
   controllers: [UsersController],
-  providers: [UsersService], // Can inject ConfigService without importing
+  providers: [UsersService], // Puede inyectar ConfigService sin importarlo
 })
 export class UsersModule {}
 
-// WARNING: Don't make everything global!
-// - Hides dependencies (can't see what a module needs from imports)
-// - Makes testing harder
-// - Reserve for: config, logging, database connections
+// ADVERTENCIA: ¡No hagas todo global!
+// - Oculta las dependencias (no se puede ver qué necesita un módulo a partir de sus imports)
+// - Hace más difícil el testing
+// - Resérvalo para: configuración, logging, conexiones a la base de datos
 ```
 
-**Module re-exporting pattern:**
+**Patrón de re-exportación de módulos:**
 
 ```typescript
-// common.module.ts - shared utilities
+// common.module.ts - utilidades compartidas
 @Module({
   providers: [DateService, ValidationService],
   exports: [DateService, ValidationService],
 })
 export class CommonModule {}
 
-// core.module.ts - re-exports common for convenience
+// core.module.ts - re-exporta common por conveniencia
 @Module({
   imports: [CommonModule, DatabaseModule],
-  exports: [CommonModule, DatabaseModule], // Re-export for consumers
+  exports: [CommonModule, DatabaseModule], // Re-exporta para los consumidores
 })
 export class CoreModule {}
 
-// feature.module.ts - imports CoreModule, gets both
+// feature.module.ts - importa CoreModule y obtiene ambos
 @Module({
-  imports: [CoreModule], // Gets CommonModule + DatabaseModule
+  imports: [CoreModule], // Obtiene CommonModule + DatabaseModule
   controllers: [FeatureController],
 })
 export class FeatureModule {}
 ```
 
-Reference: [NestJS Modules](https://docs.nestjs.com/modules#shared-modules)
+Referencia: [NestJS Modules](https://docs.nestjs.com/modules#shared-modules)

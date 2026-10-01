@@ -1,50 +1,50 @@
 ---
-title: Use Message Queues for Background Jobs
+title: Usa colas de mensajes para los trabajos en segundo plano
 impact: MEDIUM-HIGH
-impactDescription: Queues enable reliable background processing
+impactDescription: Las colas permiten un procesamiento en segundo plano confiable
 tags: microservices, queues, bullmq, background-jobs
 ---
 
-## Use Message Queues for Background Jobs
+## Usa colas de mensajes para los trabajos en segundo plano
 
-Use `@nestjs/bullmq` for background job processing. Queues decouple long-running tasks from HTTP requests, enable retry logic, and distribute workload across workers. Use them for emails, file processing, notifications, and any task that shouldn't block user requests.
+Usa `@nestjs/bullmq` para el procesamiento de trabajos en segundo plano. Las colas desacoplan las tareas de larga duración de las peticiones HTTP, permiten la lógica de reintentos y distribuyen la carga de trabajo entre workers. Úsalas para emails, procesamiento de archivos, notificaciones y cualquier tarea que no deba bloquear las peticiones de los usuarios.
 
-**Incorrect (long-running tasks in HTTP handlers):**
+**Incorrecto (tareas de larga duración en los handlers HTTP):**
 
 ```typescript
-// Long-running tasks in HTTP handlers
+// Tareas de larga duración en los handlers HTTP
 @Controller('reports')
 export class ReportsController {
   @Post()
   async generate(@Body() dto: GenerateReportDto): Promise<Report> {
-    // This blocks the request for potentially minutes
+    // Esto bloquea la petición potencialmente durante minutos
     const data = await this.fetchLargeDataset(dto);
-    const report = await this.processData(data); // Slow!
-    await this.sendEmail(dto.email, report); // Can fail!
-    return report; // Client times out
+    const report = await this.processData(data); // ¡Lento!
+    await this.sendEmail(dto.email, report); // ¡Puede fallar!
+    return report; // El cliente excede el timeout
   }
 }
 
-// Fire-and-forget without retry
+// Fire-and-forget sin reintentos
 @Injectable()
 export class EmailService {
   async sendWelcome(email: string): Promise<void> {
-    // If this fails, email is never sent
+    // Si esto falla, el email nunca se envía
     await this.mailer.send({ to: email, template: 'welcome' });
-    // No retry, no tracking, no visibility
+    // Sin reintentos, sin seguimiento, sin visibilidad
   }
 }
 
-// Use setInterval for scheduled tasks
+// Usa setInterval para las tareas programadas
 setInterval(async () => {
   await cleanupOldRecords();
-}, 60000); // No error handling, memory leaks
+}, 60000); // Sin manejo de errores, fugas de memoria
 ```
 
-**Correct (use BullMQ for background processing):**
+**Correcto (usa BullMQ para el procesamiento en segundo plano):**
 
 ```typescript
-// Configure BullMQ
+// Configura BullMQ
 import { BullModule } from '@nestjs/bullmq';
 
 @Module({
@@ -73,7 +73,7 @@ import { BullModule } from '@nestjs/bullmq';
 })
 export class QueueModule {}
 
-// Producer: Add jobs to queue
+// Productor: agrega trabajos a la cola
 @Injectable()
 export class ReportsService {
   constructor(
@@ -81,7 +81,7 @@ export class ReportsService {
   ) {}
 
   async requestReport(dto: GenerateReportDto): Promise<{ jobId: string }> {
-    // Return immediately, process in background
+    // Retorna de inmediato, procesa en segundo plano
     const job = await this.reportsQueue.add('generate', dto, {
       priority: dto.urgent ? 1 : 10,
       delay: dto.scheduledFor ? Date.parse(dto.scheduledFor) - Date.now() : 0,
@@ -100,7 +100,7 @@ export class ReportsService {
   }
 }
 
-// Consumer: Process jobs
+// Consumidor: procesa los trabajos
 @Processor('reports')
 export class ReportsProcessor {
   private readonly logger = new Logger(ReportsProcessor.name);
@@ -109,7 +109,7 @@ export class ReportsProcessor {
   async generateReport(job: Job<GenerateReportDto>): Promise<Report> {
     this.logger.log(`Processing report job ${job.id}`);
 
-    // Update progress
+    // Actualiza el progreso
     await job.updateProgress(10);
 
     const data = await this.fetchData(job.data);
@@ -140,7 +140,7 @@ export class ReportsProcessor {
   }
 }
 
-// Email queue with retry
+// Cola de emails con reintentos
 @Processor('email')
 export class EmailProcessor {
   @Process('send')
@@ -154,13 +154,13 @@ export class EmailProcessor {
         context: data,
       });
     } catch (error) {
-      // BullMQ will retry based on job options
+      // BullMQ reintentará según las opciones del trabajo
       throw error;
     }
   }
 }
 
-// Usage
+// Uso
 @Injectable()
 export class NotificationService {
   constructor(@InjectQueue('email') private emailQueue: Queue) {}
@@ -181,23 +181,23 @@ export class NotificationService {
   }
 }
 
-// Scheduled jobs
+// Trabajos programados
 @Injectable()
 export class ScheduledJobsService implements OnModuleInit {
   constructor(@InjectQueue('maintenance') private queue: Queue) {}
 
   async onModuleInit(): Promise<void> {
-    // Clean up old reports daily at midnight
+    // Limpia los reportes antiguos diariamente a medianoche
     await this.queue.add(
       'cleanup',
       {},
       {
         repeat: { cron: '0 0 * * *' },
-        jobId: 'daily-cleanup', // Prevent duplicates
+        jobId: 'daily-cleanup', // Evita duplicados
       },
     );
 
-    // Send digest every hour
+    // Envía un resumen cada hora
     await this.queue.add(
       'digest',
       {},
@@ -226,7 +226,7 @@ export class MaintenanceProcessor {
   }
 }
 
-// Queue monitoring with Bull Board
+// Monitoreo de las colas con Bull Board
 import { BullBoardModule } from '@bull-board/nestjs';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 
@@ -249,4 +249,4 @@ import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 export class AdminModule {}
 ```
 
-Reference: [NestJS Queues](https://docs.nestjs.com/techniques/queues)
+Referencia: [NestJS Queues](https://docs.nestjs.com/techniques/queues)

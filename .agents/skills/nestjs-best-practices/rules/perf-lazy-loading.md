@@ -1,41 +1,41 @@
 ---
-title: Use Lazy Loading for Large Modules
+title: Usa lazy loading para los módulos grandes
 impact: MEDIUM
-impactDescription: Improves startup time for large applications
+impactDescription: Mejora el tiempo de arranque de las aplicaciones grandes
 tags: performance, lazy-loading, modules, optimization
 ---
 
-## Use Lazy Loading for Large Modules
+## Usa lazy loading para los módulos grandes
 
-NestJS supports lazy-loading modules, which defers initialization until first use. This is valuable for large applications where some features are rarely used, serverless deployments where cold start time matters, or when certain modules have heavy initialization costs.
+NestJS soporta el lazy loading de módulos, que difiere la inicialización hasta el primer uso. Esto es valioso para aplicaciones grandes donde algunas funcionalidades se usan rara vez, para deployments serverless donde importa el tiempo de cold start, o cuando ciertos módulos tienen costos de inicialización altos.
 
-**Incorrect (loading everything eagerly):**
+**Incorrecto (cargar todo de forma eager):**
 
 ```typescript
-// Load everything eagerly in a large app
+// Carga todo de forma eager en una app grande
 @Module({
   imports: [
     UsersModule,
     OrdersModule,
     PaymentsModule,
-    ReportsModule, // Heavy, rarely used
-    AnalyticsModule, // Heavy, rarely used
-    AdminModule, // Only admins use this
-    LegacyModule, // Migration module, rarely used
-    BulkImportModule, // Used once a month
+    ReportsModule, // Pesado, se usa rara vez
+    AnalyticsModule, // Pesado, se usa rara vez
+    AdminModule, // Solo lo usan los administradores
+    LegacyModule, // Módulo de migración, se usa rara vez
+    BulkImportModule, // Se usa una vez al mes
   ],
 })
 export class AppModule {}
 
-// All modules initialize at startup, even if never used
-// Slow cold starts in serverless
-// Memory wasted on unused modules
+// Todos los módulos se inicializan al arrancar, aunque nunca se usen
+// Cold starts lentos en serverless
+// Memoria desperdiciada en módulos sin usar
 ```
 
-**Correct (lazy load rarely-used modules):**
+**Correcto (lazy loading de los módulos que se usan rara vez):**
 
 ```typescript
-// Use LazyModuleLoader for optional modules
+// Usa LazyModuleLoader para los módulos opcionales
 import { LazyModuleLoader } from '@nestjs/core';
 
 @Injectable()
@@ -43,7 +43,7 @@ export class ReportsService {
   constructor(private lazyModuleLoader: LazyModuleLoader) {}
 
   async generateReport(type: string): Promise<Report> {
-    // Load module only when needed
+    // Carga el módulo solo cuando es necesario
     const { ReportsModule } = await import('./reports/reports.module');
     const moduleRef = await this.lazyModuleLoader.load(() => ReportsModule);
 
@@ -52,7 +52,7 @@ export class ReportsService {
   }
 }
 
-// Lazy load admin features with caching
+// Lazy loading de las funcionalidades de administración con caché
 @Injectable()
 export class AdminService {
   private adminModule: ModuleRef | null = null;
@@ -74,7 +74,7 @@ export class AdminService {
   }
 }
 
-// Reusable lazy loader service
+// Servicio reutilizable de lazy loading
 @Injectable()
 export class ModuleLoaderService {
   private loadedModules = new Map<string, ModuleRef>();
@@ -95,7 +95,7 @@ export class ModuleLoaderService {
   }
 }
 
-// Preload modules in background after startup
+// Precarga los módulos en segundo plano después del arranque
 @Injectable()
 export class ModulePreloader implements OnApplicationBootstrap {
   constructor(private lazyModuleLoader: LazyModuleLoader) {}
@@ -103,7 +103,7 @@ export class ModulePreloader implements OnApplicationBootstrap {
   async onApplicationBootstrap(): Promise<void> {
     setTimeout(async () => {
       await this.preloadModule(() => import('./reports/reports.module'));
-    }, 5000); // 5 seconds after startup
+    }, 5000); // 5 segundos después del arranque
   }
 
   private async preloadModule(importFn: () => Promise<any>): Promise<void> {
@@ -118,4 +118,4 @@ export class ModulePreloader implements OnApplicationBootstrap {
 }
 ```
 
-Reference: [NestJS Lazy Loading Modules](https://docs.nestjs.com/fundamentals/lazy-loading-modules)
+Referencia: [NestJS Lazy Loading Modules](https://docs.nestjs.com/fundamentals/lazy-loading-modules)

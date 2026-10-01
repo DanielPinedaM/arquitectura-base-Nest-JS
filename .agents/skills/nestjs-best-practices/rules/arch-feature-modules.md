@@ -1,18 +1,18 @@
 ---
-title: Organize by Feature Modules
+title: Organiza por feature modules
 impact: CRITICAL
-impactDescription: "3-5x faster onboarding and development"
+impactDescription: "Onboarding y desarrollo de 3 a 5 veces más rápidos"
 tags: architecture, modules, organization
 ---
 
-## Organize by Feature Modules
+## Organiza por feature modules
 
-Organize your application into feature modules that encapsulate related functionality. Each feature module should be self-contained with its own controllers, services, entities, and DTOs. Avoid organizing by technical layer (all controllers together, all services together). This enables 3-5x faster onboarding and feature development.
+Organiza tu aplicación en feature modules que encapsulen la funcionalidad relacionada. Cada feature module debe ser autocontenido, con sus propios controllers, servicios, entidades y DTOs. Evita organizar por capa técnica (todos los controllers juntos, todos los servicios juntos). Esto permite un onboarding y un desarrollo de features de 3 a 5 veces más rápidos.
 
-**Incorrect (technical layer organization):**
+**Incorrecto (organización por capa técnica):**
 
 ```typescript
-// Technical layer organization (anti-pattern)
+// Organización por capa técnica (anti-pattern)
 src/
 ├── controllers/
 │   ├── users.controller.ts
@@ -26,13 +26,13 @@ src/
 │   ├── user.entity.ts
 │   ├── order.entity.ts
 │   └── product.entity.ts
-└── app.module.ts  // Imports everything directly
+└── app.module.ts  // Importa todo directamente
 ```
 
-**Correct (feature module organization):**
+**Correcto (organización por feature modules):**
 
 ```typescript
-// Feature module organization
+// Organización por feature modules
 src/
 ├── users/
 │   ├── dto/
@@ -62,7 +62,7 @@ src/
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [UsersController],
   providers: [UsersService, UsersRepository],
-  exports: [UsersService], // Only export what others need
+  exports: [UsersService], // Exporta solo lo que otros necesitan
 })
 export class UsersModule {}
 
@@ -79,4 +79,4 @@ export class UsersModule {}
 export class AppModule {}
 ```
 
-Reference: [NestJS Modules](https://docs.nestjs.com/modules)
+Referencia: [NestJS Modules](https://docs.nestjs.com/modules)

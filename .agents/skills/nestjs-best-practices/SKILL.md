@@ -1,117 +1,117 @@
 ---
 name: nestjs-best-practices
-description: NestJS best practices and architecture patterns for building production-ready applications. This skill should be used when writing, reviewing, or refactoring NestJS code to ensure proper patterns for modules, dependency injection, security, and performance.
+description: Buenas prácticas y patrones de arquitectura de NestJS para construir aplicaciones listas para producción. Esta skill debe usarse al escribir, revisar o refactorizar código de NestJS para asegurar patrones correctos de módulos, inyección de dependencias, seguridad y rendimiento.
 license: MIT
 metadata:
   author: Kadajett
   version: "1.2.0"
 ---
 
-# NestJS Best Practices
+# Buenas prácticas de NestJS
 
-Comprehensive best practices guide for NestJS applications. Contains 40 rules across 10 categories, prioritized by impact to guide automated refactoring and code generation.
+Guía completa de buenas prácticas para aplicaciones de NestJS. Contiene 40 reglas en 10 categorías, priorizadas por impacto para guiar la refactorización y la generación de código automatizadas.
 
-## When to Apply
+## Cuándo aplicarla
 
-Reference these guidelines when:
+Consulta estos lineamientos cuando:
 
-- Writing new NestJS modules, controllers, or services
-- Implementing authentication and authorization
-- Reviewing code for architecture and security issues
-- Refactoring existing NestJS codebases
-- Optimizing performance or database queries
-- Building microservices architectures
+- Escribas nuevos módulos, controllers o servicios de NestJS
+- Implementes la autenticación y la autorización
+- Revises código en busca de problemas de arquitectura y seguridad
+- Refactorices codebases existentes de NestJS
+- Optimices el rendimiento o las queries a la base de datos
+- Construyas arquitecturas de microservicios
 
-## Rule Categories by Priority
+## Categorías de reglas por prioridad
 
-| Priority | Category | Impact | Prefix |
+| Prioridad | Categoría | Impacto | Prefijo |
 |----------|----------|--------|--------|
-| 1 | Architecture | CRITICAL | `arch-` |
-| 2 | Dependency Injection | CRITICAL | `di-` |
-| 3 | Error Handling | HIGH | `error-` |
-| 4 | Security | HIGH | `security-` |
-| 5 | Performance | HIGH | `perf-` |
+| 1 | Arquitectura | CRITICAL | `arch-` |
+| 2 | Inyección de dependencias | CRITICAL | `di-` |
+| 3 | Manejo de errores | HIGH | `error-` |
+| 4 | Seguridad | HIGH | `security-` |
+| 5 | Rendimiento | HIGH | `perf-` |
 | 6 | Testing | MEDIUM-HIGH | `test-` |
-| 7 | Database & ORM | MEDIUM-HIGH | `db-` |
-| 8 | API Design | MEDIUM | `api-` |
-| 9 | Microservices | MEDIUM | `micro-` |
-| 10 | DevOps & Deployment | LOW-MEDIUM | `devops-` |
+| 7 | Base de datos y ORM | MEDIUM-HIGH | `db-` |
+| 8 | Diseño de APIs | MEDIUM | `api-` |
+| 9 | Microservicios | MEDIUM | `micro-` |
+| 10 | DevOps y deployment | LOW-MEDIUM | `devops-` |
 
-## Quick Reference
+## Referencia rápida
 
-### 1. Architecture (CRITICAL)
+### 1. Arquitectura (CRITICAL)
 
-- `arch-avoid-circular-deps` - Avoid circular module dependencies
-- `arch-feature-modules` - Organize by feature, not technical layer
-- `arch-module-sharing` - Proper module exports/imports, avoid duplicate providers
-- `arch-single-responsibility` - Focused services over "god services"
-- `arch-use-repository-pattern` - Abstract database logic for testability
-- `arch-use-events` - Event-driven architecture for decoupling
+- `arch-avoid-circular-deps` - Evita las dependencias circulares entre módulos
+- `arch-feature-modules` - Organiza por feature, no por capa técnica
+- `arch-module-sharing` - Exports/imports de módulos correctos, evita providers duplicados
+- `arch-single-responsibility` - Servicios enfocados en lugar de "god services"
+- `arch-use-repository-pattern` - Abstrae la lógica de la base de datos para la testeabilidad
+- `arch-use-events` - Arquitectura basada en eventos para el desacoplamiento
 
-### 2. Dependency Injection (CRITICAL)
+### 2. Inyección de dependencias (CRITICAL)
 
-- `di-avoid-service-locator` - Avoid service locator anti-pattern
+- `di-avoid-service-locator` - Evita el anti-pattern Service Locator
 - `di-interface-segregation` - Interface Segregation Principle (ISP)
 - `di-liskov-substitution` - Liskov Substitution Principle (LSP)
-- `di-prefer-constructor-injection` - Constructor over property injection
-- `di-scope-awareness` - Understand singleton/request/transient scopes
-- `di-use-interfaces-tokens` - Use injection tokens for interfaces
+- `di-prefer-constructor-injection` - Inyección por constructor en lugar de inyección por propiedad
+- `di-scope-awareness` - Comprende los scopes singleton/request/transient
+- `di-use-interfaces-tokens` - Usa injection tokens para las interfaces
 
-### 3. Error Handling (HIGH)
+### 3. Manejo de errores (HIGH)
 
-- `error-use-exception-filters` - Centralized exception handling
-- `error-throw-http-exceptions` - Use NestJS HTTP exceptions
-- `error-handle-async-errors` - Handle async errors properly
+- `error-use-exception-filters` - Manejo centralizado de excepciones
+- `error-throw-http-exceptions` - Usa las HTTP exceptions de NestJS
+- `error-handle-async-errors` - Maneja correctamente los errores asíncronos
 
-### 4. Security (HIGH)
+### 4. Seguridad (HIGH)
 
-- `security-auth-jwt` - Secure JWT authentication
-- `security-validate-all-input` - Validate with nestjs-zod
-- `security-use-guards` - Authentication and authorization guards
-- `security-sanitize-output` - Prevent XSS attacks
-- `security-rate-limiting` - Implement rate limiting
+- `security-auth-jwt` - Autenticación JWT segura
+- `security-validate-all-input` - Valida con nestjs-zod
+- `security-use-guards` - Guards de autenticación y autorización
+- `security-sanitize-output` - Previene los ataques XSS
+- `security-rate-limiting` - Implementa rate limiting
 
-### 5. Performance (HIGH)
+### 5. Rendimiento (HIGH)
 
-- `perf-async-hooks` - Proper async lifecycle hooks
-- `perf-use-caching` - Implement caching strategies
-- `perf-optimize-database` - Optimize database queries
-- `perf-lazy-loading` - Lazy load modules for faster startup
+- `perf-async-hooks` - Lifecycle hooks asíncronos correctos
+- `perf-use-caching` - Implementa estrategias de caching
+- `perf-optimize-database` - Optimiza las queries a la base de datos
+- `perf-lazy-loading` - Lazy loading de módulos para un arranque más rápido
 
 ### 6. Testing (MEDIUM-HIGH)
 
-- `test-use-testing-module` - Use NestJS testing utilities
-- `test-e2e-supertest` - E2E testing with Supertest
-- `test-mock-external-services` - Mock external dependencies
+- `test-use-testing-module` - Usa las utilidades de testing de NestJS
+- `test-e2e-supertest` - Testing E2E con Supertest
+- `test-mock-external-services` - Haz mock de las dependencias externas
 
-### 7. Database & ORM (MEDIUM-HIGH)
+### 7. Base de datos y ORM (MEDIUM-HIGH)
 
-- `db-use-transactions` - Transaction management
-- `db-avoid-n-plus-one` - Avoid N+1 query problems
-- `db-use-migrations` - Use migrations for schema changes
+- `db-use-transactions` - Gestión de transacciones
+- `db-avoid-n-plus-one` - Evita los problemas de queries N+1
+- `db-use-migrations` - Usa migraciones para los cambios de schema
 
-### 8. API Design (MEDIUM)
+### 8. Diseño de APIs (MEDIUM)
 
-- `api-use-dto-serialization` - DTO and response serialization
+- `api-use-dto-serialization` - DTOs y serialización de respuestas
 - `api-use-interceptors` - Cross-cutting concerns
-- `api-versioning` - API versioning strategies
-- `api-use-pipes` - Input transformation with pipes
+- `api-versioning` - Estrategias de versionado de APIs
+- `api-use-pipes` - Transformación del input con pipes
 
-### 9. Microservices (MEDIUM)
+### 9. Microservicios (MEDIUM)
 
-- `micro-use-patterns` - Message and event patterns
-- `micro-use-health-checks` - Health checks for orchestration
-- `micro-use-queues` - Background job processing
+- `micro-use-patterns` - Patrones de mensajes y eventos
+- `micro-use-health-checks` - Health checks para la orquestación
+- `micro-use-queues` - Procesamiento de trabajos en segundo plano
 
-### 10. DevOps & Deployment (LOW-MEDIUM)
+### 10. DevOps y deployment (LOW-MEDIUM)
 
-- `devops-use-config-module` - Environment configuration
-- `devops-use-logging` - Structured logging
-- `devops-graceful-shutdown` - Zero-downtime deployments
+- `devops-use-config-module` - Configuración de entornos
+- `devops-use-logging` - Logging estructurado
+- `devops-graceful-shutdown` - Deployments sin tiempo de inactividad
 
-## How to Use
+## Cómo usarla
 
-Read individual rule files for detailed explanations and code examples:
+Lee los archivos de reglas individuales para ver explicaciones detalladas y ejemplos de código:
 
 ```
 rules/arch-avoid-circular-deps.md
@@ -119,13 +119,13 @@ rules/security-validate-all-input.md
 rules/_sections.md
 ```
 
-Each rule file contains:
-- Brief explanation of why it matters
-- Incorrect code example with explanation
-- Correct code example with explanation
-- Additional context and references
+Cada archivo de regla contiene:
+- Una breve explicación de por qué es importante
+- Un ejemplo de código incorrecto con su explicación
+- Un ejemplo de código correcto con su explicación
+- Contexto adicional y referencias
 
-## Full Compiled Document
+## Documento compilado completo
 
-For the complete guide with all rules expanded in a single document, see
-[AGENTS.md in the repository](https://github.com/Kadajett/agent-nestjs-skills/blob/main/AGENTS.md).
+Para la guía completa con todas las reglas desarrolladas en un solo documento, consulta
+[AGENTS.md en el repositorio](https://github.com/Kadajett/agent-nestjs-skills/blob/main/AGENTS.md).

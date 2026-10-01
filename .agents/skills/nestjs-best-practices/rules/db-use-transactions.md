@@ -1,22 +1,22 @@
 ---
-title: Use Transactions for Multi-Step Operations
+title: Usa transacciones para las operaciones de múltiples pasos
 impact: HIGH
-impactDescription: Ensures data consistency in multi-step operations
+impactDescription: Asegura la consistencia de los datos en las operaciones de múltiples pasos
 tags: database, transactions, typeorm, consistency
 ---
 
-## Use Transactions for Multi-Step Operations
+## Usa transacciones para las operaciones de múltiples pasos
 
-When multiple database operations must succeed or fail together, wrap them in a transaction. This prevents partial updates that leave your data in an inconsistent state. Use TypeORM's transaction APIs or the DataSource query runner for complex scenarios.
+Cuando múltiples operaciones de base de datos deben tener éxito o fallar juntas, envuélvelas en una transacción. Esto evita actualizaciones parciales que dejan tus datos en un estado inconsistente. Usa las APIs de transacciones de TypeORM o el query runner del DataSource para los escenarios complejos.
 
-**Incorrect (multiple saves without transaction):**
+**Incorrecto (múltiples saves sin transacción):**
 
 ```typescript
-// Multiple saves without transaction
+// Múltiples saves sin transacción
 @Injectable()
 export class OrdersService {
   async createOrder(userId: string, items: OrderItem[]): Promise<Order> {
-    // If any step fails, data is inconsistent
+    // Si cualquier paso falla, los datos quedan inconsistentes
     const order = await this.orderRepo.save({ userId, status: 'pending' });
 
     for (const item of items) {
@@ -25,24 +25,24 @@ export class OrdersService {
     }
 
     await this.paymentService.charge(order.id);
-    // If payment fails, order and inventory are already modified!
+    // Si el pago falla, ¡la orden y el inventario ya fueron modificados!
 
     return order;
   }
 }
 ```
 
-**Correct (use DataSource.transaction for automatic rollback):**
+**Correcto (usa DataSource.transaction para un rollback automático):**
 
 ```typescript
-// Use DataSource.transaction() for automatic rollback
+// Usa DataSource.transaction() para un rollback automático
 @Injectable()
 export class OrdersService {
   constructor(private dataSource: DataSource) {}
 
   async createOrder(userId: string, items: OrderItem[]): Promise<Order> {
     return this.dataSource.transaction(async (manager) => {
-      // All operations use the same transactional manager
+      // Todas las operaciones usan el mismo manager transaccional
       const order = await manager.save(Order, { userId, status: 'pending' });
 
       for (const item of items) {
@@ -55,7 +55,7 @@ export class OrdersService {
         );
       }
 
-      // If this throws, everything rolls back
+      // Si esto lanza una excepción, se hace rollback de todo
       await this.paymentService.chargeWithManager(manager, order.id);
 
       return order;
@@ -63,7 +63,7 @@ export class OrdersService {
   }
 }
 
-// QueryRunner for manual transaction control
+// QueryRunner para el control manual de la transacción
 @Injectable()
 export class TransferService {
   constructor(private dataSource: DataSource) {}
@@ -74,7 +74,7 @@ export class TransferService {
     await queryRunner.startTransaction();
 
     try {
-      // Debit source account
+      // Debita la cuenta de origen
       await queryRunner.manager.decrement(
         Account,
         { id: fromId },
@@ -82,7 +82,7 @@ export class TransferService {
         amount,
       );
 
-      // Verify sufficient funds
+      // Verifica que haya fondos suficientes
       const source = await queryRunner.manager.findOne(Account, {
         where: { id: fromId },
       });
@@ -90,7 +90,7 @@ export class TransferService {
         throw new BadRequestException('Insufficient funds');
       }
 
-      // Credit destination account
+      // Acredita la cuenta de destino
       await queryRunner.manager.increment(
         Account,
         { id: toId },
@@ -98,7 +98,7 @@ export class TransferService {
         amount,
       );
 
-      // Log the transaction
+      // Registra la transacción
       await queryRunner.manager.save(TransactionLog, {
         fromId,
         toId,
@@ -116,7 +116,7 @@ export class TransferService {
   }
 }
 
-// Repository method with transaction support
+// Método del repository con soporte de transacciones
 @Injectable()
 export class UsersRepository {
   constructor(
@@ -137,4 +137,4 @@ export class UsersRepository {
 }
 ```
 
-Reference: [TypeORM Transactions](https://typeorm.io/transactions)
+Referencia: [TypeORM Transactions](https://typeorm.io/transactions)

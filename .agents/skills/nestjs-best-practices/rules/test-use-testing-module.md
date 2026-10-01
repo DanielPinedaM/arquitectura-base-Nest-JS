@@ -1,30 +1,30 @@
 ---
-title: Use Testing Module for Unit Tests
+title: Usa el testing module para los unit tests
 impact: HIGH
-impactDescription: Enables proper isolated testing with mocked dependencies
+impactDescription: Permite un testing aislado correcto con dependencias mock
 tags: testing, unit-tests, mocking, jest
 ---
 
-## Use Testing Module for Unit Tests
+## Usa el testing module para los unit tests
 
-Use `@nestjs/testing` module to create isolated test environments with mocked dependencies. This ensures your tests run fast, don't depend on external services, and properly test your business logic in isolation.
+Usa el módulo `@nestjs/testing` para crear entornos de test aislados con dependencias mock. Esto asegura que tus tests se ejecuten rápido, no dependan de servicios externos y testeen correctamente tu lógica de negocio de forma aislada.
 
-**Incorrect (manual instantiation bypassing DI):**
+**Incorrecto (instanciación manual que se salta la DI):**
 
 ```typescript
-// Instantiate services manually without DI
+// Instancia los servicios manualmente sin DI
 describe('UsersService', () => {
   it('should create user', async () => {
-    // Manual instantiation bypasses DI
-    const repo = new UserRepository(); // Real repo!
+    // La instanciación manual se salta la DI
+    const repo = new UserRepository(); // ¡Repository real!
     const service = new UsersService(repo);
 
     const user = await service.create({ name: 'Test' });
-    // This hits the real database!
+    // ¡Esto accede a la base de datos real!
   });
 });
 
-// Test implementation details
+// Testea detalles de implementación
 describe('UsersController', () => {
   it('should call service', async () => {
     const service = { create: jest.fn() };
@@ -32,15 +32,15 @@ describe('UsersController', () => {
 
     await controller.create({ name: 'Test' });
 
-    expect(service.create).toHaveBeenCalled(); // Tests implementation, not behavior
+    expect(service.create).toHaveBeenCalled(); // Testea la implementación, no el comportamiento
   });
 });
 ```
 
-**Correct (use Test.createTestingModule with mocked dependencies):**
+**Correcto (usa Test.createTestingModule con dependencias mock):**
 
 ```typescript
-// Use Test.createTestingModule for proper DI
+// Usa Test.createTestingModule para una DI correcta
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('UsersService', () => {
@@ -110,7 +110,7 @@ describe('UsersService', () => {
   });
 });
 
-// Testing guards and interceptors
+// Testing de guards e interceptors
 describe('RolesGuard', () => {
   let guard: RolesGuard;
   let reflector: Reflector;
@@ -150,4 +150,4 @@ function createMockExecutionContext(request: Partial<Request>): ExecutionContext
 }
 ```
 
-Reference: [NestJS Testing](https://docs.nestjs.com/fundamentals/testing)
+Referencia: [NestJS Testing](https://docs.nestjs.com/fundamentals/testing)

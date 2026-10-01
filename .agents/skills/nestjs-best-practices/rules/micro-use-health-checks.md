@@ -1,32 +1,32 @@
 ---
-title: Implement Health Checks for Microservices
+title: Implementa health checks para los microservicios
 impact: MEDIUM-HIGH
-impactDescription: Health checks enable orchestrators to manage service lifecycle
+impactDescription: Los health checks permiten que los orquestadores gestionen el ciclo de vida de los servicios
 tags: microservices, health-checks, terminus, kubernetes
 ---
 
-## Implement Health Checks for Microservices
+## Implementa health checks para los microservicios
 
-Implement liveness and readiness probes using `@nestjs/terminus`. Liveness checks determine if the service should be restarted. Readiness checks determine if the service can accept traffic. Proper health checks enable Kubernetes and load balancers to route traffic correctly.
+Implementa liveness y readiness probes usando `@nestjs/terminus`. Los liveness checks determinan si el servicio debe reiniciarse. Los readiness checks determinan si el servicio puede aceptar tráfico. Unos health checks correctos permiten que Kubernetes y los load balancers enruten el tráfico correctamente.
 
-**Incorrect (simple ping that doesn't check dependencies):**
+**Incorrecto (un ping simple que no verifica las dependencias):**
 
 ```typescript
-// Simple ping that doesn't check dependencies
+// Ping simple que no verifica las dependencias
 @Controller('health')
 export class HealthController {
   @Get()
   check(): string {
-    return 'OK'; // Service might be unhealthy but returns OK
+    return 'OK'; // El servicio podría no estar sano, pero devuelve OK
   }
 }
 
-// Health check that blocks on slow dependencies
+// Health check que se bloquea con dependencias lentas
 @Controller('health')
 export class HealthController {
   @Get()
   async check(): Promise<string> {
-    // If database is slow, health check times out
+    // Si la base de datos está lenta, el health check excede el timeout
     await this.userRepo.findOne({ where: { id: '1' } });
     await this.redis.ping();
     await this.externalApi.healthCheck();
@@ -35,10 +35,10 @@ export class HealthController {
 }
 ```
 
-**Correct (use @nestjs/terminus for comprehensive health checks):**
+**Correcto (usa @nestjs/terminus para health checks completos):**
 
 ```typescript
-// Use @nestjs/terminus for comprehensive health checks
+// Usa @nestjs/terminus para health checks completos
 import {
   HealthCheckService,
   HttpHealthIndicator,
@@ -58,17 +58,17 @@ export class HealthController {
     private memory: MemoryHealthIndicator,
   ) {}
 
-  // Liveness probe - is the service alive?
+  // Liveness probe - ¿está vivo el servicio?
   @Get('live')
   @HealthCheck()
   liveness() {
     return this.health.check([
-      // Basic checks only
+      // Solo verificaciones básicas
       () => this.memory.checkHeap('memory_heap', 200 * 1024 * 1024), // 200MB
     ]);
   }
 
-  // Readiness probe - can the service handle traffic?
+  // Readiness probe - ¿puede el servicio manejar tráfico?
   @Get('ready')
   @HealthCheck()
   readiness() {
@@ -81,7 +81,7 @@ export class HealthController {
     ]);
   }
 
-  // Deep health check for debugging
+  // Health check profundo para depuración
   @Get('deep')
   @HealthCheck()
   deepCheck() {
@@ -97,7 +97,7 @@ export class HealthController {
   }
 }
 
-// Custom indicator for business-specific health
+// Indicador personalizado para la salud específica del negocio
 @Injectable()
 export class QueueHealthIndicator extends HealthIndicator {
   constructor(private queueService: QueueService) {
@@ -122,7 +122,7 @@ export class QueueHealthIndicator extends HealthIndicator {
   }
 }
 
-// Redis health indicator
+// Indicador de salud de Redis
 @Injectable()
 export class RedisHealthIndicator extends HealthIndicator {
   constructor(@InjectRedis() private redis: Redis) {
@@ -139,7 +139,7 @@ export class RedisHealthIndicator extends HealthIndicator {
   }
 }
 
-// Use custom indicators
+// Usa los indicadores personalizados
 @Get('ready')
 @HealthCheck()
 readiness() {
@@ -150,7 +150,7 @@ readiness() {
   ]);
 }
 
-// Graceful shutdown handling
+// Manejo del graceful shutdown
 @Injectable()
 export class GracefulShutdownService implements OnApplicationShutdown {
   private isShuttingDown = false;
@@ -163,12 +163,12 @@ export class GracefulShutdownService implements OnApplicationShutdown {
     this.isShuttingDown = true;
     console.log(`Shutting down on ${signal}`);
 
-    // Wait for in-flight requests
+    // Espera a las peticiones en curso
     await new Promise((resolve) => setTimeout(resolve, 5000));
   }
 }
 
-// Health check respects shutdown state
+// El health check respeta el estado de apagado
 @Get('ready')
 @HealthCheck()
 readiness() {
@@ -182,10 +182,10 @@ readiness() {
 }
 ```
 
-### Kubernetes Configuration
+### Configuración de Kubernetes
 
 ```yaml
-# Kubernetes deployment with probes
+# Deployment de Kubernetes con probes
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -223,4 +223,4 @@ spec:
             failureThreshold: 30
 ```
 
-Reference: [NestJS Terminus](https://docs.nestjs.com/recipes/terminus)
+Referencia: [NestJS Terminus](https://docs.nestjs.com/recipes/terminus)

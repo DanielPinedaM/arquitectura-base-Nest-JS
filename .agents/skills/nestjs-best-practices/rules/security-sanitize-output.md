@@ -1,57 +1,57 @@
 ---
-title: Sanitize Output to Prevent XSS
+title: Sanitiza la salida para prevenir XSS
 impact: HIGH
-impactDescription: XSS vulnerabilities can compromise user sessions and data
+impactDescription: Las vulnerabilidades XSS pueden comprometer las sesiones y los datos de los usuarios
 tags: security, xss, sanitization, html
 ---
 
-## Sanitize Output to Prevent XSS
+## Sanitiza la salida para prevenir XSS
 
-While NestJS APIs typically return JSON (which browsers don't execute), XSS risks exist when rendering HTML, storing user content, or when frontend frameworks improperly handle API responses. Sanitize user-generated content before storage and use proper Content-Type headers.
+Aunque las APIs de NestJS normalmente devuelven JSON (que los navegadores no ejecutan), existen riesgos de XSS al renderizar HTML, al almacenar contenido de los usuarios o cuando los frameworks de frontend manejan incorrectamente las respuestas de la API. Sanitiza el contenido generado por los usuarios antes de almacenarlo y usa headers Content-Type correctos.
 
-**Incorrect (storing raw HTML without sanitization):**
+**Incorrecto (almacenar HTML en bruto sin sanitizar):**
 
 ```typescript
-// Store raw HTML from users
+// Almacena el HTML en bruto de los usuarios
 @Injectable()
 export class CommentsService {
   async create(dto: CreateCommentDto): Promise<Comment> {
-    // User can inject: <script>steal(document.cookie)</script>
+    // El usuario puede inyectar: <script>steal(document.cookie)</script>
     return this.repo.save({
-      content: dto.content, // Raw, unsanitized
+      content: dto.content, // En bruto, sin sanitizar
       authorId: dto.authorId,
     });
   }
 }
 
-// Return HTML without sanitization
+// Devuelve HTML sin sanitizar
 @Controller('pages')
 export class PagesController {
   @Get(':slug')
   @Header('Content-Type', 'text/html')
   async getPage(@Param('slug') slug: string): Promise<string> {
     const page = await this.pagesService.findBySlug(slug);
-    // If page.content contains user input, XSS is possible
+    // Si page.content contiene input del usuario, es posible un XSS
     return `<html><body>${page.content}</body></html>`;
   }
 }
 
-// Reflect user input in errors
+// Refleja el input del usuario en los errores
 @Get(':id')
 async findOne(@Param('id') id: string): Promise<User> {
   const user = await this.repo.findOne({ where: { id } });
   if (!user) {
-    // XSS if id contains malicious content and error is rendered
+    // XSS si id contiene contenido malicioso y el error se renderiza
     throw new NotFoundException(`User ${id} not found`);
   }
   return user;
 }
 ```
 
-**Correct (sanitize content and use proper headers):**
+**Correcto (sanitiza el contenido y usa headers correctos):**
 
 ```typescript
-// Sanitize HTML content before storage
+// Sanitiza el contenido HTML antes de almacenarlo
 import * as sanitizeHtml from 'sanitize-html';
 
 @Injectable()
@@ -72,7 +72,7 @@ export class CommentsService {
   }
 }
 
-// Use validation pipe to strip HTML
+// Usa un validation pipe para eliminar el HTML
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
@@ -92,29 +92,29 @@ const createPostSchema = z.object({
 
 export class CreatePostDto extends createZodDto(createPostSchema) {}
 
-// Set proper Content-Type headers
+// Establece headers Content-Type correctos
 @Controller('api')
 export class ApiController {
   @Get('data')
   @Header('Content-Type', 'application/json')
   async getData(): Promise<DataResponse> {
-    // JSON response - browser won't execute scripts
+    // Respuesta JSON - el navegador no ejecutará scripts
     return this.service.getData();
   }
 }
 
-// Sanitize error messages
+// Sanitiza los mensajes de error
 @Get(':id')
 async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
   const user = await this.repo.findOne({ where: { id } });
   if (!user) {
-    // UUID validation ensures safe format
+    // La validación del UUID asegura un formato seguro
     throw new NotFoundException('User not found');
   }
   return user;
 }
 
-// Use Helmet for CSP headers
+// Usa Helmet para los headers de CSP
 import helmet from 'helmet';
 
 async function bootstrap() {
@@ -137,4 +137,4 @@ async function bootstrap() {
 }
 ```
 
-Reference: [OWASP XSS Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+Referencia: [OWASP XSS Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)

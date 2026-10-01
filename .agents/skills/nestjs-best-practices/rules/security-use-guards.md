@@ -1,18 +1,18 @@
 ---
-title: Use Guards for Authentication and Authorization
+title: Usa guards para la autenticación y la autorización
 impact: HIGH
-impactDescription: Enforces access control before handlers execute
+impactDescription: Aplica el control de acceso antes de que se ejecuten los handlers
 tags: security, guards, authentication, authorization
 ---
 
-## Use Guards for Authentication and Authorization
+## Usa guards para la autenticación y la autorización
 
-Guards determine whether a request should be handled based on authentication state, roles, permissions, or other conditions. They run after middleware but before pipes and interceptors, making them ideal for access control. Use guards instead of manual checks in controllers.
+Los guards determinan si una petición debe manejarse en función del estado de autenticación, los roles, los permisos u otras condiciones. Se ejecutan después del middleware pero antes de los pipes y los interceptors, lo que los hace ideales para el control de acceso. Usa guards en lugar de verificaciones manuales en los controllers.
 
-**Incorrect (manual auth checks in every handler):**
+**Incorrecto (verificaciones de autenticación manuales en cada handler):**
 
 ```typescript
-// Manual auth checks in every handler
+// Verificaciones de autenticación manuales en cada handler
 @Controller('admin')
 export class AdminController {
   @Get('users')
@@ -39,10 +39,10 @@ export class AdminController {
 }
 ```
 
-**Correct (guards with declarative decorators):**
+**Correcto (guards con decoradores declarativos):**
 
 ```typescript
-// JWT Auth Guard
+// Guard de autenticación JWT
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
   constructor(
@@ -51,7 +51,7 @@ export class JwtAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    // Check for @Public() decorator
+    // Verifica si existe el decorador @Public()
     const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
       context.getHandler(),
       context.getClass(),
@@ -79,7 +79,7 @@ export class JwtAuthGuard implements CanActivate {
   }
 }
 
-// Roles Guard
+// Guard de roles
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
@@ -97,11 +97,11 @@ export class RolesGuard implements CanActivate {
   }
 }
 
-// Decorators
+// Decoradores
 export const Public = () => SetMetadata('isPublic', true);
 export const Roles = (...roles: Role[]) => SetMetadata('roles', roles);
 
-// Register guards globally
+// Registra los guards globalmente
 @Module({
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
@@ -110,9 +110,9 @@ export const Roles = (...roles: Role[]) => SetMetadata('roles', roles);
 })
 export class AppModule {}
 
-// Clean controller
+// Controller limpio
 @Controller('admin')
-@Roles(Role.Admin) // Applied to all routes
+@Roles(Role.Admin) // Se aplica a todas las rutas
 export class AdminController {
   @Get('users')
   getUsers(): Promise<User[]> {
@@ -124,7 +124,7 @@ export class AdminController {
     return this.adminService.deleteUser(id);
   }
 
-  @Public() // Override: no auth required
+  @Public() // Sobrescritura: no requiere autenticación
   @Get('health')
   health() {
     return { status: 'ok' };
@@ -132,4 +132,4 @@ export class AdminController {
 }
 ```
 
-Reference: [NestJS Guards](https://docs.nestjs.com/guards)
+Referencia: [NestJS Guards](https://docs.nestjs.com/guards)

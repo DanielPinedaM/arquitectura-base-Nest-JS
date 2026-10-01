@@ -1,71 +1,71 @@
 ---
-title: Use Message and Event Patterns Correctly
+title: Usa correctamente los patrones de mensajes y eventos
 impact: MEDIUM
-impactDescription: Proper patterns ensure reliable microservice communication
+impactDescription: Los patrones correctos aseguran una comunicación confiable entre microservicios
 tags: microservices, message-pattern, event-pattern, communication
 ---
 
-## Use Message and Event Patterns Correctly
+## Usa correctamente los patrones de mensajes y eventos
 
-NestJS microservices support two communication patterns: request-response (MessagePattern) and event-based (EventPattern). Use MessagePattern when you need a response, and EventPattern for fire-and-forget notifications. Understanding the difference prevents communication bugs.
+Los microservicios de NestJS soportan dos patrones de comunicación: request-response (MessagePattern) y basado en eventos (EventPattern). Usa MessagePattern cuando necesites una respuesta, y EventPattern para las notificaciones fire-and-forget. Comprender la diferencia evita bugs de comunicación.
 
-**Incorrect (using wrong pattern for use case):**
+**Incorrecto (usar el patrón equivocado para el caso de uso):**
 
 ```typescript
-// Use @MessagePattern for fire-and-forget
+// Usa @MessagePattern para fire-and-forget
 @Controller()
 export class NotificationsController {
   @MessagePattern('user.created')
   async handleUserCreated(data: UserCreatedEvent) {
-    // This WAITS for response, blocking the sender
+    // Esto ESPERA una respuesta, bloqueando al emisor
     await this.emailService.sendWelcome(data.email);
-    // If email fails, sender gets an error (coupling!)
+    // Si el email falla, el emisor recibe un error (¡acoplamiento!)
   }
 }
 
-// Use @EventPattern expecting a response
+// Usa @EventPattern esperando una respuesta
 @Controller()
 export class OrdersController {
   @EventPattern('inventory.check')
   async checkInventory(data: CheckInventoryDto) {
     const available = await this.inventory.check(data);
-    return available; // This return value is IGNORED with @EventPattern!
+    return available; // ¡Este valor de retorno se IGNORA con @EventPattern!
   }
 }
 
-// Tight coupling in client
+// Acoplamiento fuerte en el cliente
 @Injectable()
 export class UsersService {
   async createUser(dto: CreateUserDto): Promise<User> {
     const user = await this.repo.save(dto);
 
-    // Blocks until notification service responds
+    // Se bloquea hasta que el servicio de notificaciones responda
     await this.client.send('user.created', user).toPromise();
-    // If notification service is down, user creation fails!
+    // Si el servicio de notificaciones está caído, ¡la creación del usuario falla!
 
     return user;
   }
 }
 ```
 
-**Correct (use MessagePattern for request-response, EventPattern for fire-and-forget):**
+**Correcto (usa MessagePattern para request-response y EventPattern para fire-and-forget):**
 
 ```typescript
-// MessagePattern: Request-Response (when you NEED a response)
+// MessagePattern: Request-Response (cuando NECESITAS una respuesta)
 @Controller()
 export class InventoryController {
   @MessagePattern({ cmd: 'check_inventory' })
   async checkInventory(data: CheckInventoryDto): Promise<InventoryResult> {
     const result = await this.inventoryService.check(data.productId, data.quantity);
-    return result; // Response sent back to caller
+    return result; // La respuesta se envía de vuelta a quien llamó
   }
 }
 
-// Client expects response
+// El cliente espera la respuesta
 @Injectable()
 export class OrdersService {
   async createOrder(dto: CreateOrderDto): Promise<Order> {
-    // Check inventory - we NEED this response to proceed
+    // Verifica el inventario - NECESITAMOS esta respuesta para continuar
     const inventory = await firstValueFrom(
       this.inventoryClient.send<InventoryResult>(
         { cmd: 'check_inventory' },
@@ -81,42 +81,42 @@ export class OrdersService {
   }
 }
 
-// EventPattern: Fire-and-Forget (for notifications, side effects)
+// EventPattern: Fire-and-Forget (para notificaciones, efectos secundarios)
 @Controller()
 export class NotificationsController {
   @EventPattern('user.created')
   async handleUserCreated(data: UserCreatedEvent): Promise<void> {
-    // No return value needed - just process the event
+    // No se necesita un valor de retorno - solo procesa el evento
     await this.emailService.sendWelcome(data.email);
     await this.analyticsService.track('user_signup', data);
-    // If this fails, it doesn't affect the sender
+    // Si esto falla, no afecta al emisor
   }
 }
 
-// Client emits event without waiting
+// El cliente emite el evento sin esperar
 @Injectable()
 export class UsersService {
   async createUser(dto: CreateUserDto): Promise<User> {
     const user = await this.repo.save(dto);
 
-    // Fire and forget - doesn't block, doesn't wait
+    // Fire and forget - no bloquea, no espera
     this.eventClient.emit('user.created', {
       userId: user.id,
       email: user.email,
       timestamp: new Date(),
     });
 
-    return user; // User creation succeeds regardless of event handling
+    return user; // La creación del usuario tiene éxito independientemente del manejo del evento
   }
 }
 
-// Hybrid pattern for critical events
+// Patrón híbrido para los eventos críticos
 @Injectable()
 export class OrdersService {
   async createOrder(dto: CreateOrderDto): Promise<Order> {
     const order = await this.repo.save(dto);
 
-    // Critical: inventory reservation (use MessagePattern)
+    // Crítico: reserva del inventario (usa MessagePattern)
     const reserved = await firstValueFrom(
       this.inventoryClient.send({ cmd: 'reserve_inventory' }, {
         orderId: order.id,
@@ -129,7 +129,7 @@ export class OrdersService {
       throw new BadRequestException('Could not reserve inventory');
     }
 
-    // Non-critical: notifications (use EventPattern)
+    // No crítico: notificaciones (usa EventPattern)
     this.eventClient.emit('order.created', {
       orderId: order.id,
       userId: dto.userId,
@@ -140,28 +140,28 @@ export class OrdersService {
   }
 }
 
-// Error handling patterns
-// MessagePattern errors propagate to caller
+// Patrones de manejo de errores
+// Los errores de MessagePattern se propagan a quien llamó
 @MessagePattern({ cmd: 'get_user' })
 async getUser(userId: string): Promise<User> {
   const user = await this.repo.findOne({ where: { id: userId } });
   if (!user) {
-    throw new RpcException('User not found'); // Received by caller
+    throw new RpcException('User not found'); // Lo recibe quien llamó
   }
   return user;
 }
 
-// EventPattern errors should be handled locally
+// Los errores de EventPattern deben manejarse localmente
 @EventPattern('order.created')
 async handleOrderCreated(data: OrderCreatedEvent): Promise<void> {
   try {
     await this.processOrder(data);
   } catch (error) {
-    // Log and potentially retry - don't throw
+    // Registra y potencialmente reintenta - no lances la excepción
     this.logger.error('Failed to process order event', error);
     await this.deadLetterQueue.add(data);
   }
 }
 ```
 
-Reference: [NestJS Microservices](https://docs.nestjs.com/microservices/basics)
+Referencia: [NestJS Microservices](https://docs.nestjs.com/microservices/basics)

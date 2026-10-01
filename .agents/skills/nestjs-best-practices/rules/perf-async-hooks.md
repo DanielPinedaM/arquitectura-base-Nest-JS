@@ -1,22 +1,22 @@
 ---
-title: Use Async Lifecycle Hooks Correctly
+title: Usa correctamente los lifecycle hooks asíncronos
 impact: HIGH
-impactDescription: Improper async handling blocks application startup
+impactDescription: Un manejo asíncrono incorrecto bloquea el arranque de la aplicación
 tags: performance, lifecycle, async, hooks
 ---
 
-## Use Async Lifecycle Hooks Correctly
+## Usa correctamente los lifecycle hooks asíncronos
 
-NestJS lifecycle hooks (`onModuleInit`, `onApplicationBootstrap`, etc.) support async operations. However, misusing them can block application startup or cause race conditions. Understand the lifecycle order and use hooks appropriately.
+Los lifecycle hooks de NestJS (`onModuleInit`, `onApplicationBootstrap`, etc.) soportan operaciones asíncronas. Sin embargo, usarlos mal puede bloquear el arranque de la aplicación o provocar race conditions. Comprende el orden del ciclo de vida y usa los hooks de forma apropiada.
 
-**Incorrect (fire-and-forget async without await):**
+**Incorrecto (async fire-and-forget sin await):**
 
 ```typescript
-// Fire-and-forget async without await
+// Async fire-and-forget sin await
 @Injectable()
 export class DatabaseService implements OnModuleInit {
   onModuleInit() {
-    // This runs but doesn't block - app starts before DB is ready!
+    // Esto se ejecuta pero no bloquea - ¡la app arranca antes de que la base de datos esté lista!
     this.connect();
   }
 
@@ -26,40 +26,40 @@ export class DatabaseService implements OnModuleInit {
   }
 }
 
-// Heavy blocking operations in constructor
+// Operaciones bloqueantes pesadas en el constructor
 @Injectable()
 export class ConfigService {
   private config: Config;
 
   constructor() {
-    // BLOCKS entire module instantiation synchronously
+    // BLOQUEA de forma síncrona toda la instanciación del módulo
     this.config = fs.readFileSync('config.json');
   }
 }
 ```
 
-**Correct (return promises from async hooks):**
+**Correcto (devuelve promises desde los hooks asíncronos):**
 
 ```typescript
-// Return promise from async hooks
+// Devuelve una promise desde los hooks asíncronos
 @Injectable()
 export class DatabaseService implements OnModuleInit {
   private pool: Pool;
 
   async onModuleInit(): Promise<void> {
-    // NestJS waits for this to complete before continuing
+    // NestJS espera a que esto termine antes de continuar
     await this.pool.connect();
     console.log('Database connected');
   }
 
   async onModuleDestroy(): Promise<void> {
-    // Clean up resources on shutdown
+    // Libera los recursos al apagar
     await this.pool.end();
     console.log('Database disconnected');
   }
 }
 
-// Use onApplicationBootstrap for cross-module dependencies
+// Usa onApplicationBootstrap para las dependencias entre módulos
 @Injectable()
 export class CacheWarmerService implements OnApplicationBootstrap {
   constructor(
@@ -68,23 +68,23 @@ export class CacheWarmerService implements OnApplicationBootstrap {
   ) {}
 
   async onApplicationBootstrap(): Promise<void> {
-    // All modules are initialized, safe to warm cache
+    // Todos los módulos están inicializados, es seguro precalentar la caché
     const products = await this.products.findPopular();
     await this.cache.warmup(products);
   }
 }
 
-// Heavy init in async hooks, not constructor
+// Inicialización pesada en hooks asíncronos, no en el constructor
 @Injectable()
 export class ConfigService implements OnModuleInit {
   private config: Config;
 
   constructor() {
-    // Keep constructor synchronous and fast
+    // Mantén el constructor síncrono y rápido
   }
 
   async onModuleInit(): Promise<void> {
-    // Async loading in lifecycle hook
+    // Carga asíncrona en el lifecycle hook
     this.config = await this.loadConfig();
   }
 
@@ -98,12 +98,12 @@ export class ConfigService implements OnModuleInit {
   }
 }
 
-// Enable shutdown hooks in main.ts
+// Habilita los shutdown hooks en main.ts
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableShutdownHooks(); // Enable SIGTERM/SIGINT handling
+  app.enableShutdownHooks(); // Habilita el manejo de SIGTERM/SIGINT
   await app.listen(3000);
 }
 ```
 
-Reference: [NestJS Lifecycle Events](https://docs.nestjs.com/fundamentals/lifecycle-events)
+Referencia: [NestJS Lifecycle Events](https://docs.nestjs.com/fundamentals/lifecycle-events)

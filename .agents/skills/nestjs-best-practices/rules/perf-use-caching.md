@@ -1,22 +1,22 @@
 ---
-title: Use Caching Strategically
+title: Usa el caching de forma estratégica
 impact: HIGH
-impactDescription: Dramatically reduces database load and response times
+impactDescription: Reduce drásticamente la carga de la base de datos y los tiempos de respuesta
 tags: performance, caching, redis, optimization
 ---
 
-## Use Caching Strategically
+## Usa el caching de forma estratégica
 
-Implement caching for expensive operations, frequently accessed data, and external API calls. Use NestJS CacheModule with appropriate TTLs and cache invalidation strategies. Don't cache everything - focus on high-impact areas.
+Implementa caching para las operaciones costosas, los datos a los que se accede con frecuencia y las llamadas a APIs externas. Usa el CacheModule de NestJS con TTLs apropiados y estrategias de invalidación de la caché. No cachees todo; enfócate en las áreas de alto impacto.
 
-**Incorrect (no caching or caching everything):**
+**Incorrecto (sin caching o cachear todo):**
 
 ```typescript
-// No caching for expensive, repeated queries
+// Sin caching para queries costosas y repetidas
 @Injectable()
 export class ProductsService {
   async getPopular(): Promise<Product[]> {
-    // Runs complex aggregation query EVERY request
+    // Ejecuta una query de agregación compleja en CADA petición
     return this.productsRepo
       .createQueryBuilder('p')
       .leftJoin('p.orders', 'o')
@@ -28,23 +28,23 @@ export class ProductsService {
   }
 }
 
-// Cache everything without thought
+// Cachea todo sin pensarlo
 @Injectable()
 export class UsersService {
   @CacheKey('users')
   @CacheTTL(3600)
   @UseInterceptors(CacheInterceptor)
   async findAll(): Promise<User[]> {
-    // Caching user list for 1 hour is wrong if data changes frequently
+    // Cachear la lista de usuarios durante 1 hora es incorrecto si los datos cambian con frecuencia
     return this.usersRepo.find();
   }
 }
 ```
 
-**Correct (strategic caching with proper invalidation):**
+**Correcto (caching estratégico con una invalidación correcta):**
 
 ```typescript
-// Setup caching module
+// Configura el módulo de caching
 @Module({
   imports: [
     CacheModule.registerAsync({
@@ -54,14 +54,14 @@ export class UsersService {
         stores: [
           new KeyvRedis(config.get('REDIS_URL')),
         ],
-        ttl: 60 * 1000, // Default 60s
+        ttl: 60 * 1000, // 60s por defecto
       }),
     }),
   ],
 })
 export class AppModule {}
 
-// Manual caching for granular control
+// Caching manual para un control granular
 @Injectable()
 export class ProductsService {
   constructor(
@@ -72,43 +72,43 @@ export class ProductsService {
   async getPopular(): Promise<Product[]> {
     const cacheKey = 'products:popular';
 
-    // Try cache first
+    // Intenta primero con la caché
     const cached = await this.cache.get<Product[]>(cacheKey);
     if (cached) return cached;
 
-    // Cache miss - fetch and cache
+    // Cache miss - obtiene los datos y los cachea
     const products = await this.fetchPopularProducts();
-    await this.cache.set(cacheKey, products, 5 * 60 * 1000); // 5 min TTL
+    await this.cache.set(cacheKey, products, 5 * 60 * 1000); // TTL de 5 min
     return products;
   }
 
-  // Invalidate cache on changes
+  // Invalida la caché cuando hay cambios
   async updateProduct(id: string, dto: UpdateProductDto): Promise<Product> {
     const product = await this.productsRepo.save({ id, ...dto });
-    await this.cache.del('products:popular'); // Invalidate
+    await this.cache.del('products:popular'); // Invalida
     return product;
   }
 }
 
-// Decorator-based caching with auto-interceptor
+// Caching basado en decoradores con interceptor automático
 @Controller('categories')
 @UseInterceptors(CacheInterceptor)
 export class CategoriesController {
   @Get()
-  @CacheTTL(30 * 60 * 1000) // 30 minutes - categories rarely change
+  @CacheTTL(30 * 60 * 1000) // 30 minutos - las categorías cambian rara vez
   findAll(): Promise<Category[]> {
     return this.categoriesService.findAll();
   }
 
   @Get(':id')
-  @CacheTTL(60 * 1000) // 1 minute
+  @CacheTTL(60 * 1000) // 1 minuto
   @CacheKey('category')
   findOne(@Param('id') id: string): Promise<Category> {
     return this.categoriesService.findOne(id);
   }
 }
 
-// Event-based cache invalidation
+// Invalidación de la caché basada en eventos
 @Injectable()
 export class CacheInvalidationService {
   constructor(@Inject(CACHE_MANAGER) private cache: Cache) {}
@@ -125,4 +125,4 @@ export class CacheInvalidationService {
 }
 ```
 
-Reference: [NestJS Caching](https://docs.nestjs.com/techniques/caching)
+Referencia: [NestJS Caching](https://docs.nestjs.com/techniques/caching)

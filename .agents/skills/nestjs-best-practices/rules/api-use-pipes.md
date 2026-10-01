@@ -1,23 +1,23 @@
 ---
-title: Use Pipes for Input Transformation
+title: Usa pipes para la transformación del input
 impact: MEDIUM
-impactDescription: Pipes ensure clean, validated data reaches your handlers
+impactDescription: Los pipes aseguran que lleguen datos limpios y validados a tus handlers
 tags: api, pipes, validation, transformation
 ---
 
-## Use Pipes for Input Transformation
+## Usa pipes para la transformación del input
 
-Use built-in pipes like `ParseIntPipe`, `ParseUUIDPipe`, and `DefaultValuePipe` for common transformations. Create custom pipes for business-specific transformations. Pipes separate validation/transformation logic from controllers.
+Usa pipes integrados como `ParseIntPipe`, `ParseUUIDPipe` y `DefaultValuePipe` para las transformaciones comunes. Crea pipes personalizados para las transformaciones específicas del negocio. Los pipes separan la lógica de validación/transformación de los controllers.
 
-**Incorrect (manual type parsing in handlers):**
+**Incorrecto (parseo manual de tipos en los handlers):**
 
 ```typescript
-// Manual type parsing in handlers
+// Parseo manual de tipos en los handlers
 @Controller('users')
 export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
-    // Manual validation in every handler
+    // Validación manual en cada handler
     const uuid = id.trim();
     if (!isUUID(uuid)) {
       throw new BadRequestException('Invalid UUID');
@@ -30,30 +30,30 @@ export class UsersController {
     @Query('page') page: string,
     @Query('limit') limit: string,
   ): Promise<User[]> {
-    // Manual parsing and defaults
+    // Parseo manual y valores por defecto
     const pageNum = parseInt(page) || 1;
     const limitNum = parseInt(limit) || 10;
     return this.usersService.findAll(pageNum, limitNum);
   }
 }
 
-// Type coercion without validation
+// Coerción de tipos sin validación
 @Get()
 async search(@Query('price') price: string): Promise<Product[]> {
-  const priceNum = +price; // NaN if invalid, no error
+  const priceNum = +price; // NaN si es inválido, sin error
   return this.productsService.findByPrice(priceNum);
 }
 ```
 
-**Correct (use built-in and custom pipes):**
+**Correcto (usa pipes integrados y personalizados):**
 
 ```typescript
-// Use built-in pipes for common transformations
+// Usa pipes integrados para las transformaciones comunes
 @Controller('users')
 export class UsersController {
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
-    // id is guaranteed to be a valid UUID
+    // Se garantiza que id es un UUID válido
     return this.usersService.findOne(id);
   }
 
@@ -62,7 +62,7 @@ export class UsersController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
   ): Promise<User[]> {
-    // Automatic defaults and type conversion
+    // Valores por defecto y conversión de tipos automáticos
     return this.usersService.findAll(page, limit);
   }
 
@@ -74,7 +74,7 @@ export class UsersController {
   }
 }
 
-// Custom pipe for business logic
+// Pipe personalizado para la lógica de negocio
 @Injectable()
 export class ParseDatePipe implements PipeTransform<string, Date> {
   transform(value: string): Date {
@@ -94,7 +94,7 @@ async getReports(
   return this.reportsService.findBetween(from, to);
 }
 
-// Custom transformation pipes
+// Pipes de transformación personalizados
 @Injectable()
 export class NormalizeEmailPipe implements PipeTransform<string, string> {
   transform(value: string): string {
@@ -103,7 +103,7 @@ export class NormalizeEmailPipe implements PipeTransform<string, string> {
   }
 }
 
-// Parse comma-separated values
+// Parsea valores separados por comas
 @Injectable()
 export class ParseArrayPipe implements PipeTransform<string, string[]> {
   transform(value: string): string[] {
@@ -117,11 +117,11 @@ async findProducts(
   @Query('ids', ParseArrayPipe) ids: string[],
   @Query('email', NormalizeEmailPipe) email: string,
 ): Promise<Product[]> {
-  // ids is already an array, email is normalized
+  // ids ya es un array, email está normalizado
   return this.productsService.findByIds(ids);
 }
 
-// Sanitize HTML input
+// Sanitiza el input HTML
 @Injectable()
 export class SanitizeHtmlPipe implements PipeTransform<string, string> {
   transform(value: string): string {
@@ -130,14 +130,14 @@ export class SanitizeHtmlPipe implements PipeTransform<string, string> {
   }
 }
 
-// Global validation pipe with transformation
-// Auto-transform to the types declared in each zod schema
+// Validation pipe global con transformación
+// Transforma automáticamente a los tipos declarados en cada schema de zod
 app.useGlobalPipes(new ZodValidationPipe());
 
-// DTO with transformation built into the schema
-// z.object() strips non-DTO properties, z.strictObject() throws on extra properties
+// DTO con la transformación integrada en el schema
+// z.object() elimina las propiedades que no son del DTO, z.strictObject() lanza una excepción ante propiedades adicionales
 const findProductsSchema = z.strictObject({
-  page: z.coerce.number().int().min(1).default(1), // Convert query strings to numbers
+  page: z.coerce.number().int().min(1).default(1), // Convierte los query strings en números
 
   limit: z.coerce.number().int().min(1).max(100).default(10),
 
@@ -154,11 +154,11 @@ export class FindProductsDto extends createZodDto(findProductsSchema) {}
 
 @Get()
 async findAll(@Query() dto: FindProductsDto): Promise<Product[]> {
-  // dto is already transformed and validated
+  // dto ya está transformado y validado
   return this.productsService.findAll(dto);
 }
 
-// Pipe error customization
+// Personalización de los errores del pipe
 @Injectable()
 export class CustomParseIntPipe extends ParseIntPipe {
   constructor() {
@@ -169,7 +169,7 @@ export class CustomParseIntPipe extends ParseIntPipe {
   }
 }
 
-// Or use options on built-in pipes
+// O usa opciones en los pipes integrados
 @Get(':id')
 async findOne(
   @Param(
@@ -185,4 +185,4 @@ async findOne(
 }
 ```
 
-Reference: [NestJS Pipes](https://docs.nestjs.com/pipes)
+Referencia: [NestJS Pipes](https://docs.nestjs.com/pipes)
