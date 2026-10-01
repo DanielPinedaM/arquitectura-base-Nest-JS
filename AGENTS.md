@@ -8,6 +8,13 @@ Arquitectura base agnóstica a las features para iniciar un nuevo proyecto en Ne
 * Manejador de paquetes: pnpm
 * Archivo de bloqueo: pnpm-lock.yaml
 
+# Ante Cualquier Error o Ambigüedad
+Si encuentras un error, inconsistencia, duda o ambigüedad, detente y pregúntame antes de modificar código. No asumas ni deduzcas implementaciones.
+
+**Razón**: una suposición incorrecta genera código que después hay que revisar y deshacer; preguntar cuesta menos que corregir una implementación equivocada.
+
+**Excepción**: lo que la skill `nestjs-conventions` define explícitamente no se pregunta, se aplica (regla "1. Autoridad de la Skill").
+
 # Reglas **OBLIGATORIAS** de Nest.js
 Este proyecto usa Nest.js 11. Antes de editar código y responder, consultar estas fuentes. Cuando las fuentes se contradicen, gana la de número menor:
 
