@@ -11,7 +11,7 @@ metadata:
 
 Guía completa de buenas prácticas para aplicaciones de NestJS. Contiene 40 reglas en 10 categorías, priorizadas por impacto para guiar la refactorización y la generación de código automatizadas.
 
-## Cuándo aplicarla
+## Cuándo aplicar la skill
 
 Consulta estos lineamientos cuando:
 
