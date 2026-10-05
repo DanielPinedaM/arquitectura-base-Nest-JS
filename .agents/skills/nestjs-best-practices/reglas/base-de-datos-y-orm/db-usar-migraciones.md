@@ -1,6 +1,6 @@
 ---
 title: Usa migraciones de base de datos
-impact: HIGH
+impact: MEDIUM-HIGH
 impactDescription: Permite cambios de schema de la base de datos seguros y repetibles
 tags: database, migrations, typeorm, schema
 ---

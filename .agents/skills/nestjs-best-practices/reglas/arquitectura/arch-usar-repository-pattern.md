@@ -1,6 +1,6 @@
 ---
 title: Usa el Repository Pattern para el acceso a datos
-impact: HIGH
+impact: CRITICAL
 impactDescription: Desacopla la lógica de negocio de la base de datos
 tags: architecture, repository, data-access
 ---

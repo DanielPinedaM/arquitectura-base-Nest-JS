@@ -1,6 +1,6 @@
 ---
 title: Usa logging estructurado
-impact: MEDIUM-HIGH
+impact: LOW-MEDIUM
 impactDescription: El logging estructurado permite una depuración y un monitoreo efectivos
 tags: devops, logging, structured-logs, pino
 ---

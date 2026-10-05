@@ -1,6 +1,6 @@
 ---
 title: Usa Supertest para el testing E2E
-impact: HIGH
+impact: MEDIUM-HIGH
 impactDescription: Valida el ciclo completo de petición/respuesta
 tags: testing, e2e, supertest, integration
 ---

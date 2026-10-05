@@ -1,6 +1,6 @@
 ---
 title: Usa injection tokens para las interfaces
-impact: HIGH
+impact: CRITICAL
 impactDescription: Permite una DI basada en interfaces en runtime
 tags: dependency-injection, tokens, interfaces
 ---

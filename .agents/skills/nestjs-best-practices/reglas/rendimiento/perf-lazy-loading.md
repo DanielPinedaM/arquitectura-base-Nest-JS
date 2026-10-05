@@ -1,6 +1,6 @@
 ---
 title: Usa lazy loading para los módulos grandes
-impact: MEDIUM
+impact: HIGH
 impactDescription: Mejora el tiempo de arranque de las aplicaciones grandes
 tags: performance, lazy-loading, modules, optimization
 ---

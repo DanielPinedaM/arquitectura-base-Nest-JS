@@ -1,6 +1,6 @@
 ---
 title: Haz mock de los servicios externos en los tests
-impact: HIGH
+impact: MEDIUM-HIGH
 impactDescription: Asegura tests rápidos, confiables y deterministas
 tags: testing, mocking, external-services, jest
 ---

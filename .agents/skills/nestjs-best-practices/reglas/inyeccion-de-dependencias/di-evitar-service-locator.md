@@ -1,6 +1,6 @@
 ---
 title: Evita el anti-pattern Service Locator
-impact: HIGH
+impact: CRITICAL
 impactDescription: Oculta las dependencias y rompe la testeabilidad
 tags: dependency-injection, anti-patterns, testing
 ---

@@ -1,6 +1,6 @@
 ---
 title: Implementa health checks para los microservicios
-impact: MEDIUM-HIGH
+impact: MEDIUM
 impactDescription: Los health checks permiten que los orquestadores gestionen el ciclo de vida de los servicios
 tags: microservices, health-checks, terminus, kubernetes
 ---

@@ -1,6 +1,6 @@
 ---
 title: Usa el testing module para los unit tests
-impact: HIGH
+impact: MEDIUM-HIGH
 impactDescription: Permite un testing aislado correcto con dependencias mock
 tags: testing, unit-tests, mocking, jest
 ---

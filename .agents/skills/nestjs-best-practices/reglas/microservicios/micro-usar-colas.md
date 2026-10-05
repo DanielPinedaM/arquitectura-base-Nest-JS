@@ -1,6 +1,6 @@
 ---
 title: Usa colas de mensajes para los trabajos en segundo plano
-impact: MEDIUM-HIGH
+impact: MEDIUM
 impactDescription: Las colas permiten un procesamiento en segundo plano confiable
 tags: microservices, queues, bullmq, background-jobs
 ---

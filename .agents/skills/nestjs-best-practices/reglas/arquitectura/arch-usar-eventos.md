@@ -1,6 +1,6 @@
 ---
 title: Usa una arquitectura basada en eventos para el desacoplamiento
-impact: MEDIUM-HIGH
+impact: CRITICAL
 impactDescription: Permite el procesamiento asíncrono y la modularidad
 tags: architecture, events, decoupling
 ---

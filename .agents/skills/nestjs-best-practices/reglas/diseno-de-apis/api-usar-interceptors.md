@@ -1,6 +1,6 @@
 ---
 title: Usa interceptors para los cross-cutting concerns
-impact: MEDIUM-HIGH
+impact: MEDIUM
 impactDescription: Los interceptors proporcionan una separación limpia para la lógica transversal
 tags: api, interceptors, logging, caching
 ---

@@ -1,6 +1,6 @@
 ---
 title: Usa transacciones para las operaciones de múltiples pasos
-impact: HIGH
+impact: MEDIUM-HIGH
 impactDescription: Asegura la consistencia de los datos en las operaciones de múltiples pasos
 tags: database, transactions, typeorm, consistency
 ---

@@ -1,6 +1,6 @@
 ---
 title: Aplica el Interface Segregation Principle
-impact: HIGH
+impact: CRITICAL
 impactDescription: Reduce el acoplamiento y mejora la testeabilidad entre un 30 y un 50%
 tags: dependency-injection, interfaces, solid, isp
 ---

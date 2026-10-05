@@ -1,6 +1,6 @@
 ---
 title: Respeta el Liskov Substitution Principle
-impact: HIGH
+impact: CRITICAL
 impactDescription: Asegura que las implementaciones sean realmente intercambiables sin romper a quienes las llaman
 tags: dependency-injection, inheritance, solid, lsp
 ---

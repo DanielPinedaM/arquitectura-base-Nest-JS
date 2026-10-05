@@ -1,6 +1,6 @@
 ---
 title: Implementa una autenticación JWT segura
-impact: CRITICAL
+impact: HIGH
 impactDescription: Esencial para APIs seguras
 tags: security, jwt, authentication, tokens
 ---

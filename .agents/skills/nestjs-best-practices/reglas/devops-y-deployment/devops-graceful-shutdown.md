@@ -1,6 +1,6 @@
 ---
 title: Implementa el graceful shutdown
-impact: MEDIUM-HIGH
+impact: LOW-MEDIUM
 impactDescription: Un manejo correcto del apagado asegura deployments sin tiempo de inactividad
 tags: devops, graceful-shutdown, lifecycle, kubernetes
 ---

@@ -1,6 +1,6 @@
 ---
 title: Evita los problemas de queries N+1
-impact: HIGH
+impact: MEDIUM-HIGH
 impactDescription: Las queries N+1 son uno de los asesinos del rendimiento más comunes
 tags: database, n-plus-one, queries, performance
 ---
