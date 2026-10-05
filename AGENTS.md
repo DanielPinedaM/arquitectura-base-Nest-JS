@@ -14,13 +14,15 @@ Si encuentras un error, inconsistencia, duda o ambigüedad, detente y pregúntam
 **Razón**: una suposición incorrecta genera código que después hay que revisar y deshacer; preguntar cuesta menos que corregir una implementación equivocada.
 
 # Reglas **OBLIGATORIAS** de Nest.js
-Este proyecto usa Nest.js 11. Antes de editar código y responder, consultar estas fuentes. Cuando las fuentes se contradicen, gana la de número menor:
+Antes de editar código y responder, consulta solo las fuentes cuya columna **¿Cuándo leerlo?** coincida con la tarea, y aplica a la vez las reglas y la documentación consultadas.
 
-1. [Skill `nestjs-conventions`](.agents/skills/nestjs-conventions/SKILL.md): Reglas propias del proyecto que definen su arquitectura. Ignorarla genera código inescalable.
+Cuando las fuentes se contradicen, gana la de número menor en la columna **Prioridad**:
 
-2. [Skill `nestjs-best-practices`](.agents/skills/nestjs-best-practices/): Buenas prácticas generales de Nest.js
-
-3. Datos de entrenamiento: válidos, pero ceden ante todo lo anterior.
+| Prioridad | Fuente | ¿Qué es? | ¿Cuándo leerlo? |
+| --- | --- | --- | --- |
+| 1 | [Skill `nestjs-conventions`](.agents/skills/nestjs-conventions/SKILL.md) | Reglas propias del proyecto | Antes de crear, mover, modificar o revisar código, y al responder cómo se hace algo en este proyecto. |
+| 2 | [Skill `nestjs-best-practices`](.agents/skills/nestjs-best-practices/) | Reglas de terceros: buenas prácticas generales de Nest.js | Al crear, modificar o revisar código de Nest.js. |
+| 3 | Datos de entrenamiento | Tu conocimiento previo | Puedes usarlo, pero las fuentes anteriores tienen prioridad: este proyecto usa Nest.js 11, cuyos breaking changes pueden haberlo dejado desactualizado. Que esté desactualizado no significa que esté mal; solo que puede no aplicar a esta versión. |
 
 # Resumen de la Skill `nestjs-conventions`
 
