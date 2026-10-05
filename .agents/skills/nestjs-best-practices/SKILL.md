@@ -1,10 +1,6 @@
 ---
 name: nestjs-best-practices
 description: Buenas prácticas y patrones de arquitectura de NestJS para construir aplicaciones listas para producción. Esta skill debe usarse al escribir, revisar o refactorizar código de Nest.js para asegurar patrones correctos de módulos, inyección de dependencias, seguridad y rendimiento.
-license: MIT
-metadata:
-  author: Kadajett
-  version: "1.2.0"
 ---
 
 # Buenas prácticas de NestJS
@@ -15,7 +11,7 @@ Guía completa de buenas prácticas para aplicaciones de NestJS. Contiene 40 reg
 
 ## ¿Cuándo aplicar la skill?
 
-Consulta estos lineamientos cuando:
+Consulta estas reglas cuando:
 
 - Escribas nuevos módulos, controllers o servicios de NestJS
 - Implementes la autenticación y la autorización
