@@ -1,22 +1,22 @@
 ---
 name: nestjs-best-practices
-description: Buenas prácticas y patrones de arquitectura de NestJS para construir aplicaciones listas para producción. Esta skill debe usarse al escribir, revisar o refactorizar código de Nest.js para asegurar patrones correctos de módulos, inyección de dependencias, seguridad y rendimiento.
+description: Buenas prácticas y patrones de arquitectura de Nest.js para construir aplicaciones listas para producción. Esta skill debe usarse al escribir, revisar o refactorizar código de Nest.js para asegurar patrones correctos de módulos, inyección de dependencias, seguridad y rendimiento.
 ---
 
-# Buenas prácticas de NestJS
+# Buenas prácticas de Nest.js
 
 ## Resumen
 
-Guía completa de buenas prácticas para aplicaciones de NestJS. Contiene 40 reglas en 10 categorías, priorizadas por impacto para guiar la refactorización y la generación de código automatizadas.
+Guía completa de buenas prácticas para aplicaciones de Nest.js. Reglas y categorías, priorizadas por impacto para guiar la refactorización y la generación de código.
 
 ## ¿Cuándo aplicar la skill?
 
 Consulta estas reglas cuando:
 
-- Escribas nuevos módulos, controllers o servicios de NestJS
+- Escribas nuevos módulos, controllers o servicios de Nest.js
 - Implementes la autenticación y la autorización
 - Revises código en busca de problemas de arquitectura y seguridad
-- Refactorices codebases existentes de NestJS
+- Refactorices codebases existentes de Nest.js
 - Optimices el rendimiento o las queries a la base de datos
 - Construyas arquitecturas de microservicios
 
@@ -105,7 +105,7 @@ Carpeta: [reglas/rendimiento/](reglas/rendimiento/)
 
 | Título y ruta archivo | ¿Cuándo leerlo? |
 | --- | --- |
-| [Usa correctamente los lifecycle hooks asíncronos](reglas/rendimiento/perf-async-hooks.md) | Al implementar lifecycle hooks (`onModuleInit`, `onApplicationBootstrap`, `onModuleDestroy`) o inicializar recursos al arrancar (conexión a la base de datos, carga de configuración, precalentamiento de la caché): devuelve la promise (`async`/`await`) para que NestJS espere, no hagas trabajo pesado o síncrono (`fs.readFileSync`) en el constructor y habilita `app.enableShutdownHooks()`. |
+| [Usa correctamente los lifecycle hooks asíncronos](reglas/rendimiento/perf-async-hooks.md) | Al implementar lifecycle hooks (`onModuleInit`, `onApplicationBootstrap`, `onModuleDestroy`) o inicializar recursos al arrancar (conexión a la base de datos, carga de configuración, precalentamiento de la caché): devuelve la promise (`async`/`await`) para que Nest.js espere, no hagas trabajo pesado o síncrono (`fs.readFileSync`) en el constructor y habilita `app.enableShutdownHooks()`. |
 | [Usa el caching de forma estratégica](reglas/rendimiento/perf-usar-caching.md) | Al cachear queries costosas, datos de lectura frecuente o llamadas a APIs externas, o al configurar `CacheModule` (Redis con `KeyvRedis`), `CACHE_MANAGER`, `CacheInterceptor`, `@CacheTTL` o `@CacheKey`: elige el TTL según cuánto cambian los datos e invalida la caché al modificarlos (`cache.del`, también mediante eventos), en lugar de cachear todo. |
 | [Optimiza las queries a la base de datos](reglas/rendimiento/perf-optimizar-base-de-datos.md) | Cuando una query trae todas las columnas o un árbol de `relations` que no se usa, cuando faltan índices en las columnas por las que se filtra a menudo (`@Index`) o cuando un listado no está paginado (`findAndCount` con `skip`/`take`): selecciona solo las columnas necesarias (`select`, `QueryBuilder`). No trata las queries repetidas dentro de un bucle (N+1). |
 | [Usa lazy loading para los módulos grandes](reglas/rendimiento/perf-lazy-loading.md) | Cuando una app grande o serverless arranca lento (cold start) porque `AppModule` importa de forma eager módulos pesados que se usan poco (reportes, administración, importaciones masivas): carga esos módulos bajo demanda con `LazyModuleLoader` e `import()` dinámico, con caché del `ModuleRef` o con precarga después del arranque. |
@@ -116,7 +116,7 @@ Carpeta: [reglas/testing/](reglas/testing/)
 
 | Título y ruta archivo | ¿Cuándo leerlo? |
 | --- | --- |
-| [Usa el testing module para los unit tests](reglas/testing/test-usar-testing-module.md) | Al escribir unit tests de un service, guard o interceptor de NestJS, o cuando un test instancia las clases a mano (`new UsersService(new UserRepository())`) y termina usando la base de datos real: usa `Test.createTestingModule` con providers mock (`useValue` con `jest.fn()`), `module.get()` y mocks de `ExecutionContext`, y testea el comportamiento en lugar de la implementación. |
+| [Usa el testing module para los unit tests](reglas/testing/test-usar-testing-module.md) | Al escribir unit tests de un service, guard o interceptor de Nest.js, o cuando un test instancia las clases a mano (`new UsersService(new UserRepository())`) y termina usando la base de datos real: usa `Test.createTestingModule` con providers mock (`useValue` con `jest.fn()`), `module.get()` y mocks de `ExecutionContext`, y testea el comportamiento en lugar de la implementación. |
 | [Usa Supertest para el testing E2E](reglas/testing/test-e2e-supertest.md) | Al escribir tests end-to-end que recorren rutas, guards, pipes, serialización y autenticación con peticiones HTTP reales: usa Supertest (`request(app.getHttpServer())`) sobre `Test.createTestingModule({ imports: [AppModule] })`, aplica la misma configuración que en producción (`ZodValidationPipe`), cierra la app en `afterAll` y aísla la base de datos de test (`.env.test`, `dataSource.synchronize(true)`). |
 | [Haz mock de los servicios externos en los tests](reglas/testing/test-mock-de-servicios-externos.md) | Cuando un test llama a una API externa real (Stripe, `HttpService`), a la base de datos o a una cola de mensajes, o al testear timeouts, rate limiting (429) o lógica que depende del tiempo: haz mock de esas dependencias (`HttpService` con `of()` y `throwError()`, `getRepositoryToken(User)`, factories de mocks de SDKs, `jest.useFakeTimers()`) con datos realistas y casos de error. |
 
@@ -147,7 +147,7 @@ Carpeta: [reglas/microservicios/](reglas/microservicios/)
 
 | Título y ruta archivo | ¿Cuándo leerlo? |
 | --- | --- |
-| [Usa correctamente los patrones de mensajes y eventos](reglas/microservicios/micro-usar-patrones.md) | Al comunicar microservicios de NestJS entre sí (`ClientProxy` con `send` o `emit`, handlers `@MessagePattern` o `@EventPattern`), o al dudar si una llamada entre servicios debe esperar una respuesta: usa `@MessagePattern` con `send` (y `firstValueFrom`) cuando necesitas la respuesta, y `@EventPattern` con `emit` para notificaciones fire-and-forget; incluye `RpcException` y el manejo local de errores en los eventos. |
+| [Usa correctamente los patrones de mensajes y eventos](reglas/microservicios/micro-usar-patrones.md) | Al comunicar microservicios de Nest.js entre sí (`ClientProxy` con `send` o `emit`, handlers `@MessagePattern` o `@EventPattern`), o al dudar si una llamada entre servicios debe esperar una respuesta: usa `@MessagePattern` con `send` (y `firstValueFrom`) cuando necesitas la respuesta, y `@EventPattern` con `emit` para notificaciones fire-and-forget; incluye `RpcException` y el manejo local de errores en los eventos. |
 | [Implementa health checks para los microservicios](reglas/microservicios/micro-usar-health-checks.md) | Al exponer endpoints de salud para Kubernetes o un load balancer (liveness, readiness y startup probes), o cuando `/health` solo devuelve «OK» sin verificar las dependencias: usa `@nestjs/terminus` (`HealthCheckService`, `TypeOrmHealthIndicator`, `MemoryHealthIndicator`, `DiskHealthIndicator`, indicadores personalizados con `HealthIndicator`) y responde «no listo» durante el apagado. |
 | [Usa colas de mensajes para los trabajos en segundo plano](reglas/microservicios/micro-usar-colas.md) | Cuando un handler HTTP hace trabajo largo o propenso a fallar (generar reportes, enviar emails, procesar archivos) y el cliente excede el timeout, o cuando necesitas reintentos, prioridades, trabajos programados o el seguimiento del progreso: usa colas con `@nestjs/bullmq` (`BullModule.registerQueue`, `@InjectQueue`, `@Processor`, `attempts` y `backoff`, `repeat`) en lugar de `setInterval`, y monitoréalas con Bull Board. |
 
