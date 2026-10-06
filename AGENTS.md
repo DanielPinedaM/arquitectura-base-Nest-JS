@@ -19,8 +19,9 @@ Cuando las fuentes se contradicen, gana la de número menor en la columna **Prio
 | --- | --- | --- | --- |
 | 1 | [Skill `nestjs-conventions`](.agents/skills/nestjs-conventions/SKILL.md) | Reglas propias del proyecto | Al decidir dónde va un archivo o carpeta, cómo se nombra, qué librería o componente del proyecto usar y cómo se estiliza, y al responder cómo se hace algo en este proyecto. |
 | 2 | [Skill `nestjs-best-practices`](.agents/skills/nestjs-best-practices/SKILL.md) | Reglas de terceros: buenas prácticas generales de Nest.js | Al crear, modificar o revisar código de Nest.js. |
-| 3 | tool `search_prisma_documentation` del Prisma MCP server | [Documentación oficial completa de Prisma ORM](https://www.prisma.io/docs) | Al responder y usar APIs de Prisma (aunque creas conocerla) y ante errores |
-| 4 | Datos de entrenamiento | Tu conocimiento previo | Puedes usarlo, pero las fuentes anteriores tienen prioridad: este proyecto usa Nest.js 11 y Prisma 8, cuyos breaking changes pueden haberlo dejado desactualizado. Que esté desactualizado no significa que esté mal; solo que puede no aplicar a esta versión. |
+| 3 | [llms.txt de Nest.js](https://docs.nestjs.com/llms.txt) | Tabla de contenido con enlaces a la documentación oficial de Nest.js | Leer solo el índice no basta: abre las páginas enlazadas que correspondan. Hazlo al responder y usar APIs de Nest.js (aunque creas conocerla) y ante errores |
+| 4 | tool `search_prisma_documentation` del Prisma MCP server | [Documentación oficial completa de Prisma ORM](https://www.prisma.io/docs) | Al responder y usar APIs de Prisma (aunque creas conocerla) y ante errores |
+| 5 | Datos de entrenamiento | Tu conocimiento previo | Puedes usarlo, pero las fuentes anteriores tienen prioridad: este proyecto usa Nest.js 11 y Prisma 8, cuyos breaking changes pueden haberlo dejado desactualizado. Que esté desactualizado no significa que esté mal; solo que puede no aplicar a esta versión. |
 
 ## Preguntar
 Si detectas un error, una inconsistencia o una ambigüedad, o tienes alguna duda, detente y pregúntame antes de escribir o modificar código. No supongas cómo debe implementarse algo.
