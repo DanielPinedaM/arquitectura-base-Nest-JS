@@ -746,7 +746,7 @@ Sirve para que la IA acceda a la [documentación oficial de Prisma](https://www.
 
 También cuenta con muchas otras funcionalidades (tools) disponibles en este enlace. Es **IMPORTANTE** que leas este enlace:
 
-# [🔗 Enlace - Tools de **Prisma MCP**](https://www.prisma.io/docs/ai/tools/mcp-server)
+# [🔗 Enlace - Tools de **Prisma MCP**](https://www.prisma.io/docs/ai/mcp-tools)
 Para que funcione el **Prisma MCP** solamente la primera vez que haces `git pull` del repositorio es necesario hacer los siguientes pasos:
 
 1. Seleccionar la opcion
