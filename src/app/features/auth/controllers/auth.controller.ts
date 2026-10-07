@@ -1,4 +1,4 @@
-import { AuthService } from '@/app/features/auth/auth.service';
+import { AuthService } from '@/app/features/auth/services/auth.service';
 import {
   ILoginResponse,
   ILogoutResponse,

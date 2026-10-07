@@ -1,5 +1,5 @@
-import { AuthController } from '@/app/features/auth/auth.controller';
-import { AuthService } from '@/app/features/auth/auth.service';
+import { AuthController } from '@/app/features/auth/controllers/auth.controller';
+import { AuthService } from '@/app/features/auth/services/auth.service';
 import { Users } from '@/app/features/auth/entities/users.entity';
 import { CryptoModule } from '@/shared/services/crypto.module';
 import { Module } from '@nestjs/common';
