@@ -79,22 +79,22 @@ export class AuthService {
       encryptedPassword,
     );
 
-    if (!SECURE_PASSWORD_REGEX.test(decryptedPassword))
-      throw new UnauthorizedException('usuario o correo inválidos');
-
+    // usuario NO registrado
     const foundUser: Users | null = await this.usersRepository.findOne({
       where: { email: decryptedEmail },
     });
-
     if (!foundUser)
-      throw new UnauthorizedException('El usuario no esta registrado');
+      throw new UnauthorizedException('usuario o correo inválidos');
 
+    // contraseña incorrecta
+    if (!SECURE_PASSWORD_REGEX.test(decryptedPassword))
+      throw new UnauthorizedException('usuario o correo inválidos');
     const isPasswordValid: boolean = await bcrypt.compare(
       decryptedPassword,
       foundUser.password,
     );
     if (!isPasswordValid)
-      throw new UnauthorizedException('Usuario o correo inválidos');
+      throw new UnauthorizedException('usuario o correo inválidos');
 
     const token = this.generateToken(foundUser);
 
