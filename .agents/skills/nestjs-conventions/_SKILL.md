@@ -392,3 +392,116 @@ import { AuthInterface } from './data-types/interface/auth.interfaces';
 // incorrecto porque se escribe ../ en lugar de usar el alias environments/
 import { ENV_VARS, EnvironmentClass } from '../../../../environments/env-config';
 ```
+
+## Comentarios Semánticos
+Todo comentario debe ser semántico: declara su intención con una sintaxis estándar que el editor entiende, en lugar de texto libre. Se usan dos sintaxis:
+
+1. **TSDoc** para documentar modules, controllers, services, providers, métodos, propiedades e interfaces.
+
+2. **Etiquetas de Todo Tree** cuando el comentario marca trabajo pendiente, un error o código provisorio.
+
+Esta regla define **cómo** escribir un comentario, no **cuándo** agregarlo.
+
+### TSDoc, no JSDoc
+TSDoc no repite los tipos porque TypeScript ya los declara en el contrato (`interface` o `type`).
+
+**Incorrecto**
+JSDoc repite los tipos entre llaves (`{number}`), que se desincronizan cuando cambia la firma.
+
+```ts
+// users.service.ts
+
+@Injectable()
+export class UsersService {
+  /**
+   * Busca un usuario por su id.
+   * @param {number} id id del usuario
+   * @returns {Promise<IUser>} el usuario
+   */
+  findOne(id: number): Promise<IUser> {
+    // ...
+  }
+}
+```
+
+Un comentario `//` sobre la propiedad no aparece al pasar el cursor en el editor de codigo.
+
+```ts
+// user.interfaces.ts
+
+export interface IUser {
+  // nombre del usuario
+  name: string;
+}
+```
+
+**Correcto**
+TSDoc sin tipos, con `@param nombre - descripción` y etiquetas estándar de TSDoc (`@returns`, `@remarks`, `@deprecated`, `@example`, `{@link}`).
+
+```ts
+// users.service.ts
+
+@Injectable()
+export class UsersService {
+  /**
+   * Busca un usuario por su id.
+   *
+   * @param id - Id del usuario.
+   * @returns El usuario. */
+  findOne(id: number): Promise<IUser> {
+    // ...
+  }
+}
+```
+
+```ts
+// user.interfaces.ts
+
+export interface IUser {
+  /** Nombre del usuario. */
+  name: string;
+}
+```
+
+### Etiquetas de Todo Tree
+Cuando aplique, el comentario empieza con una etiqueta de Todo Tree en mayúsculas seguida de `:` y la descripción. Todo Tree resalta la etiqueta en el editor y la lista en su panel, así el trabajo pendiente se encuentra sin buscar texto libre.
+
+| Etiqueta | ¿Qué indica? | Ejemplo |
+| --- | --- | --- |
+| `TODO` | Tarea pendiente general o mejora futura. | `// TODO: paginar el endpoint GET /orders` |
+| `FIXME` | Código roto o con errores que necesita corrección inmediata. | `// FIXME: el schema de Zod acepta cantidades negativas` |
+| `BUG` | Fallo detectado que debe resolverse. | `// BUG: createdAt se guarda en la zona horaria del servidor en lugar de UTC` |
+| `HACK` | Solución temporal, atajo o código "sucio" que debe reescribirse. | `// HACK: forwardRef() para romper la dependencia circular entre OrdersModule y UsersModule` |
+| `XXX` | Zona del código dudosa o que requiere atención. | `// XXX: este endpoint no tiene guard de autenticación` |
+
+**Incorrecto**
+Texto libre, etiqueta en minúscula o etiqueta inventada: Todo Tree no los detecta.
+
+```ts
+// orders.controller.ts
+
+// falta paginar el endpoint
+// todo: validar que la orden pertenezca al usuario
+// NOTA: esto es temporal, arreglar después
+```
+
+**Correcto**
+
+```ts
+// orders.controller.ts
+
+// TODO: paginar el endpoint GET /orders
+// FIXME: validar que la orden pertenezca al usuario
+// HACK: forwardRef() para romper la dependencia circular entre OrdersModule y UsersModule
+```
+
+### Reglas
+* Usar solo las [etiquetas de la tabla](#etiquetas-de-todo-tree). Todo Tree distingue mayúsculas de minúsculas y por defecto no resalta etiquetas propias (`NOTA`, `PENDIENTE`, `OPTIMIZE`).
+
+* Un comentario que solo explica el código, sin trabajo pendiente, no lleva etiqueta de Todo Tree: aparecería en el panel como algo por resolver.
+
+* Escribir la etiqueta de Todo Tree en un comentario `//` aparte, fuera del bloque `/** */`: Todo Tree no la detecta dentro del TSDoc.
+
+* En clases y métodos con decoradores (`@Controller()`, `@Injectable()`, `@Get()`, `@Post()`), el bloque `/** */` va antes del primer decorador, para que el editor lo asocie a la declaración.
+
+* Las etiquetas de TSDoc y de Todo Tree se escriben en inglés, la descripción en español
