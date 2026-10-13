@@ -21,9 +21,7 @@ import { log } from '@/shared/data-types/constants/logger.const';
 import { LoggerService } from '@/shared/services/logger.service';
 // #endregion logs
 
-/* *********************
- * inicializar Nest JS *
- * ********************* */
+/** inicializar Nest JS */
 async function bootstrap(): Promise<void> {
   log.info('\n');
 

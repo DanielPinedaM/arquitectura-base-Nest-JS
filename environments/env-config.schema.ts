@@ -2,9 +2,7 @@ import { log } from '@/shared/data-types/constants/logger.const';
 import { createZodDto, type ZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
-/* *************************************
- * NOMBRES DE LAS VARIABLES DE ENTORNO *
- * ************************************* */
+/** NOMBRES DE LAS VARIABLES DE ENTORNO */
 export enum ENV_VARS {
   // #region configurar Nest JS
   NODE_ENV = 'NODE_ENV',

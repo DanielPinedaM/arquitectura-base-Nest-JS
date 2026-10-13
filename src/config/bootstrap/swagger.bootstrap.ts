@@ -9,9 +9,7 @@ import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { ENV_VARS, EnvironmentClass } from 'environments/env-config.schema';
 import { cleanupOpenApiDoc } from 'nestjs-zod';
 
-/* *********************************
- * swagger: documentación de la API *
- * ********************************** */
+/** swagger: documentación de la API */
 export function configSwagger(app: INestApplication): void {
   const env: ConfigService<EnvironmentClass> = app.get(ConfigService);
   const NODE_ENV: string = env.get<string>(ENV_VARS.NODE_ENV)!;
