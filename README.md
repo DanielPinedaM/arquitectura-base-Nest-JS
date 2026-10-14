@@ -193,7 +193,9 @@ Estos scripts ejecutan el `dist` que previamente se generó con `pn build`. Requ
 # 🪲 Scripts para Hacer Debugging
 
 > [!TIP]
-> # Deja de escribir `console.log()` para ver valores de variables, mejor usa el debugging
+> Deja de escribir `console.log()` para ver valores de variables, mejor usa el debugging
+
+Aqui se explica como hacer debugging manual, pero la skill [`api-agent`](#-api-agent) permite que la IA haga debugging automaticamente
 
 Cada entorno tiene su propio script de debugging y su configuración equivalente en `.vscode/launch.json`:
 
