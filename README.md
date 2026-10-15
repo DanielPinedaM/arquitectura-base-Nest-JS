@@ -24,6 +24,11 @@ A continuación se resumen las principales tecnologías del proyecto y el motivo
 >
 > Puedes hacer clic en el nombre de cada tecnología para ver cursos y aprenderlas
 
+> [!TIP]
+> # 🧠 **Aprende**
+
+* [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
+
 # ⚙️ Configurar lo Siguiente **UNA SOLA VEZ**
 
 ## 🛠️ Antes de Empezar
@@ -170,10 +175,14 @@ Para todos los comandos de `pnpm` usar el alias `pn`
 Este comando instala los paquetes que estan en `package.json` que son Nest.js, TypeScript, etc:
 
 ```console
+cd /ruta/a/carpeta/raiz/del/proyecto
+```
+
+```console
 pn i
 ```
 
-# ▶️ Scripts de Desarrollo
+# ▶️ Comandos para Ejecutar Proyecto
 
 | Comando          | Ambiente      | Variable de Entorno            |
 | ---------------- | ------------- | ------------------------------ |
@@ -181,7 +190,7 @@ pn i
 | `pn start:test`  | Pruebas       | `environments/.env.test`       |
 | `pn start:prod`  | Producción    | `environments/.env.production` |
 
-# 🚀 Generar Carpeta `dist` (Build) para Desplegar
+# 🚀 Comandos para Generar Carpeta `dist` (Build) para Desplegar
 
 ```console
 pn build
@@ -363,8 +372,6 @@ Sirve para importar la API en Postman, Insomnia o generar clientes automáticame
 > Hasta comprender cómo funciona el proyecto.
 >
 > Aunque es un texto largo, aprenderás la arquitectura, buenas prácticas y a detectar revisando el código, cuando la IA alucina
-
-# [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
 
 # 🤖 Uso de IA
 
@@ -607,16 +614,18 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 
 `api-agent` se puede usar para lo siguiente:
 
-| Pregunta ⬇️ / Modo ➡️                                                          | Modo AUTOMATIZAR                          | Modo DEPURAR                                                   |
-|---------------------------------------------------------------------------------|-------------------------------------------|----------------------------------------------------------------|
-| Para qué sirve                                                                  | ejecutar o automatizar un flujo de la app | encontrar la causa de un bug o de un comportamiento incorrecto |
-| ¿Escribe codigo de testing en Jest, Vitest, etc?                                | ❌ No                                     | ❌ No                                                         |
-| Ejemplo de uso                                                                  | Insert masivos a la base de datos         | El endpoint X no esta retornando Y, corrigelo                  |
-| Modifica código fuente                                                          | ❌ No                                     | ✅ Sí                                                         |
-| Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | ❌ No                                     | ✅ Sí                                                         |
-| ¿Ejecuta ESLint?                                                                | ❌ No                                     | ✅ sí, pero solo si ESLint está configurado                   |
-| ¿Genera el build de la aplicacion?                                              | ❌ No                                     | ✅ Sí                                                         |
-| ¿Pide usuario y contraseña y hace login?                                        | ✅ Sí                                     | ✅ Sí                                                         |
+| Pregunta ⬇️ / Modo ➡️                                                          | Modo AUTOMATIZAR                          | Modo DEPURAR                                  |
+|---------------------------------------------------------------------------------|-------------------------------------------|-----------------------------------------------|
+| Para qué sirve                                                                  | ejecutar o automatizar un flujo de la app | Encontrar la causa y corregir bugs            |
+| Ejemplo de uso                                                                  | Insert masivos a la base de datos         | El endpoint X no esta retornando Y, corrigelo |
+| Modifica código fuente                                                          | ❌ No                                     | ✅ Sí                                        |
+| Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | ❌ No                                     | ✅ Sí                                        |
+| ¿Escribe codigo de testing en Jest, Vitest, etc?                                | ❌ No                                     | ❌ No                                        |
+| ¿Ejecuta tests?                                                                 | ❌ No                                     | ✅ Sí, pero solo si el proyecto tiene tests  |
+| ¿Ejecuta ESLint?                                                                | ❌ No                                     | ✅ sí, pero solo si ESLint está configurado  |
+| ¿Genera el build de la aplicacion?                                              | ❌ No                                     | ✅ Sí                                        |
+| ¿Pide usuario y contraseña y hace login?                                        | ✅ Solo si el flujo exige autenticación   | ✅ Solo si el flujo exige autenticación      |
+| ¿Usa un sub agente para verificar la solución del bug?                          | ❌ No                                     | ✅ Sí                                        |
 
 **SIEMPRE** que necesites controlar el backend con la IA:
 1. Detener la ejecucion del proyecto
@@ -680,6 +689,21 @@ Solo funciona en Claude. Crea un mockup (similar a Figma) que puedes editar con 
 
 ```txt
 /design cambia el color del titulo del texto X por rojo
+```
+
+## `question-me`
+Esta skill esta basada en:
+
+| Autor       | Nombre de la skill | Enlace                                                                                                                                                                |
+| ----------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Matt Pocock | `grill-me`         | [https://www.skills.sh/mattpocock/skills/grill-me](https://www.skills.sh/mattpocock/skills/grill-me)                                                                  |
+| Matt Pocock | `grill-with-docs`  | [https://www.skills.sh/mattpocock/skills/grill-with-docs](https://www.skills.sh/mattpocock/skills/grill-with-docs)                                                    |
+| Fazt        | `fxquestionme`     | [(https://github.com/fazt/dotfiles/blob/master/claude/skills/fxquestionme/SKILL.md](https://github.com/fazt/dotfiles/blob/master/claude/skills/fxquestionme/SKILL.md) |
+
+Permite que la IA te haga preguntas para aclarar tus objetivos y eliminar ambigüedades, logrando modificaciones más precisas.
+
+```bash
+/question-me << aqui describir el bug a solucionar, el codigo a refactorizar o describir la nueva feature >>
 ```
 
 # MCP
