@@ -1,8 +1,6 @@
 ---
 name: database-normalization
 description: 'Normaliza el esquema de base de datos del proyecto aplicando las formas normales (UNF, 1NF, 2NF, 3NF, EKNF, BCNF, 4NF, ETNF, 5NF, DKNF, 6NF) en orden y sin saltar pasos, hasta la forma normal que elija el usuario. Es agnóstica al backend, al lenguaje, al ORM y al motor de base de datos: el stack se deduce leyendo package.json, nunca se asume. Documenta el modelo relacional resultante de cada paso, con sus primary key y foreign key, en un markdown por forma normal, y después aplica la forma normal elegida al schema del ORM. MODIFICA EL ESQUEMA DE BASE DE DATOS.'
-when_to_use: 'Frases típicas que la disparan - "normaliza la base de datos", "normalizar el esquema", "lleva la base de datos a 3NF", "aplica formas normales", "hay datos redundantes en las tablas", "esta tabla tiene columnas repetidas", "quita la redundancia del modelo", "revisa las dependencias funcionales de las entidades", "el modelo relacional está mal diseñado".'
-allowed-tools: Read, Write, Edit, Grep, Glob, AskUserQuestion
 ---
 
 # Normalización de base de datos
