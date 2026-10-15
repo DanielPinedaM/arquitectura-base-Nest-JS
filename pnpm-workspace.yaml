@@ -13,7 +13,3 @@ minimumReleaseAgeExclude:
   - dotenv@18.0.3
   - fs-extra@11.4.1
   - supertest@7.3.0
-
-# no vincular las skills de agente que traen las dependencias, el proyecto usa sus propias skills en .agents/skills
-skills:
-  dirs: []
