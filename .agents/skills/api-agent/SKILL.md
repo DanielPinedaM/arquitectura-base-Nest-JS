@@ -4,11 +4,11 @@ description: 'Automatiza flujos y depura bugs de la API ejecutando el backend re
 ---
 
 # Depuración y automatización de backend con `curl`
+Verifica el comportamiento ejecutando el backend.
 
-Verifica el comportamiento contra el backend corriendo, con peticiones HTTP reales, no suponiendo qué hace el código.
+Leer el código permite **deducir qué debería suceder**; ejecutar peticiones HTTP con `curl` muestra lo que **sucede realmente** en el backend.
 
 ## Mecánica de curl
-
 1. Antes de la primera petición, establece la ruta real del endpoint (prefijo y versión, deducidos de la configuración de arranque y confirmados con el listado de rutas que imprime el backend o con su documentación de la API) y su contrato (método, body y headers obligatorios, deducidos del handler y de su esquema de validación).
 2. Forma base de una petición (`-i` muestra el status y los headers; `-sS` oculta el progreso, pero no los errores):
 
