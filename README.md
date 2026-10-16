@@ -206,7 +206,7 @@ Estos scripts ejecutan el `dist` que previamente se generó con `pn build`. Requ
 | `pn dist:test` | Pruebas       | `environments/.env.test`       |
 | `pn dist:prod` | Producción    | `environments/.env.production` |
 
-# 🪲 Scripts para Hacer Debugging
+# 🪲 Comandos para Hacer Debugging
 
 > [!TIP]
 > Deja de escribir `console.log()` para ver valores de variables, mejor usa el debugging
