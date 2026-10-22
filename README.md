@@ -5,7 +5,7 @@
 # 🐈 Stack Backend del Proyecto
 A continuación se resumen las principales tecnologías del proyecto y el motivo por el que se utilizan. No se incluyen todas las dependencias.
 
-* Node.js 24.21.0
+* Node.js 24.22.1
 
 * [**Nest.js 11:**](https://youtu.be/wsqcg5ZtUMM?si=o0rmZsPYwMlrl7Ed) _Framework semi-opinionado_ que combina la _arquitectura modular de Angular_ con la _flexibilidad de Express.js_, ofreciendo estructura escalable, soporte nativo de TypeScript e _inyección de dependencias_, y fácil integración con _ORMs_, _GraphQL_ y _microservicios_ para _APIs_ empresariales robustas.
 
@@ -73,10 +73,10 @@ Para que `fnm` automáticamente al entrar a la carpeta del proyecto seleccione l
 
 1. Abrir Git Bash.
 
-2. Instalar Node.js 24.21.0
+2. Instalar Node.js 24.22.1
 
 ```console
-fnm install 24.21.0
+fnm install 24.22.1
 ```
 
 3. Copiar completo el siguiente comando y ejecutarlo:
@@ -102,10 +102,10 @@ fnm current
 node -v
 ```
 
-6. Debería mostrarte `v24.21.0` automáticamente, sin que hayas escrito manualmente
+6. Debería mostrarte `v24.22.1` automáticamente, sin que hayas escrito manualmente
 
 ```console
-fnm use 24.21.0
+fnm use 24.22.1
 ```
 
 ## ⌨️ Autocompletado, Formatear Código y Linter
