@@ -31,7 +31,6 @@ curl -i -sS -X <método HTTP> "http://<hostname>:<puerto><ruta>" \
 4. No instales ni uses otro cliente HTTP.
 
 ## 1. Elegir el modo
-
 Pregunta el modo antes de ejecutar nada, siempre (aunque el usuario ya lo haya dicho) y sin recomendar ninguno. Describe cada opción: AUTOMATIZAR ejecuta el flujo y reporta el estado final, sin tocar el código ni diagnosticar; DEPURAR reproduce, observa, instrumenta si hace falta y para a preguntar antes de corregir.
 
 | | Modo AUTOMATIZAR | Modo DEPURAR |
