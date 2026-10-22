@@ -616,18 +616,18 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 
 `api-agent` se puede usar para lo siguiente:
 
-| Pregunta ⬇️ / Modo ➡️                                                          | Modo AUTOMATIZAR                          | Modo DEPURAR                                  |
-|---------------------------------------------------------------------------------|-------------------------------------------|-----------------------------------------------|
-| Para qué sirve                                                                  | ejecutar o automatizar un flujo de la app | Encontrar la causa y corregir bugs            |
-| Ejemplo de uso                                                                  | Insert masivos a la base de datos         | El endpoint X no esta retornando Y, corrigelo |
-| Modifica código fuente                                                          | ❌ No                                     | ✅ Sí                                        |
-| Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | ❌ No                                     | ✅ Sí                                        |
-| ¿Escribe codigo de testing en Jest, Vitest, etc?                                | ❌ No                                     | ❌ No                                        |
-| ¿Ejecuta tests?                                                                 | ❌ No                                     | ✅ Sí, pero solo si el proyecto tiene tests  |
-| ¿Ejecuta linters?, por ejemplo ESLint                                           | ❌ No                                     | ✅ sí, pero solo si hay linters configurados |
-| ¿Genera el build de la aplicacion?                                              | ❌ No                                     | ✅ Sí                                        |
-| ¿Pide usuario y contraseña y hace login?                                        | ✅ Solo si el flujo exige autenticación   | ✅ Solo si el flujo exige autenticación      |
-| ¿Usa un sub agente para verificar la solución del bug?                          | ❌ No                                     | ✅ Sí                                        |
+| Pregunta ⬇️ / Modo ➡️                                                                              | Modo AUTOMATIZAR                          | Modo DEPURAR                                                                  |
+|-----------------------------------------------------------------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------|
+| Para qué sirve                                                                                      | ejecutar o automatizar un flujo de la app | verificar el funcionamiento del backend, encontrar la causa y solucionar bugs |
+| Ejemplo de uso                                                                                      | Insert masivos a la base de datos         | El endpoint X no esta retornando Y, corrigelo                                 |
+| Modifica código fuente                                                                              | ❌ No                                     | ✅ Sí                                                                        |
+| ¿Le hace peticiones HTTP a la API con `curl`? (salida del servidor, body y headers de la respuesta) | ❌ No                                     | ✅ Sí                                                                        |
+| ¿Ejecuta linters?, por ejemplo ESLint                                                               | ❌ No                                     | ✅ sí, pero solo si hay linters configurados                                 |
+| ¿Escribe codigo de testing en Jest, Vitest, etc?                                                    | ❌ No                                     | ❌ No                                                                        |
+| ¿Ejecuta tests?                                                                                     | ❌ No                                     | ✅ Sí, pero solo si el proyecto tiene tests                                  |
+| ¿Genera el build de la aplicacion?                                                                  | ❌ No                                     | ✅ Sí                                                                        |
+| ¿Pide usuario y contraseña y hace login?                                                            | ✅ Solo si el flujo exige autenticación   | ✅ Solo si el flujo exige autenticación                                      |
+| ¿Usa un subagente revisor de solo lectura para verificar la solución del bug?                       | ❌ No                                     | ✅ Sí                                                                        |
 
 **SIEMPRE** que necesites controlar el backend con la IA:
 1. Detener la ejecucion del proyecto

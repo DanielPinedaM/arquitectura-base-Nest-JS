@@ -36,14 +36,15 @@ Pregunta el modo antes de ejecutar nada, siempre (aunque el usuario ya lo haya d
 | | Modo AUTOMATIZAR | Modo DEPURAR |
 |---|---|---|
 | Para qué sirve | ejecutar o automatizar un flujo de la app | verificar el funcionamiento del backend, encontrar la causa y solucionar bugs |
-| Modifica código fuente | no | sí, en dos casos |
-| Diagnostica (salida del servidor, `curl -v`, cuerpo y headers de la respuesta) | no | sí |
+| Ejemplo de uso | Insert masivos a la base de datos | El endpoint X no esta retornando Y, corrigelo                                 |
+| Modifica código fuente | no | sí |
+| ¿Le hace peticiones HTTP a la API con `curl`? (salida del servidor, body y headers de la respuesta) | no | sí |
 | ¿Ejecuta linters?, por ejemplo ESLint | no | sí, pero solo si hay linters configurados |
+| ¿Escribe codigo de testing (Jest, Vitest, etc)? | no | sí, pero solo si el proyecto tiene tests |
 | ¿Ejecuta tests? | no | sí, pero solo si el proyecto tiene tests |
 | ¿Genera el build de la aplicación? | no | sí |
-| ¿Le hace peticiones HTTP a la API con `curl`? | sí | sí |
 | ¿Pide usuario y contraseña y hace login? | solo si el flujo exige autenticación | solo si el flujo exige autenticación |
-| ¿Usa un subagente para verificar la solución del bug? | no | sí |
+| ¿Usa un subagente revisor de solo lectura para verificar la solución del bug? | no | sí |
 
 DEPURAR modifica el código solo en dos casos: la instrumentación temporal (los logs de 5.5, que no cambian el comportamiento, y el `throw` de 5.6), que se aplica sin preguntar y siempre se borra antes de terminar el turno; y la corrección autorizada (5.7). Los bugs que encuentres de paso se reportan, no se corrigen; la única excepción son los errores del linter, los tests o el build que el usuario elija en 5.13.
 
