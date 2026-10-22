@@ -72,7 +72,7 @@ Los bugs que encuentres de paso se reportan, no se corrigen. La única excepció
 ## 3. Login (solo si el flujo exige autenticación)
 1. Deduce del código si los endpoints del flujo exigen autenticación. Si hay duda, confírmalo con una petición de solo lectura sin credenciales (401 o 403 = protegido); nunca sondees con un endpoint que muta datos. Pide usuario y contraseña solo si el flujo está protegido o es el propio login.
 
-2. Nunca inventes ni deduzcas las credenciales (del código, seeds, archivos de entorno, tests, documentación o la base de datos) ni ofrezcas valores adivinados como opción. Úsalas tal cual las escribió el usuario y nunca las muestres en reportes, logs ni `console.log`. Si el usuario cancela, sigue en la sección 6 y dilo.
+2. Nunca inventes ni deduzcas las credenciales (del código, seeds, archivos de entorno, tests, documentación o la base de datos) ni ofrezcas valores adivinados como opción. Úsalas tal cual las escribió el usuario y nunca las muestres en reportes, logs ni `console.log`; la única excepción es pasárselas en el prompt al subagente revisor (5.14), que tampoco las muestra en su veredicto. Si el usuario cancela, sigue en la sección 6 y dilo.
 
 3. Haz el login con curl: la ruta y los nombres de los campos salen del handler y de su esquema de validación, no se asumen. Guarda el token en una variable de shell y reutilízalo; no repitas el login. Si cada comando abre una terminal nueva, la variable no persiste: vuelve a asignar en cada invocación el token ya obtenido. Si rearrancas, reutiliza las credenciales ya dadas.
 
@@ -90,7 +90,7 @@ curl -i -sS -X POST "http://<hostname>:<puerto><ruta-del-login>" \
 ## 4. Modo AUTOMATIZAR
 1. Ubica los endpoints del flujo: ruta real, método y contrato de cada uno.
 
-2. Encadena las peticiones de punta a punta: la salida de una alimenta la siguiente (el token, el id creado). Lee cada respuesta solo para extraer lo que necesita el paso siguiente.
+2. Encadena las peticiones de punta a punta: la salida de una alimenta la siguiente (el token, el id creado). Lee cada respuesta solo para extraer lo que necesita el paso siguiente. Antes de cada petición mutable, pregunta según la sección 7.
 
 3. Lee el estado final del status y del cuerpo de la última respuesta y sigue en la sección 6.
 
@@ -158,19 +158,27 @@ No diagnostiques: sin `-v`, sin leer la salida del servidor, sin instrumentar y 
   5. Si el usuario autoriza corregir: vuelve al paso 5.8, corrige solo lo autorizado y repite 5.8 hasta 5.13.
 - **5.14 Verificar con un subagente revisor — BUCLE DE REVISIÓN: pasos 5.8 hasta 5.14.**
 
-  1. Lanza, con un prompt y sin crear archivos, un subagente nuevo de solo lectura: no edita nada; solo lee y ejecuta `git status` y `git diff`. Espera su veredicto.
+  1. Lanza, con un prompt un subagente nuevo de solo lectura: no edita ningún archivo; lee, ejecuta `git status` y `git diff` y, si el flujo esta relacionado con endpoints del backend, les hace peticiones HTTP con `curl`. Espera su veredicto.
 
-  2. Pásale hechos, no conclusiones: el requisito del usuario (lo que pidió verificar en modo DEPURAR: comportamiento esperado, fallo observado y pasos para reproducirlo), la evidencia observada, el alcance autorizado, los archivos que ya tenían cambios (5.1), la salida del linter, los tests y el build (5.10–5.12) con los errores que el usuario decidió no corregir en 5.13, y los hallazgos que ya descartó. No le pases tu diagnóstico.
+  2. Pásale hechos, no conclusiones: el requisito del usuario (lo que pidió verificar en modo DEPURAR: comportamiento esperado, fallo observado y pasos para reproducirlo), la evidencia observada, el alcance autorizado, los archivos que ya tenían cambios (5.1), la salida del linter, los tests y el build (5.10–5.12) con los errores que el usuario decidió no corregir en 5.13, los hallazgos que ya descartó, el script que levanta el backend con su puerto y, si el flujo exige autenticación, el usuario y la contraseña tal cual los escribió el usuario. No le pases tu diagnóstico.
 
-  3. El revisor comprueba que el diff soluciona el bug y cumple el requisito del usuario, que no introduce bugs nuevos, que no cambia nada fuera del alcance y que no deja instrumentación. No opina de estilo. Responde «sin hallazgos» o una lista con archivo, línea y evidencia.
+  3. El revisor comprueba que el diff soluciona el bug y cumple el requisito del usuario, que no introduce bugs nuevos, que no cambia nada fuera del alcance y que no deja instrumentación. Si el flujo esta relacionado con endpoints del backend, lo verifica con `curl`:
+     - Arranca el script con los pasos 4 a 6 de la sección 2 y hace el login de la sección 3 si el flujo exige autenticación.
+     - Solo prueba los endpoints del flujo, nunca otros: el caso feliz y las variantes de 5.6 que apliquen, cruzando cada respuesta con la salida del servidor (5.2).
+     - Ejecuta sin autorización solo el login y las peticiones con métodos que no mutan (GET, HEAD, OPTIONS). Antes de cada petición con un método que muta (POST, PUT, PATCH, DELETE), se detiene sin ejecutarla, mantiene vivo el backend y devuelve esa petición con su método, ruta y body para que el usuario la autorice (punto 4).
+     - Al terminar la verificación, detiene el backend y verifica que el puerto ya no responde (pasos 2 y 3 de la sección 6).
 
-  4. **Salida del bucle**: si el revisor responde «sin hallazgos», o si en el punto 6 el usuario decide no corregir → sigue en la sección 6.
+     No opina de estilo. Responde «sin hallazgos» o una lista con archivo, línea y evidencia (si el hallazgo sale de una petición, la evidencia es el status, el cuerpo de la respuesta o el stack trace de la salida del servidor), y reporta como «no probadas» las peticiones mutables que el usuario no autorizó.
 
-  5. No asumas que un hallazgo del revisor es correcto: verifícalo primero y confírmalo o refútalo con evidencia. Solo se corrige lo confirmado.
+  4. Cada vez que el revisor se detiene con una petición mutable, pregunta al usuario por esa petición, con su método, ruta y body (con la contraseña redactada): una pregunta por petición, siempre antes de ejecutarla. Pásale la respuesta al mismo revisor para que continúe: si el usuario la autorizó, la ejecuta; si no, la marca como «no probada» y sigue con la siguiente.
 
-  6. Antes de iniciar cada iteración, PARA y pregunta al usuario con el formato de 5.7, incluidos los hallazgos refutados con su evidencia (aunque lo estén todos): el usuario tiene la última palabra sobre qué queda confirmado.
+  5. **Salida del bucle**: si el revisor termina con «sin hallazgos», o si en el punto 7 el usuario decide no corregir → sigue en la sección 6.
 
-  7. Si el usuario autoriza una corrección: vuelve al paso 5.8, corrige únicamente los errores relacionados con el requisito del usuario (incluidos los bugs nuevos, los fallos de alcance y la instrumentación que dejó tu propia corrección; un bug ajeno y previo solo se reporta) y repite 5.8 hasta 5.14, lo que incluye volver a ejecutar el linter, los tests y el build (5.10–5.12).
+  6. No asumas que un hallazgo del revisor es correcto: verifícalo primero y confírmalo o refútalo con evidencia. Solo se corrige lo confirmado.
+
+  7. Antes de iniciar cada iteración, PARA y pregunta al usuario con el formato de 5.7, incluidos los hallazgos refutados con su evidencia (aunque lo estén todos): el usuario tiene la última palabra sobre qué queda confirmado.
+
+  8. Si el usuario autoriza una corrección: vuelve al paso 5.8, corrige únicamente los errores relacionados con el requisito del usuario (incluidos los bugs nuevos, los fallos de alcance y la instrumentación que dejó tu propia corrección; un bug ajeno y previo solo se reporta) y repite 5.8 hasta 5.14, lo que incluye volver a ejecutar el linter, los tests y el build (5.10–5.12).
 
 ## 6. Cerrar y reportar
 Antes de terminar el turno, por cualquier camino (al acabar, si abandonas, si el arranque falló, si el usuario no autoriza la corrección, si no encuentras la causa o si la pregunta queda como texto final):
@@ -187,16 +195,21 @@ Durante una pregunta interactiva dentro del turno, mantén vivo el backend. Si e
 
 - **Nunca borres la base de datos**: ni con el motor, ni con el ORM, ni con scripts o flags que la reseteen o recreen. No tiene excepción, ni siquiera con autorización: si el diagnóstico parece exigirlo, reporta lo que encontraste y detente.
 
-- Borrar o vaciar tablas requiere autorización previa, también cuando se hace eliminando una entidad cuya tabla borraría la sincronización automática.
-
-- Leer está permitido. Crear, actualizar o borrar datos, por HTTP o directamente en la base, requiere autorización previa, salvo las peticiones del flujo que el usuario pidió.
-
-- Cambiar esquemas o relaciones (entidades, modelos, columnas o índices) requiere autorización previa.
-
-- Generar, aplicar o revertir migraciones requiere autorización previa.
-
 - No alteres configuración, funcionalidad, dependencias ni variables de entorno, ni ejecutes paquetes que el proyecto no declare, por iniciativa propia: solo si el usuario lo pidió o lo autorizó.
 
 - No refactorices, renombres, corrijas ni «mejores» código fuera de la corrección autorizada.
 
 - No inventes la causa del bug. Si no está clara, reporta lo que descartaste, lo que falta por descartar y por qué no encontraste el bug.
+
+- Las operaciones criticas requieren preguntar antes de ejecutar. Esto incluye:
+  - Borrar o vaciar tablas.
+
+  - Eliminar una entidad cuya tabla borraría la sincronización automática.
+
+  - Leer está permitido: las peticiones con métodos que no mutan (GET, HEAD, OPTIONS) se ejecutan sin preguntar. Antes de cada petición con un método que muta (POST, PUT, PATCH, DELETE), también las del flujo que el usuario pidió, pregunta al usuario mostrando su método, ruta y body (con la contraseña redactada); solo el login de la sección 3 queda exento. Si es un lote de la misma petición (mismo método y ruta) con distintos datos, como un insert masivo, haz una sola pregunta con el método, la ruta, un body de ejemplo y cuántas veces se va a ejecutar.
+
+  - Crear, actualizar o borrar datos directamente en la base de datos
+
+  - Cambiar esquemas o relaciones (entidades, modelos, columnas o índices)
+
+  - Generar, aplicar o revertir migraciones
