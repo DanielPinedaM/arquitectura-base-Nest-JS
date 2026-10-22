@@ -633,7 +633,7 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 
 2. Usar este prompt para llamar la skill `api-agent`:
 
-***Ejemplo de Prompt:***
+***Ejemplo:***
 ```txt
 /api-agent <<< Aqui describir de forma MUY DETALLADA
 la funcionalidad a testear o el proceso a automatizar,
@@ -672,7 +672,7 @@ Estructura de la skill:
 
 Después de documentar cada paso, aplica la forma normal elegida al schema del ORM y deja el código que lo consume coherente con el nuevo esquema. Si el proyecto usa migrations, la genera pero **no la ejecuta** sin que lo autorices.
 
-***Ejemplo de Prompt:***
+***Ejemplo:***
 ```txt
 /database-normalization normalizar base de datos
 ```
