@@ -120,8 +120,8 @@ No diagnostiques: sin `-v`, sin leer la salida del servidor, sin instrumentar y 
 
 - **5.4 Inspeccionar `node_modules` (opcional).** Solo si el bug apunta a una dependencia: lee únicamente los archivos de esa dependencia (sus tipos o su implementación). Nunca leas `node_modules` completo ni lo modifiques. Si el diagnóstico apunta a la librería, llévalo a la pregunta de 5.7.
 
-- **5.5 Instrumentar con console.log temporal — BUCLE DE INSTRUMENTACIÓN: pasos 5.5.2 hasta 5.5.3.**
-  1. Formato: `console.log('[ruta/relativa/archivo.ext] [funciónOMétodo]:', valor); // DBG-<id>`, con un `<id>` de 4 caracteres, el mismo en toda la sesión. Antes de loguear, espera las promesas, convierte las entidades del ORM en objetos planos y serializa los objetos anidados con `JSON.stringify(valor, null, 2)`.
+- **5.5 Instrumentar con console.log temporal — BUCLE DE INSTRUMENTACIÓN: puntos 2 hasta 3.**
+  1. Formato: `console.log('[ruta/relativa/archivo.extension] [funciónOMétodo]:', valor); // DBG-<id>`, con un `<id>` de 4 caracteres, el mismo en toda la sesión. Antes de loguear, espera las promesas, convierte las entidades del ORM en objetos planos y serializa los objetos anidados con `JSON.stringify(valor, null, 2)`.
 
   2. Dónde poner los logs — por niveles, solo en el camino sospechoso:
      - **Nivel 1**: la primera línea del handler; la entrada y el retorno del servicio sospechoso; antes y después de cada llamada al ORM y de cada llamada HTTP saliente; el error completo dentro de cada `catch`.
