@@ -623,7 +623,7 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 | Diagnostica (logs del server, `curl -i`/`-v`, cuerpo y headers de la respuesta) | ❌ No                                     | ✅ Sí                                        |
 | ¿Escribe codigo de testing en Jest, Vitest, etc?                                | ❌ No                                     | ❌ No                                        |
 | ¿Ejecuta tests?                                                                 | ❌ No                                     | ✅ Sí, pero solo si el proyecto tiene tests  |
-| ¿Ejecuta linters?, por ejemplo ESLint                                           | ❌ No                                     | ✅ sí, pero solo si ESLint está configurado  |
+| ¿Ejecuta linters?, por ejemplo ESLint                                           | ❌ No                                     | ✅ sí, pero solo si hay linters configurados |
 | ¿Genera el build de la aplicacion?                                              | ❌ No                                     | ✅ Sí                                        |
 | ¿Pide usuario y contraseña y hace login?                                        | ✅ Solo si el flujo exige autenticación   | ✅ Solo si el flujo exige autenticación      |
 | ¿Usa un sub agente para verificar la solución del bug?                          | ❌ No                                     | ✅ Sí                                        |
