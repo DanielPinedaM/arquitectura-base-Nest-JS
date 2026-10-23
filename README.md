@@ -484,7 +484,11 @@ Hacer esto:
 cd /ruta/a/carpeta/raiz/del/proyecto
 ```
 
-3. Ejecutar claude con todos los permisos:
+3. Ejecutar tu harness de IA con todos los permisos:
+
+```console
+codex --yolo
+```
 
 ```console
 claude --dangerously-skip-permissions
@@ -608,11 +612,9 @@ Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadaj
 > [!CAUTION]
 > # ⚠️ Advertencia
 >
-> Usar esta skill con ciudado, es muy buena, pero
->
-> Si intentas automatizar un proceso o solucionar un bug existente con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
+> Usar esta skill con ciudado, es muy buena, pero si intentas automatizar un proceso o solucionar un bug existente con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
 
-Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend: arrancarlo, hacerle peticiones HTTP a sus endpoints con `curl` y leer los logs del servidor sin hacerlo manualmente.
+Sirve para que la IA desde la terminal pueda controlar el backend: arrancarlo, hacerle peticiones HTTP a sus endpoints con `curl` y leer los logs del servidor sin hacerlo manualmente.
 
 `api-agent` se puede usar para lo siguiente:
 
@@ -638,7 +640,7 @@ Sirve para que la IA (Claude Code) desde la terminal pueda controlar el backend:
 ```txt
 /api-agent <<< Aqui describir de forma MUY DETALLADA
 la funcionalidad a testear o el proceso a automatizar,
-para mejorar el resultado es bueno decirle a Claude
+para mejorar el resultado es bueno decirle a la IA
 rutas especificas de donde estan los archivos, controllers, services, endpoints, etc.
 que necesita para ejecutar el proceso >>>
 ```
