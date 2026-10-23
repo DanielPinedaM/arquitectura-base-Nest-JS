@@ -37,7 +37,7 @@ Pregunta el modo antes de ejecutar nada, siempre (aunque el usuario ya lo haya d
 |---|---|---|
 | Para qué sirve | ejecutar o automatizar un flujo de la app | verificar el funcionamiento del backend, encontrar la causa y solucionar bugs |
 | Ejemplo de uso | Insert masivos a la base de datos | El endpoint X no esta retornando Y, corrigelo                                 |
-| Modifica código fuente | no | sí |
+| ¿Modifica código fuente? | no | sí |
 | ¿Le hace peticiones HTTP a la API con `curl`? (salida del servidor, body y headers de la respuesta) | no | sí |
 | ¿Ejecuta linters?, por ejemplo ESLint | no | sí, pero solo si hay linters configurados |
 | ¿Escribe código de testing (Jest, Vitest, etc.)? | no | sí, pero solo si el proyecto ya tiene tests y en dos casos: al modificar una funcionalidad que ya tenía tests escritos o cuando el usuario lo pide explícitamente |
@@ -61,7 +61,7 @@ Los bugs que encuentres de paso se reportan, no se corrigen. La única excepció
 
 3. Al empezar DEPURAR, o al pasar a DEPURAR desde AUTOMATIZAR, pregunta también qué script de build se ejecuta, con las mismas reglas. Si no hay ninguno, ofrece «Otra — indico yo el comando» y «Omitir el build».
 
-4. Si algo responde en el puerto (cualquier respuesta HTTP, incluido un 404), mata ese proceso con su árbol hasta que el puerto quede libre. Nunca lo reutilices.
+4. Si el puerto está ocupado, mata el proceso y su árbol hasta liberarlo. Nunca lo reutilices.
 
 5. Arranca tú el script elegido en segundo plano (nunca le pidas al usuario que lo arranque) y guarda su identificador. En DEPURAR, si el script sirve un build ya generado, regenera antes el build con el script del paso 3 (si se omitió, avisa de que el build puede no corresponder al código). Espera a que acepte conexiones, sin esperas fijas, y lee su salida para confirmar el puerto real, que compiló y que conectó con la base de datos. Si falla, reporta el error exacto y detente; pero si el fallo lo causa tu propio cambio (instrumentación de 5.5, `throw` de 5.6 o corrección de 5.8), corrígelo en vez de detenerte (en 5.8 cuenta como «no pasa»).
 
@@ -74,7 +74,7 @@ Los bugs que encuentres de paso se reportan, no se corrigen. La única excepció
 
 2. Nunca inventes ni deduzcas las credenciales (del código, seeds, archivos de entorno, tests, documentación o la base de datos) ni ofrezcas valores adivinados como opción. Úsalas tal cual las escribió el usuario y nunca las muestres en reportes, logs ni `console.log`; la única excepción es pasárselas en el prompt al subagente revisor (5.14), que tampoco las muestra en su veredicto. Si el usuario cancela, sigue en la sección 6 y dilo.
 
-3. Haz el login con curl: la ruta y los nombres de los campos salen del handler y de su esquema de validación, no se asumen. Guarda el token en una variable de shell y reutilízalo; no repitas el login. Si cada comando abre una terminal nueva, la variable no persiste: vuelve a asignar en cada invocación el token ya obtenido. Si rearrancas, reutiliza las credenciales ya dadas.
+3. Haz el login con `curl`: la ruta y los nombres de los campos salen del handler y de su esquema de validación, no se asumen. Guarda el token en una variable de shell y reutilízalo; no repitas el login. Si cada comando abre una terminal nueva, la variable no persiste: vuelve a asignar en cada invocación el token ya obtenido. Si rearrancas, reutiliza las credenciales ya dadas.
 
  ```bash
 curl -i -sS -X POST "http://<hostname>:<puerto><ruta-del-login>" \
@@ -191,9 +191,7 @@ Antes de terminar el turno, por cualquier camino (al acabar, si abandonas, si el
 Durante una pregunta interactiva dentro del turno, mantén vivo el backend. Si el usuario sigue con el mismo bug en otro turno, rearranca desde el paso 4 de la sección 2 con el mismo entorno (desde el paso 3 si pasa a DEPURAR y aún no eligió el build).
 
 ## 7. Reglas
-- Ante una duda o un conflicto entre reglas, para y pregunta con opciones.
-
-- **Nunca borres la base de datos**: ni con el motor, ni con el ORM, ni con scripts o flags que la reseteen o recreen. No tiene excepción, ni siquiera con autorización: si el diagnóstico parece exigirlo, reporta lo que encontraste y detente.
+- Prohibido borrar o resetear la base de datos
 
 - No alteres configuración, funcionalidad, dependencias ni variables de entorno, ni ejecutes paquetes que el proyecto no declare, por iniciativa propia: solo si el usuario lo pidió o lo autorizó.
 
