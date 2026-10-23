@@ -109,6 +109,8 @@ No diagnostiques: sin `-v`, sin leer la salida del servidor, sin instrumentar y 
   | 2xx con datos incorrectos | lógica de negocio, ORM o base de datos (5.3) |
   | conexión rechazada o timeout | el backend no está arriba o el puerto no es ese (sección 2) |
 
+  El status también puede ser erróneo: por ejemplo, un 201 sin que se haya creado el recurso.
+
 - **5.3 Aislar la capa del bug**, de fuera hacia dentro, con logs que siguen el formato y los niveles de 5.5. La capa donde el valor deja de coincidir es la del bug: deja de instrumentar las demás.
   1. **API** (rutas, autenticación, validación y serialización): ¿llegó a ejecutarse el handler? Loguéalo en su primera línea; si no llega, el fallo es de esta capa. Cuando apliquen, prueba caso feliz, datos inválidos y sin token: si un endpoint que debería validar o autenticar responde igual en los tres, falta validación o autenticación. En un endpoint que escribe datos, estas variantes requieren autorización previa.
 
