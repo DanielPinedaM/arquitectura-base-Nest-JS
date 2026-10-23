@@ -167,20 +167,18 @@ No diagnostiques: sin `-v`, sin leer la salida del servidor, sin instrumentar y 
   3. El revisor comprueba que el diff soluciona el bug y cumple el requisito del usuario, que no introduce bugs nuevos, que no cambia nada fuera del alcance y que no deja instrumentación. Si el flujo esta relacionado con endpoints del backend, lo verifica con `curl`:
      - Arranca el script con los pasos 4 a 6 de la sección 2 y hace el login de la sección 3 si el flujo exige autenticación.
      - Solo prueba los endpoints del flujo, nunca otros: el caso feliz y las variantes de 5.6 que apliquen, cruzando cada respuesta con la salida del servidor (5.2).
-     - Ejecuta sin autorización solo el login y las peticiones con métodos que no mutan (GET, HEAD, OPTIONS). Antes de cada petición con un método que muta (POST, PUT, PATCH, DELETE), se detiene sin ejecutarla, mantiene vivo el backend y devuelve esa petición con su método, ruta y body para que el usuario la autorice (punto 4).
+     - Ejecuta sin autorización solo el login y las peticiones con métodos que no mutan (GET, HEAD, OPTIONS). Antes de cada petición con un método que muta (POST, PUT, PATCH, DELETE), pregunta directamente al usuario según la sección 7: si el usuario la autoriza, la ejecuta; si no, la marca como «no probada» y sigue con la siguiente.
      - Al terminar la verificación, detiene el backend y verifica que el puerto ya no responde (pasos 2 y 3 de la sección 6).
 
      No opina de estilo. Responde «sin hallazgos» o una lista con archivo, línea y evidencia (si el hallazgo sale de una petición, la evidencia es el status, el cuerpo de la respuesta o el stack trace de la salida del servidor), y reporta como «no probadas» las peticiones mutables que el usuario no autorizó.
 
-  4. Cada vez que el revisor se detiene con una petición mutable, pregunta al usuario por esa petición, con su método, ruta y body (con la contraseña redactada): una pregunta por petición, siempre antes de ejecutarla. Pásale la respuesta al mismo revisor para que continúe: si el usuario la autorizó, la ejecuta; si no, la marca como «no probada» y sigue con la siguiente.
+  4. **Salida del bucle**: si el revisor termina con «sin hallazgos», o si en el punto 6 el usuario decide no corregir → sigue en la sección 6.
 
-  5. **Salida del bucle**: si el revisor termina con «sin hallazgos», o si en el punto 7 el usuario decide no corregir → sigue en la sección 6.
+  5. No asumas que un hallazgo del revisor es correcto: verifícalo primero y confírmalo o refútalo con evidencia. Solo se corrige lo confirmado.
 
-  6. No asumas que un hallazgo del revisor es correcto: verifícalo primero y confírmalo o refútalo con evidencia. Solo se corrige lo confirmado.
+  6. Antes de iniciar cada iteración, PARA y pregunta al usuario con el formato de 5.7, incluidos los hallazgos refutados con su evidencia (aunque lo estén todos): el usuario tiene la última palabra sobre qué queda confirmado.
 
-  7. Antes de iniciar cada iteración, PARA y pregunta al usuario con el formato de 5.7, incluidos los hallazgos refutados con su evidencia (aunque lo estén todos): el usuario tiene la última palabra sobre qué queda confirmado.
-
-  8. Si el usuario autoriza una corrección: vuelve al paso 5.8, corrige únicamente los errores relacionados con el requisito del usuario (incluidos los bugs nuevos, los fallos de alcance y la instrumentación que dejó tu propia corrección; un bug ajeno y previo solo se reporta) y repite 5.8 hasta 5.14, lo que incluye volver a ejecutar el linter, los tests y el build (5.10–5.12).
+  7. Si el usuario autoriza una corrección: vuelve al paso 5.8, corrige únicamente los errores relacionados con el requisito del usuario (incluidos los bugs nuevos, los fallos de alcance y la instrumentación que dejó tu propia corrección; un bug ajeno y previo solo se reporta) y repite 5.8 hasta 5.14, lo que incluye volver a ejecutar el linter, los tests y el build (5.10–5.12).
 
 ## 6. Cerrar y reportar
 Antes de terminar el turno, por cualquier camino (al acabar, si abandonas, si el arranque falló, si el usuario no autoriza la corrección, si no encuentras la causa o si la pregunta queda como texto final):
@@ -201,7 +199,7 @@ Durante una pregunta interactiva dentro del turno, mantén vivo el backend. Si e
 
 - No inventes la causa del bug. Si no está clara, reporta lo que descartaste, lo que falta por descartar y por qué no encontraste el bug.
 
-- Las operaciones criticas requieren preguntar antes de ejecutar. Esto incluye:
+- Las operaciones criticas requieren preguntar antes de ejecutar: cada agente, también el subagente revisor, le pregunta directamente al usuario, que abre ese agente para responderle. Esto incluye:
   - Borrar o vaciar tablas.
 
   - Eliminar una entidad cuya tabla borraría la sincronización automática.
