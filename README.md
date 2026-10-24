@@ -20,12 +20,9 @@ A continuación se resumen las principales tecnologías del proyecto y el motivo
 * [**DBeaver:**](https://dbeaver.io/download/) _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y administrar la base de datos PostgreSQL de forma visual, sin escribir SQL manualmente para tareas básicas. Facilita inspeccionar tablas, ejecutar _queries_, revisar _relaciones_ y datos generados por las _migraciones de Prisma_, agilizando el _debugging_ y la validación durante el desarrollo.
 
 > [!TIP]
-> # 🎥 **Aprende**
->
-> Puedes hacer clic en el nombre de cada tecnología para ver cursos y aprenderlas
-
-> [!TIP]
 > # 🧠 **Aprende**
+
+* 🎥 Puedes hacer clic en el nombre de cada tecnología para ver cursos y aprenderlas
 
 * [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
 
