@@ -388,6 +388,7 @@ Sirve para importar la API en Postman, Insomnia o generar clientes automáticame
 | Cursor                       | [Cursor Web](https://cursor.com/agents)                                                 | [Cursor Desktop](https://youtu.be/XWsOQTqVl0w?si=0OVGRnYSCH46v2zf)    | [Cursor CLI](https://cursor.com/es/cli)                                                |
 | xAI                          | [Grok Web](https://grok.com/)                                                           | [Grok Desktop](https://youtu.be/Soec3__wdTQ?si=DDx206q48bfzxsnU)      | [Grok Build](https://youtu.be/ya35W4R6wU0?si=dBaoGmGGCdnOtKJx)                         |
 | Basic Technology Research Co | [DeepSeek Web](https://chat.deepseek.com/)                                              | [DeepSeek Desktop](https://www.deepseek.com/en/download/)             | [DeepCode CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/) |
+| Microsoft                    | [GitHub Copilot web](https://github.com/copilot)                                        | [GitHub Copilot Desktop](https://youtu.be/qGXVeWw7vz8)                | [GitHub Copilot CLI](https://youtu.be/SmQE6HazA38)                                     |
 
 > [!TIP]
 > # 🧠 Mira estos enlaces 🔗 para que aprendas de IA enfocada en desarrollo de Software:
