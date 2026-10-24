@@ -613,6 +613,19 @@ Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadaj
 
 Sirve para que la IA desde la terminal pueda controlar el backend: arrancarlo, hacerle peticiones HTTP a sus endpoints con `curl` y leer los logs del servidor sin hacerlo manualmente.
 
+Puedes pedir a la IA que te explique la skill con este prompt:
+
+```bash
+/design crear un diagrama de flujo para la skill .agents\skills\api-agent\SKILL.md
+
+explicar:
+- Símbolos de diagrama de flujo
+
+- ¿Cuantos bucles hay?
+
+- ¿Cual es la condicion de inicio y de salida de cada bucle?
+```
+
 `api-agent` se puede usar para lo siguiente:
 
 | Pregunta ⬇️ / Modo ➡️                                                                              | Modo AUTOMATIZAR                          | Modo DEPURAR                                                                                                                                                          |
