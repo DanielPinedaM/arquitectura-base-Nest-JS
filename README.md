@@ -366,23 +366,6 @@ http://localhost:PORT/docs-json
 
 Sirve para importar la API en Postman, Insomnia o generar clientes automáticamente.
 
-# Arquitectura del Proyecto
-
-> [!TIP]
-> # 🧠 **Aprende antes de pedir cambios**
->
-> No te limites a pedirle a la IA *"hazme X"* sin entender cómo funciona la arquitectura del proyecto.
->
-> Hazle preguntas a la IA sobre:
->
-> 1. [`AGENTS.md`](https://youtu.be/eS5HmdpcqnM?si=D7X-HFPQAfCkZ4Ks)
-> 2. `.agents/skills/***`
-> 3. Los **"🔗 Enlaces"**
->
-> Hasta comprender cómo funciona el proyecto.
->
-> Aunque es un texto largo, aprenderás la arquitectura, buenas prácticas y a detectar revisando el código, cuando la IA alucina
-
 # 🤖 Uso de IA
 
 > [!CAUTION]
