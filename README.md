@@ -609,7 +609,7 @@ Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadaj
 > [!CAUTION]
 > # ⚠️ Advertencia
 >
-> Usar esta skill con ciudado, es muy buena, pero si intentas automatizar un proceso o solucionar un bug existente con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
+> Usar esta skill con cuidado, es muy buena, pero si intentas solucionar un bug con esta skill sin entender el código, es probable que introduzcas nuevos bugs.
 
 Sirve para que la IA desde la terminal pueda controlar el backend: arrancarlo, hacerle peticiones HTTP a sus endpoints con `curl` y leer los logs del servidor sin hacerlo manualmente.
 
