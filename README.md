@@ -469,7 +469,7 @@ C:\Users\NOMBRE_USUARIO\.claude\settings.json
 ```
 
 # 🐈 Configurar Nest.js para que Funcione con IA
-Estas configuraciones ya estan listas para funcionar. Solo debes seguir los pasos a continuación para verificar que funcionen correctamente.
+Para que las configuraciones con IA funcionen hacer los siguientes pasos y verificar su funcionamiento:
 
 # Antes de Probar que Funcione Nest.js con IA
 Hacer esto:
