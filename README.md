@@ -32,6 +32,13 @@ _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y ad
 
 * [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
 
+* Todo este proyecto usa Signals. Mira los siguientes videos para aprender:
+1. [🔗 Estados con Signals VS forma tradicional](https://youtu.be/jqGjE6iqkvg)
+2. [🔗 Resource y LinkedSignal](https://youtu.be/eEzLCLB5NUQ?si=DmCVg7jVBcHAZP1R)
+3. [🔗 Rxjs VS Signals](https://youtu.be/lSzO2D3OCjY?si=Yr4nlZ2AanGWW0WN)
+4. [🔗 Forms with Signals](https://youtu.be/7V9I9_qwx74?si=0aKj22-K5G2bLqT_)
+5. [🔗 input y output con Signals `import { input, output } from '@angular/core'`](https://youtu.be/_XnEoK47Il0?si=-FGhn2ho6J1Dmn8B)
+
 # ⚙️ Configurar lo Siguiente **UNA SOLA VEZ**
 
 ## 🛠️ Antes de Empezar
