@@ -19,7 +19,7 @@ Prisma se basa en un _esquema declarativo_ (_`schema.prisma`_) como _única fuen
 ## [nestjs-zod](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP)
 Permite utilizar la _misma sintaxis de código_ y reutilizar los mismos _esquemas de validación_ en frontend y backend de Node.js. Además, se integra con _TypeScript_, ofrece validación de tipos en _tiempo de compilación_ y validación de datos en _tiempo de ejecución (runtime)_. En frontend valida _formularios_ y _datos de entrada_, con integración con _React Hook Form_ (React) y [_Forms with Signals_ (Angular)](https://angular.dev/guide/forms/signals/validation). En backend valida _`body`_, _`query`_ y _`params`_ de las _solicitudes http_, garantizando la integridad de los datos antes de procesarlos.
 
-## Postgre SQL 18
+## PostgreSQL 18
 _Base de datos relacional (RDBMS)_ con _cumplimiento ACID_, _integridad referencial_ y soporte nativo para tipos avanzados como _JSONB_, que permite almacenar y consultar documentos _JSON_ de _forma binaria_ e _indexada_, ofreciendo _flexibilidad de esquema similar a MongoDB_ sin sacrificar las _transacciones_ y _relaciones_ propias de un _modelo relacional_. Es ampliamente adoptado hoy en día por su madurez, extensibilidad (extensiones como _PostGIS_, _pgvector_), rendimiento en _cargas mixtas (OLTP)_ y compatibilidad total con _Prisma_ y el ecosistema _TypeScript_.
 
 ## DBeaver
@@ -33,7 +33,7 @@ _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y ad
 * [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
 
 * Para entender la arquitectura del proyecto:
-  * Lee la [skill nest-conventions](.agents/skills/nest-conventions/SKILL.md)
+  * Lee la [skill nestjs-conventions](.agents/skills/nestjs-conventions/SKILL.md)
 
   * Si no entiendes algo de la skill, pregúntale a la IA en lugar de pedirle solo *"hazme X"*. Aunque la skill es larga, aprenderás la arquitectura del proyecto y buenas prácticas, y podrás detectar cuándo la IA alucina al revisar el código. Por ejemplo, este prompt resume la arquitectura de este proyecto:
 
@@ -41,7 +41,7 @@ _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y ad
 Leer estas skills. Cuando las skills se contradicen, prevalece la que tenga el número menor en la columna **Prioridad**
 | Prioridad | Skill                                       |
 | --------- | ------------------------------------------- |
-| 1         | `.agents/skills/nest-conventions/SKILL.md`  |
+| 1         | `.agents/skills/nestjs-conventions/SKILL.md`  |
 | 2         | `.agents/skills/nest-12.0.10-docs/SKILL.md` |
 
 Explica cada uno de los siguientes puntos con teoría y ejemplos, sin saltarte ninguno, basándote en ambas skills. Cuando sea posible, muestra un ejemplo correcto y uno incorrecto:
@@ -160,7 +160,7 @@ npm -v
 
 Debe mostrar un numero con la version de `npm` instalada
 
-### Instalar Postgre SQL 18 (Base de Datos)
+### Instalar PostgreSQL 18 (Base de Datos)
 1. [Clic en este enlace](https://www.postgresql.org/download/)
 
 2. Descargar y ejecutar el instalador
@@ -885,7 +885,7 @@ Es un archivo de instrucciones que el harness carga automáticamente en el conte
 
 * Consulte la [documentación oficial de Prisma ORM](https://www.prisma.io/docs) usando la [tool search_prisma_documentation de prisma-cli MCP](#prisma-mcp)
 
-* Consulte la [documentación oficial de Nest.js](https://docs.nestjs.com/) usando la [skill nest-12.0.10-docs](#prisma-mcp)
+* Consulte la [documentación oficial de Nest.js](https://docs.nestjs.com/) usando la [skill nest-12.0.10-docs](#nest-12010-docs)
 
 * Use Prisma ORM moderno y no legacy.
 
