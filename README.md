@@ -30,23 +30,9 @@ _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y ad
 
 * 🎥 Puedes hacer clic en el nombre de cada tecnología para ver cursos y aprenderlas
 
+* [Leer esto](#nestjs-conventions) para entender la arquitectura del proyecto.
+
 * [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
-
-* Para entender la arquitectura del proyecto:
-  * Lee la [skill nestjs-conventions](.agents/skills/nestjs-conventions/SKILL.md)
-
-  * Si no entiendes algo de la skill, pregúntale a la IA en lugar de pedirle solo *"hazme X"*. Aunque la skill es larga, aprenderás la arquitectura del proyecto y buenas prácticas, y podrás detectar cuándo la IA alucina al revisar el código. Por ejemplo, este prompt resume la arquitectura de este proyecto:
-
-```console
-Leer estas skills. Cuando las skills se contradicen, prevalece la que tenga el número menor en la columna **Prioridad**
-| Prioridad | Skill                                       |
-| --------- | ------------------------------------------- |
-| 1         | `.agents/skills/nestjs-conventions/SKILL.md`  |
-| 2         | `.agents/skills/nest-12.0.10-docs/SKILL.md` |
-
-Explica cada uno de los siguientes puntos con teoría y ejemplos, sin saltarte ninguno, basándote en ambas skills. Cuando sea posible, muestra un ejemplo correcto y uno incorrecto:
-- Estructura de archivos y carpetas (feature arquitecture)
-```
 
 * 🔗 Mira estos enlaces para que aprendas de IA enfocada en desarrollo de software:
 1. [Ollama: IA local gratis](https://youtu.be/p2zZ6zuaCDM)
@@ -944,6 +930,25 @@ El skill [`.agents\skills\git-commit\SKILL.md`](.agents/skills/git-commit/SKILL.
 
 ```console
 git commit y git push
+```
+
+## `nestjs-conventions`
+Contiene reglas que explican la arquitectura del proyecto.
+
+Para entender la arquitectura del proyecto:
+* Lee la [skill nestjs-conventions](.agents/skills/nestjs-conventions/SKILL.md)
+
+* Si no entiendes algo de la skill, pregúntale a la IA en lugar de pedirle solo *"hazme X"*. Aunque la skill es larga, aprenderás la arquitectura del proyecto y buenas prácticas, y podrás detectar cuándo la IA alucina al revisar el código. Por ejemplo, este prompt resume la arquitectura de este proyecto:
+
+```console
+Leer estas skills. Cuando las skills se contradicen, prevalece la que tenga el número menor en la columna **Prioridad**
+| Prioridad | Skill                                        |
+| --------- | -------------------------------------------- |
+| 1         | `.agents/skills/nestjs-conventions/SKILL.md` |
+| 2         | `.agents/skills/nest-12.0.10-docs/SKILL.md`  |
+
+Explica cada uno de los siguientes puntos con teoría y ejemplos, sin saltarte ninguno, basándote en ambas skills. Cuando sea posible, muestra un ejemplo correcto y uno incorrecto:
+- Estructura de archivos y carpetas (feature arquitecture)
 ```
 
 ## `nestjs-best-practices`
