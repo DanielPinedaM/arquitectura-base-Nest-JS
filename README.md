@@ -19,10 +19,10 @@ Prisma se basa en un _esquema declarativo_ (_`schema.prisma`_) como _única fuen
 ## [nestjs-zod](https://youtu.be/bUzGfrjg66M?si=PqQtfsXKDVA0HnuP)
 Permite utilizar la _misma sintaxis de código_ y reutilizar los mismos _esquemas de validación_ en frontend y backend de Node.js. Además, se integra con _TypeScript_, ofrece validación de tipos en _tiempo de compilación_ y validación de datos en _tiempo de ejecución (runtime)_. En frontend valida _formularios_ y _datos de entrada_, con integración con _React Hook Form_ (React) y [_Forms with Signals_ (Angular)](https://angular.dev/guide/forms/signals/validation). En backend valida _`body`_, _`query`_ y _`params`_ de las _solicitudes http_, garantizando la integridad de los datos antes de procesarlos.
 
-## [PostgreSQL 18](https://www.postgresql.org/download/)
+## Postgre SQL 18
 _Base de datos relacional (RDBMS)_ con _cumplimiento ACID_, _integridad referencial_ y soporte nativo para tipos avanzados como _JSONB_, que permite almacenar y consultar documentos _JSON_ de _forma binaria_ e _indexada_, ofreciendo _flexibilidad de esquema similar a MongoDB_ sin sacrificar las _transacciones_ y _relaciones_ propias de un _modelo relacional_. Es ampliamente adoptado hoy en día por su madurez, extensibilidad (extensiones como _PostGIS_, _pgvector_), rendimiento en _cargas mixtas (OLTP)_ y compatibilidad total con _Prisma_ y el ecosistema _TypeScript_.
 
-## [DBeaver](https://dbeaver.io/download/)
+## DBeaver
 _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y administrar la base de datos PostgreSQL de forma visual, sin escribir SQL manualmente para tareas básicas. Facilita inspeccionar tablas, ejecutar _queries_, revisar _relaciones_ y datos generados por las _migraciones de Prisma_, agilizando el _debugging_ y la validación durante el desarrollo.
 
 > [!TIP]
@@ -32,118 +32,45 @@ _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y ad
 
 * [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
 
-# ⚙️ Configurar lo Siguiente **UNA SOLA VEZ**
+* Para entender la arquitectura del proyecto:
+  * Lee la [skill nest-conventions](.agents/skills/nest-conventions/SKILL.md)
 
-## 🛠️ Antes de Empezar
-Para que la configuración funcione, debes tener instalado:
-* [VS Code](https://code.visualstudio.com/) o cualquier editor basado en VS Code ([Antigravity IDE](https://antigravity.google/product/antigravity-ide), [Cursor](https://cursor.com/get-started), Windsurf, etc.)
-
-* [Git Bash](https://youtu.be/niPExbK8lSw?si=tHx4IYZBdrUmW6ey)
-
-* [Node.js](https://nodejs.org/)
-
-* [Claude Code](https://youtu.be/Bf7hfpItrDk?si=5pW919OUbtSqJlyP)
-
-* [pnpm](https://pnpm.io/installation)
-
-* [fnm](https://github.com/Schniz/fnm)
-
-* [DBeaver](https://dbeaver.io/download/)
-
-* [Postman](https://www.postman.com/downloads/)
-
-## Instalar `pnpm`
-1. Abrir Git Bash
-
-2. Instalar de forma global la ultima version estable de `pnpm`:
+  * Si no entiendes algo de la skill, pregúntale a la IA en lugar de pedirle solo *"hazme X"*. Aunque la skill es larga, aprenderás la arquitectura del proyecto y buenas prácticas, y podrás detectar cuándo la IA alucina al revisar el código. Por ejemplo, este prompt resume la arquitectura de este proyecto:
 
 ```console
-npm i -g pnpm@latest
+Leer estas skills. Cuando las skills se contradicen, prevalece la que tenga el número menor en la columna **Prioridad**
+| Prioridad | Skill                                       |
+| --------- | ------------------------------------------- |
+| 1         | `.agents/skills/nest-conventions/SKILL.md`  |
+| 2         | `.agents/skills/nest-12.0.10-docs/SKILL.md` |
+
+Explica cada uno de los siguientes puntos con teoría y ejemplos, sin saltarte ninguno, basándote en ambas skills. Cuando sea posible, muestra un ejemplo correcto y uno incorrecto:
+- Estructura de archivos y carpetas (feature arquitecture)
 ```
 
-3. Cerrar y volver abrir Git Bash
+* 🔗 Mira estos enlaces para que aprendas de IA enfocada en desarrollo de software:
+1. [Ollama: IA local gratis](https://youtu.be/p2zZ6zuaCDM)
+2. [Spec Driven Development](https://www.youtube.com/watch?v=_jJJDQOXSxM)
+3. [Categorización de los tipos de IA: Modelos, Harnesses y Orquestadores](https://youtu.be/_HxDbdItVcs?si=VB6SHcZB1enB2Qvl)
+4. [Mejores Modelos de IA](https://youtu.be/EPz00z1ACPc?si=Dkw3zECIk1d84YxX)
+5. [Mejores Harnesses de IA](https://youtu.be/Fzn9uWRRDXM?si=NJJmsOYuzTXl_aad)
+6. [Mejores Orquestadores de IA](https://youtu.be/rANNn5fIVmg?si=RxFAUjPUEYzXJpbq)
+7. [Desarrollo de software con IA: MCP, CLI, RAG](https://youtu.be/sn1o1Hr1pJs)
 
-4. Si la instalacion es correcta, al ejecutar
+# ⬇️ Instalaciones
 
-```console
-pnpm -v
-```
+## Instalaciones Necesarias
+Esto es obligatorio, sin esto no puedes ejecutar el proyecto
 
-Debe mostrar la version de `pnpm` instalada
+> # ⚠️ Advertencia
+> La forma correcta de instalar es:
+> 1. Ejecutar Power Shell como administrador
+> 2. El orden de instalacion es: `pnpm`, despues Node.js y de ultimo `npm`
+> 3. Instalar Node.js y npm desde pnpm. **NO** uses el [instalador de Node.js](https://nodejs.org/es/download)
+> 4. [**NO** instales un administrador de versiones para Node.js (fnm, nvm, volta, etc)](#instalar-fnm-opcional)
+> Sino haces esto asi entonces el proyecto queda mal configurado, todo esto se explica a continuacion y en orden
 
-## `fnm`
-Para que `fnm` automáticamente al entrar a la carpeta del proyecto seleccione la versión correcta de Node.js que se especifica en el archivo `.nvmrc` que esta en la raiz del proyecto. Hacer esto:
-
-1. Abrir Git Bash.
-
-2. Instalar Node.js 24.22.1
-
-```console
-fnm install 24.22.1
-```
-
-3. Copiar completo el siguiente comando y ejecutarlo:
-
-```console
-echo 'eval "$(fnm env --use-on-cd)"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-4. Cerrar y volver abrir Git Bash
-
-5. Para verificar que funcione ejecutar los siguientes comandos en el siguiente orden:
-
-```console
-cd /ruta/a/carpeta/raiz/del/proyecto
-```
-
-```console
-fnm current
-```
-
-```console
-node -v
-```
-
-6. Debería mostrarte `v24.22.1` automáticamente, sin que hayas escrito manualmente
-
-```console
-fnm use 24.22.1
-```
-
-## ⌨️ Autocompletado, Formatear Código y Linter
-Usar VS Code o cualquier editor basado en VS Code (Antigravity, Cursor, Windsurf, etc.) para instalar las siguientes extensiones:
-
-* [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-
-* [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
-
-* [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
-
-* [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-* [Console Ninja](https://marketplace.visualstudio.com/items?itemName=WallabyJs.console-ninja)
-
-* [Path Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense)
-
-* [Auto Import](https://marketplace.visualstudio.com/items?itemName=steoates.autoimport)
-
-No es necesario buscar cada extensión manualmente en el marketplace: el archivo `.vscode/extensions.json` ya está configurado con esas extensiones como recomendadas. Al abrir el proyecto, el editor mostrará una notificación sugiriendo instalarlas; también puede instalarlas desde la pestaña **Extensions** filtrando por `@recommended`.
-
-La configuración de autocompletado, formateo de código y linter ya está incluida en los siguientes archivos. No es necesario realizar modificaciones adicionales:
-
-* `.vscode/`
-* `.editorconfig`
-* `.prettierrc`
-* `eslint.config.mjs`
-
-# ⚙️ Entorno de Ejecución
-Usar Node.js, prohibido usar alternativas como:
-
-* [Bun](https://bun.com/)
-* [Deno](https://deno.com/)
-
-# 📦 Manejador de Paquetes
+### [📦 Instalar `pnpm` (Manejador de Paquetes)](https://youtu.be/MZ6JxWWCA5M?si=Ms3yvVtPOh3k4111)
 Usar `pnpm` version `>=12.0.0 <13.0.0`, `pnpm-lock.yaml` y `pnpm dlx <paquete>`. Esta 🚫 **BLOQUEADO** el uso de:
 
 * Otras versiones de `pnpm` fuera de ese rango (por ejemplo pnpm 11 o pnpm 13).
@@ -170,11 +97,320 @@ Para esto en `package.json` se agrego:
 }
 ```
 
+1. Ejecutar Power Shell como administrador
+
+2. Instalar la ultima version estable de `pnpm` y agregar `pnpm` a la variable de entorno PATH
+
+```console
+irm https://get.pnpm.io/ps1 | iex
+```
+
+3. Cerrar y volver abrir Power Shell como administrador
+
+4. Si la instalacion de pnpm es correcta, al ejecutar
+
+```console
+pnpm -v
+```
+
+Debe mostrar un numero con la version de `pnpm` instalada
+
+5. Hacer que Windows Defender no bloquee el acceso de `pnpm`
+
+```console
+$pnpmExe = Get-ChildItem "$env:LOCALAPPDATA\pnpm" -Recurse -Filter pnpm.exe -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName; if ($pnpmExe) { Add-MpPreference -ControlledFolderAccessAllowedApplications $pnpmExe; $pnpmExe } else { "No se encontro pnpm.exe en $env:LOCALAPPDATA\pnpm" }
+```
+
+### 🟢 Instalar Node.js (Entorno de Ejecución)
+Usar Node.js, prohibido usar alternativas como:
+
+* [Bun](https://youtu.be/9gM7HQ7SafE)
+* [Deno](https://youtu.be/tOoEGrqL9_s)
+
+1. Instalar Node.js de forma global con `pnpm`, sin depender de fnm, nvm, etc
+
+```console
+pnpm runtime set node 24.22.1 -g
+```
+
+2. Cerrar y volver abrir Power Shell como administrador
+
+3. Si la instalacion de Node.js es correcta, al ejecutar
+
+```console
+node -v
+```
+
+Debe mostrar un numero con la version de Node.js instalada
+
+### Instalar `npm`
+1. Instalar `npm` a traves de `pnpm`
+
+```console
+pnpm add -g npm
+```
+
+2. Cerrar y volver abrir Power Shell como administrador
+
+3. Si la instalacion de `npm` es correcta, al ejecutar
+
+```console
+npm -v
+```
+
+Debe mostrar un numero con la version de `npm` instalada
+
+### Instalar Postgre SQL 18 (Base de Datos)
+1. [Clic en este enlace](https://www.postgresql.org/download/)
+
+2. Descargar y ejecutar el instalador
+
+### Instalar DBeaver (Administrador de Base de Datos)
+1. [Clic en este enlace](https://dbeaver.io/download/)
+
+2. Descargar y ejecutar el instalador
+
+### Instalar Postman
+1. [Clic en este enlace](https://www.postman.com/downloads/)
+
+2. Descargar y ejecutar el instalador
+
+### Instalar Git Bash
+
+> [!CAUTION]
+> # ⚠️ Advertencia
+> Es importante hacer esto, porque saltarse estos pasos elimina las [configuraciones de IA de este proyecto](#compatibilidad-de-este-proyecto-con-multiples-harness-y-modelos-de-ia)
+
+[Clic aqui para **aprender** Git Bash](https://youtu.be/niPExbK8lSw?si=gQCFLrUmqHHV-rCLy)
+
+1. [Clic aqui para **instalar** Git Bash](https://git-scm.com/install/windows)
+
+2. Abrir Git Bash
+
+3. Abrir la carpeta donde se quiere descargar el proyecto
+
+#### Configurar Usuario y Correo de Git
+4. Configurar usuario de Git
+
+```console
+git config --global user.name "nombre_de_usuario"
+```
+
+5. Verificar que se configuro usuario de Git
+
+```console
+git config --global user.name
+```
+
+6. Configurar correo de Git
+
+```console
+git config --global user.email correo@gmail.com
+```
+
+7. Verificar que se configuro correo de Git
+
+```console
+git config --global user.email
+```
+
+#### Configurar Enlaces Simbolicos de Git
+8. En Windows activar el modo desarrollador:
+   * Abrir inicio
+   * Buscar **Configuración**
+   * Clic en **Sistema**
+   * Clic en **Avanzado**
+   * Activar la opcion que dice **Modo para desarrolladores**
+
+   Tambien sirve si ejecutas en PowerShell como administrador:
+
+   ```console
+   reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v AllowDevelopmentWithoutDevLicense /d 1
+   ```
+
+9. Activar enlaces simbolicos de Git
+
+```console
+git config --global core.symlinks true
+```
+
+10. Clonar (descargar) el repositorio. Reemplazar la URL del repositorio
+
+```console
+git clone -c core.symlinks=true https://github.com/NOMBRE_USUARIO/NOMBRE_REPOSITORIO.git
+```
+
+11. Entrar a la carpeta raiz del proyecto
+
+```console
+cd /ruta/a/carpeta/raiz/del/proyecto
+```
+
+12. Verificar que los enlaces simbolicos funcionen:
+
+```console
+ls -la .claude
+```
+
+Debe mostrar `.claude -> .agents/`. Si en cambio muestra un archivo normal, o si clonaste el repositorio sin seguir estos pasos, elimina la carpeta del proyecto y repite todos los pasos 2, 3 y [8 hasta 12](#configurar-enlaces-simbolicos-de-git)
+
+### Editor de Codigo (IDE)
+Instalar [VS Code](https://code.visualstudio.com/download) o cualquier editor basado en VS Code ([Antigravity IDE](https://antigravity.google/product/antigravity-ide), [Cursor](https://cursor.com/download), etc.)
+
+#### ⌨️ Autocompletado, Formatear Código y Linter
+Usar VS Code o cualquier editor basado en VS Code para instalar las siguientes extensiones:
+
+* [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
+* [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
+
+* [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+
+* [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+* [Console Ninja](https://marketplace.visualstudio.com/items?itemName=WallabyJs.console-ninja)
+
+* [Path Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense)
+
+* [Auto Import](https://marketplace.visualstudio.com/items?itemName=steoates.autoimport)
+
+No es necesario buscar cada extensión manualmente en el marketplace de VS Code porque el archivo `.vscode/extensions.json` ya está configurado con esas extensiones como recomendadas. Al abrir el proyecto, VS Code mostrará una notificación sugiriendo instalarlas; también puede instalarlas desde la pestaña **Extensions** filtrando por `@recommended`.
+
+La configuración de autocompletado, formateo de código y linter ya está incluida en los siguientes archivos. No es necesario realizar modificaciones adicionales:
+
+* `.vscode/`
+* `.editorconfig`
+* `.prettierrc`
+* `eslint.config.js`
+
+### Harness de IA desde la Terminal
+
+> [!CAUTION]
+> # ⚠️ **IMPORTANTE** 🚨
+>
+> Ignorar esta sección ocasionará que la IA genere código que no respeta la arquitectura, estructura ni las convenciones del proyecto, produciendo código legacy, inconsistente, desordenado y con malas practicas
+
+**¿Qué es el Harness Engineering y por qué mejora los resultados de la IA?:**
+[Mira este video](https://youtu.be/DOgIFhpndW0?si=k5ulr68LgZt4MumG) que responde la pregunta.
+
+Software que envuelve al modelo y lo convierte en un sistema útil. Gestiona el bucle de ejecución: construye el prompt (instrucciones de sistema, contexto, historial), le da herramientas (leer o escribir archivos, ejecutar comandos, buscar en la web), ejecuta las acciones que el modelo pide, le devuelve los resultados y repite hasta terminar la tarea. Un buen harness permite obtener resultados más fiables incluso con el mismo modelo.
+
+Por eso, se recomienda usar herramientas de IA desde la terminal, como las de la columna [Terminal / Bash / CLI](#principales-ia-para-desarrollo-de-software): Claude Code, Codex CLI, etc.
+
+### Principales IA para Desarrollo de Software
+Esta tabla cambia mucho, para tener informacion actualizada abre este enlace de [benchmark de IA de artificial analysis](https://artificialanalysis.ai/)
+
+| Empresa ⬇️ / Plataforma ➡️  | Web                                                                                     | Desktop                                                               | Terminal / Bash / CLI                                                                  |
+| ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Anthropic                    | [Claude Web](https://claude.ai/)                                                        | [Claude Desktop](https://youtu.be/DYwZy7VNKws?si=cXTPumpZ3Jr9rNn9)    | [Claude Code](https://youtu.be/Bf7hfpItrDk?si=wjUIcIgtDX_Loyey)                        |
+| Open AI                      | [Chat GPT](https://chatgpt.com/)                                                        | [GPT Codex Desktop](https://youtu.be/bgx8ownl3O4?si=TzbOntfYIBVN1PGU) | [Codex CLI](https://youtu.be/Ub-K1n4YYsg?si=EoIXGCzEa4ZxyRqA)                          |
+| Google                       | [Google AI Studio](https://aistudio.google.com/) / [Gemini](https://gemini.google.com/) | [Antigravity 2.0](https://antigravity.google/product/antigravity-2)   | [Antigravity CLI](https://youtu.be/bdEqIchP4x4?si=gRf6iLggXuzy_cq)                     |
+| Anomaly Innovations          | [`opencode web`](https://opencode.ai/docs/web/)                                         | [Open Code Desktop](https://youtu.be/_SVSv2Y59P0?si=LT2S0z10t1FBxlB6) | [Open Code CLI](https://youtu.be/2gO8WyctqMk?si=aNvHlf23tKfrN-Z3)                      |
+| Cursor                       | [Cursor Web](https://cursor.com/agents)                                                 | [Cursor Desktop](https://youtu.be/XWsOQTqVl0w?si=0OVGRnYSCH46v2zf)    | [Cursor CLI](https://cursor.com/es/cli)                                                |
+| xAI                          | [Grok Web](https://grok.com/)                                                           | [Grok Desktop](https://youtu.be/Soec3__wdTQ?si=DDx206q48bfzxsnU)      | [Grok Build](https://youtu.be/ya35W4R6wU0?si=dBaoGmGGCdnOtKJx)                         |
+| Basic Technology Research Co | [DeepSeek Web](https://chat.deepseek.com/)                                              | [DeepSeek Desktop](https://www.deepseek.com/en/download/)             | [DeepCode CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/) |
+| Microsoft                    | [GitHub Copilot web](https://github.com/copilot)                                        | [GitHub Copilot Desktop](https://youtu.be/qGXVeWw7vz8)                | [GitHub Copilot CLI](https://youtu.be/SmQE6HazA38)                                     |
+
+#### ✏️ Edición de Código
+Este proyecto esta configurado para usar IA de pago y desde la terminal. **NO** sirve si usas IA gratis o desde una pagina web, porque estan limitadas.
+
+**Razones:**
+* Si copias y pegas codigo desde plataforma web al proyecto, es probable que cometas errores
+
+* Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas (_harness engineering_):
+  * Mayor comprensión del proyecto y de la estructura completa del código (_contexto_ y _tokens_).
+
+  * Acceso al sistema operativo (archivos y carpetas) y capacidad para ejecutar comandos.
+
+  * Capacidad para realizar cambios respetando la arquitectura del proyecto.
+
+  * Uso de Skills y MCP para reducir las _alucinaciones_ de la IA, permitiéndole a la IA consultar documentación oficial actualizada y seguir buenas prácticas.
+
+## Instalaciones Recomendadas
+Son opcionales. Puedes ejecutar el proyecto sin ellas, pero te ayudarán a programar mejor.
+
+### Herdr
+* [Click aqui para **instalar** Herdr](https://herdr.dev/docs/install/)
+
+* [Click aqui para **aprender** Herdr](https://youtu.be/Hr693AAnCV0)
+
+Tambien sirve alternativas como [Orca](https://youtu.be/ze7AgvWfRwM?si=MnVb42vL8hfvD1KO)
+
+### [Instalar `fnm` (Opcional)](https://github.com/Schniz/fnm)
+
+> [!NOTE]
+> **NO** es necesario realizar este paso.
+
+La razon de porque existe:
+- Este paso de instalar fnm
+
+- El archivo `.nvmrc` en este proyecto
+
+es por compatibilidad, [segun la documentacion oficial de pnpm](https://pnpm.io/blog/whats-different-in-pnpm-12) a partir de pnpm 12, no es necesario instalar un administrador de versiones para Node.js (fnm, nvm, volta, etc) porque pnpm permite cambiar de version de Node.js
+
+Este proyecto usa Node.js 24.22.1. Para esto en `package.json` se agrego:
+
+```JSON
+{
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.22.1",
+      "onFail": "download"
+    }
+  }
+}
+```
+
+Para que `fnm` automáticamente al entrar a la carpeta del proyecto seleccione la versión correcta de Node.js que se especifica en el archivo `.nvmrc` que esta en la raiz del proyecto. Hacer esto:
+
+1. Abrir Git Bash.
+
+2. Instalar `fnm`:
+
+```console
+winget install Schniz.fnm
+```
+
+3. Instalar Node.js 24.22.1:
+
+```console
+fnm install 24.22.1
+```
+
+4. Copiar completo el siguiente comando y ejecutarlo:
+
+```console
+echo 'eval "$(fnm env --use-on-cd)"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+5. Cerrar y volver abrir Git Bash
+
+6. Para verificar que funcione ejecutar los siguientes comandos en el siguiente orden:
+
+```console
+cd /ruta/a/carpeta/raiz/del/proyecto
+```
+
+```console
+fnm current
+```
+
+```console
+node -v
+```
+
+7. Debería mostrarte `v24.22.1` automáticamente, sin que hayas escrito manualmente
+
+```console
+fnm use 24.22.1
+```
+
 # 🏷️ Alias
 Para todos los comandos de `pnpm` usar el alias `pn`
 
 # 📦 Instalar Paquetes
-
 Este comando instala los paquetes que estan en `package.json` que son Nest.js, TypeScript, etc:
 
 ```console
@@ -359,51 +595,205 @@ http://localhost:PORT/docs-json
 
 Sirve para importar la API en Postman, Insomnia o generar clientes automáticamente.
 
-# 🤖 Uso de IA
+# 🤖 Definiciones de IA
 
-> [!CAUTION]
-> # ⚠️ **IMPORTANTE** 🚨
+## Modelo de IA
+Sistema entrenado con datos que, dada una entrada (texto, imagen, audio), produce una salida (texto, predicción, imagen). Es el "cerebro": contiene lo aprendido en sus pesos, pero por sí solo no tiene memoria entre llamadas, no ejecuta acciones ni accede a archivos o internet. Solo recibe una entrada y devuelve una salida.
+
+**Ejemplos:**
+- Claude Opus 5, Claude Sonnet 5, Claude Fable 5 (Anthropic)
+- GPT-6 Astra, GPT-6 Sol (OpenAI)
+- Gemini 4 Argon (Google)
+- DeepSeek 4
+
+## Skill
+Es una carpeta cuyo archivo principal es `SKILL.md`, con instrucciones para enseñarle a la IA cómo ejecutar un proceso o darle conocimiento sobre un tema. Puede incluir archivos adicionales (scripts, plantillas, documentos de referencia).
+
+La carga es progresiva:
+1. Al inicio, solo el `name` y la `description` del frontmatter de `SKILL.md` entran al contexto de la IA.
+2. Si la IA decide que la skill es relevante para la tarea, lee el `SKILL.md` completo.
+3. Los archivos adicionales los lee o ejecuta solo cuando las instrucciones de `SKILL.md` los necesitan.
+
+Por eso la `description` es crítica: si es vaga, la IA no sabrá cuándo usar la skill.
+
+### 🔗 Enlaces con Respositorios de Skills
+Estos skills no estan configurados en este proyecto:
+
+* [Skills escritas por el equipo oficial de Prisma](https://github.com/prisma/skills)
+
+* [Web de Vercel con múltiples repositorios de Skills sobre distintos temas](https://www.skills.sh/)
+
+* [Skills para UI / Maquetación](https://www.ui-skills.com/)
+
+* [Skills de Anthropic AI](https://github.com/anthropics/skills/tree/main/skills)
+
+* [Skills de Open AI](https://github.com/openai/plugins)
+
+### ¿Como Configurar Skills?
+
+> [!NOTE]
 >
-> ****Ignorar esta sección ocasionará que la IA genere código que no respeta la arquitectura, estructura ni las convenciones del proyecto, produciendo código legacy, inconsistente, desordenado y con malas practicas****
-
-## Principales IA para Desarrollo de Software
-
-| Empresa ⬇️ / Plataforma ➡️  | Web                                                                                     | Desktop                                                               | Terminal / Bash / CLI                                                                  |
-| ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Anthropic                    | [Claude Web](https://claude.ai/)                                                        | [Claude Desktop](https://youtu.be/DYwZy7VNKws?si=cXTPumpZ3Jr9rNn9)    | [Claude Code](https://youtu.be/Bf7hfpItrDk?si=wjUIcIgtDX_Loyey)                        |
-| Open AI                      | [Chat GPT](https://chatgpt.com/)                                                        | [GPT Codex Desktop](https://youtu.be/bgx8ownl3O4?si=TzbOntfYIBVN1PGU) | [Codex CLI](https://youtu.be/Ub-K1n4YYsg?si=EoIXGCzEa4ZxyRqA)                          |
-| Google                       | [Google AI Studio](https://aistudio.google.com/) / [Gemini](https://gemini.google.com/) | [Antigravity 2.0](https://antigravity.google/product/antigravity-2)   | [Antigravity CLI](https://youtu.be/bdEqIchP4x4?si=gRf6iLggXuzy_cq)                     |
-| Anomaly Innovations          | [`opencode web`](https://opencode.ai/docs/web/)                                         | [Open Code Desktop](https://youtu.be/_SVSv2Y59P0?si=LT2S0z10t1FBxlB6) | [Open Code CLI](https://youtu.be/2gO8WyctqMk?si=aNvHlf23tKfrN-Z3)                      |
-| Cursor                       | [Cursor Web](https://cursor.com/agents)                                                 | [Cursor Desktop](https://youtu.be/XWsOQTqVl0w?si=0OVGRnYSCH46v2zf)    | [Cursor CLI](https://cursor.com/es/cli)                                                |
-| xAI                          | [Grok Web](https://grok.com/)                                                           | [Grok Desktop](https://youtu.be/Soec3__wdTQ?si=DDx206q48bfzxsnU)      | [Grok Build](https://youtu.be/ya35W4R6wU0?si=dBaoGmGGCdnOtKJx)                         |
-| Basic Technology Research Co | [DeepSeek Web](https://chat.deepseek.com/)                                              | [DeepSeek Desktop](https://www.deepseek.com/en/download/)             | [DeepCode CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/) |
-| Microsoft                    | [GitHub Copilot web](https://github.com/copilot)                                        | [GitHub Copilot Desktop](https://youtu.be/qGXVeWw7vz8)                | [GitHub Copilot CLI](https://youtu.be/SmQE6HazA38)                                     |
-
-> [!TIP]
-> # 🧠 Mira estos enlaces 🔗 para que aprendas de IA enfocada en desarrollo de Software:
+> Esto es una guia. Este proyecto ya tiene skills configuradas.
 >
-> ## 1. [Benchmark de IA](https://artificialanalysis.ai/)
-> ## 2. [Categorización de los tipos de IA: Modelos, Harnesses y Orquestadores](https://youtu.be/_HxDbdItVcs?si=VB6SHcZB1enB2Qvl)
-> ## 3. [Mejores Modelos de IA](https://youtu.be/EPz00z1ACPc?si=Dkw3zECIk1d84YxX)
-> ## 4. [Mejores Harnesses de IA](https://youtu.be/Fzn9uWRRDXM?si=NJJmsOYuzTXl_aad)
-> ## 5. [Mejores Orquestadores de IA](https://youtu.be/rANNn5fIVmg?si=RxFAUjPUEYzXJpbq)
-> ## 6. [Desarrollo de software con IA: MCP, CLI, RAG](https://youtu.be/sn1o1Hr1pJs)
+> Para explicar como configurar skills, se usa como ejemplo [`nestjs-best-practices`](https://github.com/kadajett/agent-nestjs-skills). No debes configurar otra vez esta misma skill
 
-## ✏️ Edición de Código
-Este proyecto esta configurado para usar _IAs de pago y desde la terminal_. **NO** sirve si usas IAs gratis o desde una pagina web, porque estan limitadas.
+#### Forma 1 - Usando Comando de [www.skills.sh](https://www.skills.sh/):
+1. Buscar una skill en [www.skills.sh](https://www.skills.sh/)
 
-**Razones:**
-* Si copias y pegas codigo desde plataforma web al proyecto, es probable que cometas errores
+2. Ejecutar el comando de la skill a descargar:
 
-Las IAs de pago y desde la terminal tienen mejoras respecto a otras plataformas:
+```bash
+pn dlx skills add https://github.com/kadajett/agent-nestjs-skills --skill nestjs-best-practices
+```
 
-* Mayor comprensión del proyecto y de la estructura completa del código (_contexto_ y _tokens_).
+3. La terminal hace las siguientes preguntas:
 
-* Acceso al sistema operativo (archivos y carpetas) y capacidad para ejecutar comandos.
+* ¿Para que IA instalar la skill?
+Seleccionar Claude Code
 
-* Capacidad para realizar cambios respetando la arquitectura del proyecto.
+* ¿Cual es el alcance de la skill? (Install scope)
+Seleccionar Project
 
-* Uso de Skills y MCP para reducir las _alucinaciones_ de la IA, permitiéndole a la IA consultar documentación oficial actualizada y seguir buenas prácticas.
+Hay dos alcances:
+
+| Alcance | Disponibilidad                                                       | ¿Se puede compartir con el equipo mediante Git? |
+| ------- | -------------------------------------------------------------------- | ----------------------------------------------- |
+| Global  | Disponible para la persona que la instala en **todos sus proyectos** | ❌ **No**                                      |
+| Project | Disponible **solo en el proyecto actual** donde se instala           | ✅ **Sí**                                      |
+
+4. Verificar que la skill se guarde en `.agents\skills\nestjs-best-practices\`
+
+5. Eliminar `skills-lock.json`
+
+#### Forma 2 - Descargar Skill sin Comando
+1. Buscar un repositorio con una skill
+
+2. Descargar el repositorio
+
+3. Mover la skill a `.agents\skills\NOMBRE-DE-LA-SKILL\SKILL.md`
+
+#### Forma 3 - Crear tu Propia Skill
+[Ver skill-creator](#skill-creator)
+
+#### Ver Skills Instaladas
+Ejecutar comandos:
+
+```console
+cd /ruta/a/carpeta/raiz/del/proyecto
+```
+
+```bash
+/skills
+```
+
+## CLI (Command Line Interface - Interfaz de Línea de Comandos)
+Es un programa que se usa escribiendo comandos de texto en una terminal, en lugar de hacer clic en una interfaz gráfica (GUI). Recibe un comando con sus argumentos, lo ejecuta y muestra el resultado como texto.
+
+Puedes instalar CLIs para que la IA ejecute comandos y automatice procesos.
+
+También puedes crear skills que le expliquen a la IA cómo ejecutar los comandos del CLI.
+
+## Model Context Protocol (MCP)
+Es un protocolo (no es exactamente una API REST, aunque es similar) que permite que una IA se comunique con sistemas externos herramientas, servicios o fuentes de datos de forma estandarizada. Un servidor MCP puede exponer *tools* (funciones que la IA puede invocar), *resources* (datos) y *prompts* (plantillas)
+
+### 🔗 Enlaces - Mas Ejemplos de MCP
+Estos MCP no estan configurados en este proyecto:
+
+* [Repositorios con MCP](https://mcpservers.org/es/)
+
+* [Repositorios con MCP de Claude](https://claude.ai/directory)
+
+* [Repositorios con MCP de Chat GPT](http://chatgpt.com/plugins)
+
+* [Figma MCP:](https://youtu.be/uZ6Nbwp8GtU?si=cf4h9SxQdnXbc3KI) Sirve para convertir un mockup de Figma a codigo de CSS/Sass/Tailwind/Bootstrap
+
+* [Chrome DevTools MCP](https://youtu.be/2wxCXppbpgs?si=tFR4TWmJUy3CSSW3)
+
+* [Vercel Agent Browser](https://github.com/vercel-labs/agent-browser/tree/main)
+
+### ¿Cuando Usar un CLI y no un MCP?
+[Mira este video](https://youtu.be/YEPJNXmmkw0?si=7cLlZ5WeDBWRRXxL) que responde la pregunta
+
+**Respuesta resumida:**
+Cuando el MCP y el CLI sirven para lo mismo, es mejor usar el CLI porque consume menos contexto que el MCP.
+
+**Ejemplos:**
+
+| MCP                                                                                         | CLI                                                                                                    |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [Playwright MCP](https://github.com/microsoft/playwright-mcp)                               | [Playwright CLI](https://github.com/microsoft/playwright-cli/blob/main/skills/playwright-cli/SKILL.md) |
+| [Atlassian / Jira MCP](https://www.atlassian.com/platform/rovo-mcp)                         | [Atlassian / Jira CLI](https://developer.atlassian.com/cloud/acli/guides/introduction/)                |
+| [GitHub MCP](https://github.com/github/github-mcp-server)                                   | [GitHub CLI](https://youtu.be/oZRFOkLUZdk)                                                             |
+| [Azure MCP](https://learn.microsoft.com/es-es/azure/developer/azure-mcp-server/)            | [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/)                                              |
+| [AWS MCP](https://docs.aws.amazon.com/es_es/agent-toolkit/latest/userguide/mcp-server.html) | [AWS CLI](https://aws.amazon.com/es/cli/)                                                              |
+
+**Explicación:**
+Por defecto, Claude Code difiere las definiciones de las tools de un MCP usando ([MCP tool search](https://code.claude.com/docs/en/mcp#scale-with-mcp-tool-search)): al iniciar la sesión solo carga en el contexto los nombres de las tools y las instrucciones del servidor, y la descripcion de lo que hace cada tool se carga cuando el modelo la necesita.
+
+Un CLI es más eficiente en contexto porque no agrega ningún listado de tools: el modelo ejecuta los comandos directamente en la terminal ([documentación oficial](https://code.claude.com/docs/en/costs#reduce-mcp-server-overhead)).
+
+### ¿Como Configurar MCP?
+
+> [!NOTE]
+>
+> Esto es una guia. **NO** debes hacer lo siguiente porque el MCP ya esta configurado
+>
+> Para explicar como configurar MCP, se usa como ejemplo Prisma MCP
+
+1. Este comando instala **prisma MCP** con el `--scope project`. Es decir, configura el MCP para que se ejecute únicamente en este proyecto y pueda compartirse con el resto del equipo mediante Git:
+
+```bash
+!claude mcp add --transport http --scope project prisma https://mcp.prisma.io/mcp
+```
+
+La salida de la terminal debe ser similar a esto:
+
+```bash
+Added HTTP MCP server prisma with URL: https://mcp.prisma.io/mcp to project config
+File modified: C:\Users\User\Documents\arquitectura\Nest-JS\.mcp.json
+
+El servidor MCP de Prisma se agregó correctamente al scope del proyecto, quedando registrado en .mcp.json.
+```
+
+2. Verificar de que el comando automaticamente haya creado archivo `.mcp.json` en la ruta raiz del proyecto que contenga:
+
+```json
+{
+  "mcpServers": {
+    "prisma": {
+      "type": "http",
+      "url": "https://mcp.prisma.io/mcp"
+    }
+  }
+}
+```
+
+3. Cerrar terminal de Claude
+
+4. Abrir Git Bash y ejecutar Claude con todos los permisos:
+
+```console
+claude --dangerously-skip-permissions
+```
+
+5. Ejecutar:
+
+```console
+/mcp
+```
+
+6. Seleccionar las siguientes opciones:
+
+* Prisma
+* Authenticate
+
+7. Se abre una nueva pestaña en el navegador
+
+8. Iniciar sesion con GitHub o Google
+
+9. Click en "autorize"
+
+10. En el navegador y el la consola de Claude debe aparecer mensaje "Authentication successful"
 
 # Configurar Claude Code
 
@@ -423,7 +813,7 @@ C:\Users\NOMBRE_USUARIO\.claude\settings.json
 }
 ```
 
-## Eliminar Skills Innecesarias (Bloatware) que Estan Preinstaladas en Claude Code
+## Eliminar Skills Innecesarias (Bloatware) que estan Preinstaladas en Claude Code
 Esto ayuda a mejorar el consumo de tokens y contexto de Claude
 
 1. En el explorador de archivos abrir la siguiente ruta:
@@ -458,6 +848,63 @@ C:\Users\NOMBRE_USUARIO\.claude\settings.json
 }
 ```
 
+# Compatibilidad de este Proyecto con Múltiples Harness y Modelos de IA
+Aunque este `README.md` menciona configuraciones de Claude, las skills, MCP y las configuraciones de IA de este proyecto funcionan en casi cualquier harness de IA y, por lo tanto, con cualquier modelo que se ejecute dentro de ellos. Esto se logra con dos mecanismos:
+
+1. **Enlaces simbólicos** hacia la carpeta `.agents/skills/`.
+
+2. **`AGENTS.md`**, el archivo de instrucciones que la mayoría de harness leen.
+
+## Enlace Simbólico de la Carpeta `.agents`
+Un enlace simbólico es un acceso directo a otra carpeta ([ver video explicativo](https://youtu.be/S4mBEeNBwuQ)). Cada harness busca su configuración en una carpeta distinta, así que las carpetas de la tabla son enlaces simbolicos a `.agents`: una sola copia, leída por todos.
+
+**NO** modifiques ni elimines las carpetas de la tabla. Crea, edita o borra skills, rules y configuraciones de IA solo en la carpeta `.agents`.
+
+Que todos los harness vean un archivo no significa que todos lo entiendan. Las skills (`SKILL.md`) son estándar; las rules y configuraciones son propias de cada harness.
+
+| Harness de IA                                                                                       | Carpeta donde lee las skills |
+| --------------------------------------------------------------------------------------------------- | ---------------------------- |
+| [Claude Code](https://code.claude.com/docs/en/skills#where-skills-live)                             | `/.claude/skills/`           |
+| [Codex](https://developers.openai.com/codex/skills)                                                 | `/.codex/skills/`            |
+| [GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)         | `/.github/skills/`           |
+| [Cursor](https://cursor.com/docs/skills)                                                            | `/.cursor/skills/`           |
+| [Deep Code CLI (DeepSeek)](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)  | `/.deepcode/skills/`         |
+| [Grok Build (xAI)](https://docs.x.ai/build/features/skills-plugins-marketplaces)                    | `/.grok/skills/`             |
+| [Gemini CLI (Google)](https://geminicli.com/docs/cli/skills/)                                       | `/.gemini/skills/`           |
+| [Antigravity CLI (Google)](https://antigravity.google/docs/skills/)                                 | `/.agents/skills/`           |
+| [OpenCode](https://opencode.ai/docs/skills)                                                         | `/.opencode/skills/`         |
+| [Pi](https://pi.dev/docs/latest/skills)                                                             | `/.pi/skills/`               |
+| [OpenClaw](https://docs.openclaw.ai/tools/creating-skills)                                          | `/.openclaw/skills/`         |
+
+## 📜 `AGENTS.md`
+[Mira este video](https://youtu.be/eS5HmdpcqnM?si=D7X-HFPQAfCkZ4Ks) para aprender qué es y como escribir un `AGENTS.md`. En [el titulo **Descripción del proyecto** del `AGENTS.md`](AGENTS.md#descripción-del-proyecto) solo necesitas agregar una descripción del proyecto **MUY** consisa de maximo 4 renglones, por ejemplo: *plataforma bancaria de usuarios X* o *sistema de ventas para la empresa Y*. El resto del `AGENTS.md` está escrito correctamente y no requiere cambios.
+
+Es un archivo de instrucciones que el harness carga automáticamente en el contexto de la IA al iniciar cada sesión. Es un estándar abierto, por lo que la mayoría de harness lo leen sin configuración adicional. En este proyecto sirve para que la IA:
+
+* Respete la arquitectura del proyecto.
+
+* Consulte la [documentación oficial de Prisma ORM](https://www.prisma.io/docs) usando la [tool search_prisma_documentation de prisma-cli MCP](#prisma-mcp)
+
+* Consulte la [documentación oficial de Nest.js](https://docs.nestjs.com/) usando la [skill nest-12.0.10-docs](#prisma-mcp)
+
+* Use Prisma ORM moderno y no legacy.
+
+Si usas Claude Code, [Claude también lee `AGENTS.md`](https://code.claude.com/docs/en/memory#agents-md), pero solo si el proyecto no tiene `CLAUDE.md`, `.claude/CLAUDE.md` ni `CLAUDE.local.md`. Si has agregado alguno de estos archivos, elimínalo para que Claude lea `AGENTS.md`.
+
+Para probar que funcione `AGENTS.md` envia este prompt:
+
+```txt
+citar textualmente Modelado de datos relacionales  usando la tool `search_prisma_documentation` de Prisma MCP
+```
+
+La salida debe contener algo similar a esto:
+
+```txt
+In a relational database, each model becomes a table and each scalar field becomes a column (...)
+```
+
+Esta definicion corresponde a la [documentacion oficial de Prisma ORM](https://www.prisma.io/docs/orm/data-modeling/relational-databases)
+
 # 🐈 Configurar Nest.js para que Funcione con IA
 Para que las configuraciones con IA funcionen hacer los siguientes pasos y verificar su funcionamiento:
 
@@ -467,6 +914,7 @@ Hacer esto:
 1. Abrir Git Bash
 
 2. Abrir la carpeta del proyecto
+
 ```console
 cd /ruta/a/carpeta/raiz/del/proyecto
 ```
@@ -481,100 +929,7 @@ codex --yolo
 claude --dangerously-skip-permissions
 ```
 
-# [📜 `AGENTS.md`](https://youtu.be/eS5HmdpcqnM?si=D7X-HFPQAfCkZ4Ks)
-Es un prompt que siempre se envia a Claude. Sirve para que Claude:
-* Respete la arquitectura de software del proyecto.
-
-* Consulte la [documentación oficial de Prisma ORM ](https://www.prisma.io/docs)
-
-* Use Prisma ORM moderno y no legacy.
-
-Para probar que funcione envia este prompt a Claude:
-
-```txt
-citarme textualmente Architecture CRITICAL `arch-`
-```
-
-La salida debe contener algo similar a esto:
-
-```bash
-1. Architecture (CRITICAL)
-
-   - arch-avoid-circular-deps - Avoid circular module dependencies
-```
-
-# Diferencia entre Skills y MCP
-
-**Skill:** Es un archivo Markdown llamado `SKILL.md` que contiene instrucciones para enseñarle a la IA cómo ejecutar un proceso, o para darle conocimiento sobre un tema. La IA carga ese contenido directamente en su contexto antes de responder.
-
-**Model Context Protocol (MCP):** Es un protocolo (no es exactamente una API REST, aunque es similar) que permite que una IA se comunique con sistemas externos —herramientas, servicios o fuentes de datos— de forma estandarizada. Un servidor MCP puede exponer *tools* (funciones que la IA puede invocar), *resources* (datos) y *prompts* (plantillas)
-
-## Diferencia entre Prisma MCP y Skills de Prisma
-
-# INCOMPLETO - FALTA COMPLETAR ESTO
-
-# Skills
-
-## 🔗 Enlaces con Respositorios de Skills
-
-* ## [Skills escritas por el equipo oficial de Prisma](https://github.com/prisma/skills)
-
-* ## [Web de Vercel con múltiples repositorios de Skills sobre distintos temas](https://www.skills.sh/)
-
-* ## [Skills para UI / Maquetación](https://www.ui-skills.com/)
-
-* ## [Skills de Anthropic AI](https://github.com/anthropics/skills/tree/main/skills)
-
-* ## [Skills de Open AI](https://github.com/openai/plugins)
-
-## ¿Como Configurar Skills?
-
-> [!NOTE]
->
-> Esto es una guia. **NO** debes hacer lo siguiente porque las skills ya estan configuradas
->
-> Para explicar como configurar skills, se usa como ejemplo [`nestjs-best-practices`](https://www.skills.sh/kadajett/agent-nestjs-skills/nestjs-best-practices)
-
-Hay dos formas:
-
-### Forma 1 - Usando Comando de [www.skills.sh](https://www.skills.sh/):
-
-1. Buscar una skill en [www.skills.sh](https://www.skills.sh/)
-
-2. Ejecutar el comando de la skill a descargar:
-
-```bash
-pn dlx skills add https://github.com/kadajett/agent-nestjs-skills --skill nestjs-best-practices
-```
-
-3. La terminal hace las siguientes preguntas:
-
-* ¿Para que IA instalar la skill?
-Seleccionar Claude Code
-
-* ¿Cual es el alcance de la skill? (Install scope)
-Seleccionar Project
-
-Hay dos alcances:
-
-| Alcance | Disponibilidad                                                       | ¿Se puede compartir con el equipo mediante Git? |
-| ------- | -------------------------------------------------------------------- | ----------------------------------------------- |
-| Global  | Disponible para la persona que la instala en **todos sus proyectos** | ❌ **No**                                      |
-| Project | Disponible **solo en el proyecto actual** donde se instala           | ✅ **Sí**                                      |
-
-4. Verificar que la skill se guarde en `.agents\skills\nestjs-best-practices`
-
-5. Eliminar `skills-lock.json`
-
-### Forma 2 - Descargar Skill sin Comando
-1. Buscar un repositorio con una skill
-
-2. Descargar el repositorio
-
-3. Mover la skill a `.agents\skills\NOMBRE-DE-LA-SKILL\SKILL.md`
-
-### Ver Skills Instaladas
-Para ver la lista de skills ejecutar el comando `/skills` dentro de Claude Code
+# **Skills** Configuradas en este Proyecto
 
 ## 🌿 `git-commit`
 Por cada feature terminada hacer un commit antes de solicitar nuevas modificaciones a la IA. Evita acumular demasiados cambios, ya que puedes perder el contexto de lo que la IA está realizando y cometer errores.
@@ -695,6 +1050,17 @@ Solo funciona en Claude. Crea un mockup (similar a Figma) que puedes editar con 
 /design cambia el color del titulo del texto X por rojo
 ```
 
+## `skill-creator`
+Para aprender como crear una nueva skill [mira este video](https://youtu.be/oZTXrgHRi-k)
+
+**SIEMPRE** agregar las skills en la carpeta `.agents\skills\NOMBRE-DE-LA-SKILL\SKILL.md`, **NUNCA** en otra carpeta (`.claude`, `.codex`, etc), esto sin importar que harness y modelo de IA uses (Claude Code, Codex CLI, etc)
+
+Para crear una nueva skill, hay que llamar la skill `skill-creator`. Ejemplo:
+
+```bash
+/skill-creator en la carpeta .agents\skills\ crear una skill sobre <<aqui describes sobre que trata la skill>>
+```
+
 ## `question-me`
 Esta skill esta basada en:
 
@@ -710,85 +1076,7 @@ Permite que la IA te haga preguntas para aclarar tus objetivos y eliminar ambig�
 /question-me << aqui describir el bug a solucionar, el codigo a refactorizar o describir la nueva feature >>
 ```
 
-# MCP
-
-## 🔗 Enlaces - Mas Ejemplos de MCP
-Esto no esta configurado en este proyecto:
-
-* [Repositorios con MCP](https://mcpservers.org/es/)
-
-* [Repositorios con MCP de Claude](https://claude.ai/directory)
-
-* [Repositorios con MCP de Chat GPT](http://chatgpt.com/plugins)
-
-* [Figma MCP:](https://youtu.be/uZ6Nbwp8GtU?si=cf4h9SxQdnXbc3KI) Sirve para convertir un mockup de Figma a codigo de CSS/Sass/Tailwind/Bootstrap
-
-* [Chrome DevTools MCP](https://youtu.be/2wxCXppbpgs?si=tFR4TWmJUy3CSSW3)
-
-* [Vercel Agent Browser](https://github.com/vercel-labs/agent-browser/tree/main)
-
-## ¿Como Configurar MCP?
-
-> [!NOTE]
->
-> Esto es una guia. **NO** debes hacer lo siguiente porque el MCP ya esta configurado
->
-> Para explicar como configurar MCP, se usa como ejemplo **prisma MCP**
-
-1. Este comando instala **prisma MCP** con el `--scope project`. Es decir, configura el MCP para que se ejecute únicamente en este proyecto y pueda compartirse con el resto del equipo mediante Git:
-
-```bash
-!claude mcp add --transport http --scope project prisma https://mcp.prisma.io/mcp
-```
-
-La salida de la terminal debe ser similar a esto:
-
-```bash
-Added HTTP MCP server prisma with URL: https://mcp.prisma.io/mcp to project config
-File modified: C:\Users\User\Documents\arquitectura\Nest-JS\.mcp.json
-
-El servidor MCP de Prisma se agregó correctamente al scope del proyecto, quedando registrado en .mcp.json.
-```
-
-2. Verificar de que el comando automaticamente haya creado archivo `.mcp.json` en la ruta raiz del proyecto que contenga:
-
-```json
-{
-  "mcpServers": {
-    "prisma": {
-      "type": "http",
-      "url": "https://mcp.prisma.io/mcp"
-    }
-  }
-}
-```
-
-3. Cerrar terminal de Claude
-
-4. Abrir Git Bash y ejecutar Claude con todos los permisos:
-
-```console
-claude --dangerously-skip-permissions
-```
-
-5. Ejecutar:
-
-```console
-/mcp
-```
-
-6. Seleccionar las siguientes opciones:
-
-* Prisma
-* Authenticate
-
-7. Se abre una nueva pestaña en el navegador
-
-8. Iniciar sesion con GitHub o Google
-
-9. Click en "autorize"
-
-10. En el navegador y el la consola de Claude debe aparecer mensaje "Authentication successful"
+# **MCP** Configurados en este Proyecto
 
 ## Prisma MCP
 Sirve para que la IA acceda a la [documentación oficial de Prisma](https://www.prisma.io/docs). Esto permite que la IA tenga datos actualizados de como escribir codigo de Prisma.
@@ -820,6 +1108,7 @@ prisma: https://mcp.prisma.io/mcp (HTTP) - ⏸ Pending approval (run `claude` to
 ```
 
 La salida de la terminal debe ser:
+
 ```console
 ❯ prisma · ✔ connected · 22 tools
 ```
@@ -845,30 +1134,7 @@ La cita corresponde a [este link de la documentacion oficial de Prisma](https://
 
 # Ejemplos de Prompts de ¿Como Usar IA en Este Proyecto?
 
-# CLI
-Puedes instalar CLIs para que la IA ejecute comandos y automatice procesos.
-
-También puedes crear skills que le expliquen a la IA cómo ejecutar los comandos del CLI.
-
-## ¿Por qué Usar un CLI y no un MCP?
-
-**Respuesta resumida:**
-Cuando el MCP y el CLI sirven para lo mismo, es mejor usar el CLI porque consume menos contexto que el MCP.
-
-**Ejemplos:**
-
-| MCP                                                                                         | CLI                                                                                                    |
-| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [Playwright MCP](https://github.com/microsoft/playwright-mcp)                               | [Playwright CLI](https://github.com/microsoft/playwright-cli/blob/main/skills/playwright-cli/SKILL.md) |
-| [Atlassian / Jira MCP](https://www.atlassian.com/platform/rovo-mcp)                         | [Atlassian / Jira CLI](https://developer.atlassian.com/cloud/acli/guides/introduction/)                |
-| [GitHub MCP](https://github.com/github/github-mcp-server)                                   | [GitHub CLI](https://youtu.be/oZRFOkLUZdk)                                                             |
-| [Azure MCP](https://learn.microsoft.com/es-es/azure/developer/azure-mcp-server/)            | [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/)                                              |
-| [AWS MCP](https://docs.aws.amazon.com/es_es/agent-toolkit/latest/userguide/mcp-server.html) | [AWS CLI](https://aws.amazon.com/es/cli/)                                                              |
-
-**Explicación:**
-Por defecto, Claude Code difiere las definiciones de las tools de un MCP usando ([MCP tool search](https://code.claude.com/docs/en/mcp#scale-with-mcp-tool-search)): al iniciar la sesión solo carga en el contexto los nombres de las tools y las instrucciones del servidor, y la descripcion de lo que hace cada tool se carga cuando el modelo la necesita.
-
-Un CLI es más eficiente en contexto porque no agrega ningún listado de tools: el modelo ejecuta los comandos directamente en la terminal ([documentación oficial](https://code.claude.com/docs/en/costs#reduce-mcp-server-overhead)).
+# **CLI** Configurados en este Proyecto
 
 ## GitHub CLI
 
