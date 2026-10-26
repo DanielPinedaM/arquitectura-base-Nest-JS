@@ -7,7 +7,7 @@ A continuación se resumen las principales tecnologías del proyecto y el motivo
 
 ## 🟢 Node.js 24.22.1
 
-## [Nest.js 11](https://youtu.be/wsqcg5ZtUMM?si=o0rmZsPYwMlrl7Ed)
+## [Nest.js 12](https://youtu.be/wsqcg5ZtUMM?si=o0rmZsPYwMlrl7Ed)
 _Framework semi-opinionado_ que combina la _arquitectura modular de Angular_ con la _flexibilidad de Express.js_, ofreciendo estructura escalable, soporte nativo de TypeScript e _inyección de dependencias_, y fácil integración con _ORMs_, _GraphQL_ y _microservicios_ para _APIs_ empresariales robustas.
 
 ## [TypeScript 7](https://youtu.be/fUgxxhI_bvc?si=rRY7NTzsONRSwyNN)
