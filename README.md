@@ -939,7 +939,7 @@ Explica cada uno de los siguientes puntos con teoría y ejemplos, sin saltarte n
 Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadajett/agent-nestjs-skills/nestjs-best-practices). Contiene reglas para seguir buenas practicas de Nest.js.
 
 ## `nest-12.0.10-docs`
-Sirve para que la IA tenga informacion actualizada de la documentacion oficial de Nest.js 12.0.10.
+Sirve para que la IA tenga informacion actualizada de la [documentacion oficial de Nest.js 12.0.10](https://docs.nestjs.com/)
 
 Para probar que funcione
 
