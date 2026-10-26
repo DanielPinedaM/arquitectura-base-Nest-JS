@@ -940,6 +940,25 @@ Explica cada uno de los siguientes puntos con teoría y ejemplos, sin saltarte n
 ## `nestjs-best-practices`
 Es la skill de Nest.js mas descargada de [skills.sh](https://www.skills.sh/kadajett/agent-nestjs-skills/nestjs-best-practices). Contiene reglas para seguir buenas practicas de Nest.js.
 
+## `nest-12.0.10-docs`
+Sirve para que la IA tenga informacion actualizada de la documentacion oficial de Nest.js 12.0.10.
+
+Para probar que funcione
+
+```console
+/nest-12.0.10-docs citar textualmente Guards de la skill
+```
+
+La respuesta debe contener algo similar a esto:
+
+```txt
+● Skill(nest-12.0.10-docs)
+
+Guards have a single responsibility: they determine whether a given request will be handled by the route handler (...)
+```
+
+Esta definicion corresponde a la [documentacion oficial de Nest.js](https://docs.nestjs.com/guards)
+
 ## 🌐 `api-agent`
 
 > [!CAUTION]
