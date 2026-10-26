@@ -912,8 +912,6 @@ Trabajar bajo el principio:
 
 El skill [`.agents\skills\git-commit\SKILL.md`](.agents/skills/git-commit/SKILL.md) te permite realizar commits.
 
-***Ejemplos de prompt:***
-
 ```console
 git commit y git push
 ```
