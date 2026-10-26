@@ -877,20 +877,6 @@ Es un archivo de instrucciones que el harness carga automáticamente en el conte
 
 Si usas Claude Code, [Claude también lee `AGENTS.md`](https://code.claude.com/docs/en/memory#agents-md), pero solo si el proyecto no tiene `CLAUDE.md`, `.claude/CLAUDE.md` ni `CLAUDE.local.md`. Si has agregado alguno de estos archivos, elimínalo para que Claude lea `AGENTS.md`.
 
-Para probar que funcione `AGENTS.md` envia este prompt:
-
-```txt
-citar textualmente Modelado de datos relacionales  usando la tool `search_prisma_documentation` de Prisma MCP
-```
-
-La salida debe contener algo similar a esto:
-
-```txt
-In a relational database, each model becomes a table and each scalar field becomes a column (...)
-```
-
-Esta definicion corresponde a la [documentacion oficial de Prisma ORM](https://www.prisma.io/docs/orm/data-modeling/relational-databases)
-
 # 🐈 Configurar Nest.js para que Funcione con IA
 Para que las configuraciones con IA funcionen hacer los siguientes pasos y verificar su funcionamiento:
 
