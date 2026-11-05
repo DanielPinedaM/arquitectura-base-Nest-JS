@@ -315,10 +315,20 @@ Este proyecto esta configurado para usar IA de pago y desde la terminal. **NO** 
 ## Instalaciones Recomendadas
 Son opcionales. Puedes ejecutar el proyecto sin ellas, pero te ayudarán a programar mejor.
 
-### Herdr
-* [Click aqui para **instalar** Herdr](https://herdr.dev/docs/install/)
+### Herdr (Multiplexor de Terminales de IA)
+[Click aqui para aprender Herdr](https://youtu.be/VQ-swm4PQQU)
 
-* [Click aqui para **aprender** Herdr](https://youtu.be/Hr693AAnCV0)
+1. Ejecutar Power Shell como administrador
+
+2. Ejecutar los siguientes comandos:
+
+```console
+powershell -c "irm https://releases.herdr.dev/app/install.ps1 | iex"
+```
+
+```console
+powershell -c "irm https://releases.herdr.dev/core/install.ps1 | iex"
+```
 
 Tambien sirve alternativas como [Orca](https://youtu.be/ze7AgvWfRwM?si=MnVb42vL8hfvD1KO)
 
