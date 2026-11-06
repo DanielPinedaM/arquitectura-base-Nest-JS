@@ -954,6 +954,8 @@ Leer estas skills. Cuando las skills se contradicen, prevalece la que tenga el n
 
 Explica cada uno de los siguientes puntos con teoría y ejemplos, sin saltarte ninguno, basándote en ambas skills. Cuando sea posible, muestra un ejemplo correcto y uno incorrecto:
 - Estructura de archivos y carpetas (feature arquitecture)
+
+- Esquema de Zod 4 en un DTO de Nest.js con createZodDto y ZodValidationPipe de `nestjs-zod`
 ```
 
 ## `nestjs-best-practices`
@@ -1103,6 +1105,18 @@ Permite que la IA te haga preguntas para aclarar tus objetivos y eliminar ambig�
 
 ```bash
 /question-me << aqui describir el bug a solucionar, el codigo a refactorizar o describir la nueva feature >>
+```
+
+## `zod-4`
+Esta skill está basada en [este repositorio de GitHub](https://github.com/anivar/zod-skill). Le explica a la IA:
+- ¿Dónde usar Zod? Por ejemplo, en la validación de los datos que llegan a la API (body, params, query)
+
+- Buenas prácticas de Zod
+
+- Breaking changes de Zod 4 para escribir código de Zod actualizado
+
+```bash
+/zod-4 Explícame con teoría y ejemplo: esquema de Zod 4 en un DTO de Nest.js con createZodDto y ZodValidationPipe de `nestjs-zod`
 ```
 
 # **MCP** Configurados en este Proyecto
