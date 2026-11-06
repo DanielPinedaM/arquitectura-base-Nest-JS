@@ -11,7 +11,7 @@ Arquitectura base agnóstica a las features para iniciar un nuevo proyecto en Ne
 # Reglas **OBLIGATORIAS** de Nest.js
 
 ## Preguntar
-Implementar directamente las modificaciones triviales. Si detectas ambigüedades o errores, preguntar antes de modificar usando la [skill `question-me`](.agents/skills/question-me/SKILL.md).
+Implementar directamente las modificaciones triviales. Si detectas ambigüedades, contradicciones o errores, preguntar antes de modificar usando la [skill `question-me`](.agents/skills/question-me/SKILL.md).
 
 **Razón:** preguntar cuesta menos que revisar y deshacer código basado en una suposición incorrecta.
 
