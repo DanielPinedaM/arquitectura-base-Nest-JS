@@ -898,6 +898,16 @@ Es un archivo de instrucciones que el harness carga automáticamente en el conte
 
 Si usas Claude Code, [Claude también lee `AGENTS.md`](https://code.claude.com/docs/en/memory#agents-md), pero solo si el proyecto no tiene `CLAUDE.md`, `.claude/CLAUDE.md` ni `CLAUDE.local.md`. Si has agregado alguno de estos archivos, elimínalo para que Claude lea `AGENTS.md`.
 
+Para probar que funcione `AGENTS.md`:
+
+Al ejecutar
+
+```console
+/context all
+```
+
+en la sección **Memory files** debe aparecer `AGENTS.md`.
+
 # 🐈 Configurar Nest.js para que Funcione con IA
 Para que las configuraciones con IA funcionen hacer los siguientes pasos y verificar su funcionamiento:
 
