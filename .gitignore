@@ -58,7 +58,7 @@ yarn-error.log
 
 # IA
 # Archivos temporales con el mensaje de los commits que genera la skill git-commit
-.agents/skills/git-commit/*.txt
+.agents/skills/git-commit/COMMIT_MSG_TEMP.md
 
 # Modelo relacional que genera la skill database-normalization en cada ejecución
 .agents/skills/database-normalization/result/
