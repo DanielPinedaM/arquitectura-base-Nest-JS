@@ -332,6 +332,17 @@ powershell -c "irm https://releases.herdr.dev/core/install.ps1 | iex"
 
 Tambien sirve alternativas como [Orca](https://youtu.be/ze7AgvWfRwM?si=MnVb42vL8hfvD1KO)
 
+### Python 3
+[Clic aqui para instalar Python 3](https://www.python.org/downloads/)
+
+Aunque el backend del proyecto no use Python y los agentes de IA de terminal funcionen sin Python, es recomendable instalarlo, porque a menudo los agentes de IA usan Python de forma automatica para ejecutar scripts que analizan y editan código.
+
+**Ejemplo:** En un proyecto de TypeScript, el agente de IA puede ejecutar esto para leer las dependencias de `package.json`:
+
+```bash
+python3 -c "import json; print(json.load(open('package.json'))['dependencies'])"
+```
+
 ### [Instalar `fnm` (Opcional)](https://github.com/Schniz/fnm)
 
 > [!NOTE]
