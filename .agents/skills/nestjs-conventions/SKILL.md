@@ -2,7 +2,7 @@
 Aplican a toda respuesta o modificación de código de este proyecto.
 
 ## 1. Autoridad de la Skill
-Las decisiones de arquitectura, estructura y convenciones definidas en esta skill son la fuente de la verdad del proyecto. No las cuestiones, no las reemplaces, no las contradigas y no las ignores. Desobedecerlas genera malas practicas y código inescalable. Esta restricción aplica solo a lo que la skill define de forma explícita; fuera de ese alcance rige el [3. Caso no Definido en la Skill](#3-caso-no-definido-en-la-skill).
+Las reglas que definen la arquitectura del proyecto están definidas en la tabla de contenido, debes de cumplirlas sin ignorarlas aunque existan alternativas
 
 ## 2. Instrucción que Contradice una Regla Definida
 Se aplica cuando la instrucción recibida contradice una regla explícitamente definida en esta skill.
