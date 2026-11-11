@@ -1189,6 +1189,166 @@ La cita corresponde a [este link de la documentacion oficial de Prisma](https://
 
 # **CLI** Configurados en este Proyecto
 
-## GitHub CLI
+## GitHub CLI (`gh`)
+### Tutorial
+[Click aqui para aprender GitHub CLI](https://youtu.be/oZRFOkLUZdk?si=jktJr_UdeWRkxY6T)
 
-# este sub-titulo de GitHub CLI esta INCOMPLETO, falta  agregar  video tutorial de fazt y explicar como usar GitHub CLI con IA
+Para entender que puedes hacer con GitHub CLI preguntale a la IA:
+
+```console
+Ejecutar `gh help` y explicarme todos los comandos de GitHub CLI
+```
+
+### Instalar
+1. Ejecutar en CMD como administrador:
+
+```console
+winget install --id GitHub.cli
+```
+
+2. Cerrar y volver abrir CMD
+
+3. Si la instalacion de GitHub CLI es correcta, al ejecutar
+
+```console
+gh --version
+```
+
+Debe mostrar un numero con la version de GitHub CLI instalada
+
+**Loguearse**
+
+4. En CMD ejecutar
+
+```console
+gh auth login
+```
+
+5. En CMD seleccionar las siguientes opciones:
+- Where do you use GitHub?
+> GitHub.com
+
+- ? How would you like to authenticate GitHub CLI?  [Use arrows to move, type to filter]
+> Login with a web browser
+
+- What is your preferred protocol for Git operations on this host? 
+> HTTPS
+
+- Authenticate Git with your GitHub credentials? (Y/n)
+> Y
+
+6. Aparece este mensaje en CMD
+
+```console
+One-time code (XXXX-XXXX) copied to clipboard
+Press Enter to open https://github.com/login/device in your browser...
+```
+
+7. Abrir `https://github.com/login/device` en el navegador y loguearse con GitHub
+
+Escribir en la pagina web de github `https://github.com/login/device` el codigo `XXXX-XXXX` que aparce en CMD
+
+8. Se muestra este mensaje en CMD
+
+```console
+✅ Authentication complete.
+- gh config set -h github.com git_protocol https
+✅ Configured git protocol
+✅ Logged in as <<AQUI ESTA TU NOMBRE DE USUARIO DE GitHub>>
+```
+
+9. Si el login es correcto, al ejecutar
+
+```console
+gh auth status
+```
+
+Debe mostrar
+
+```console
+github.com
+  ✅ Logged in to github.com account <<AQUI ESTA TU NOMBRE DE USUARIO DE GitHub>> (keyring)
+  - Active account: true
+  - Git operations protocol: https
+  - Token: gho_************************************
+  - Token scopes: 'gist', 'read:org', 'repo', 'workflow'
+```
+
+**Configurar Personal Access Token en las Variables de Entorno de Windows**
+10. [Abrir este enlace de GitHub](https://github.com/settings/personal-access-tokens/new)
+
+11. Llenar el formulario:
+- Nombre del token
+- Propietario del recurso
+- Fecha de vencimiento del token
+- En "Acceso al repositorio" seleccionar los **repositorios** a los que puede acceder la IA con el token
+- En "Permisos" seleccionar los **permisos** que puede tener la IA en su GitHub
+
+12. Click en boton generar token
+
+13. Copiar el Personal Access Token que se muestra [en la web de GitHub](https://github.com/settings/personal-access-tokens)
+
+14. Abrir menu de inicio de Windows
+
+15. Buscar variables de entorno
+
+16. Click en el boton **Variables de entorno**
+
+17. Donde dice **Variables de usuario**, click en el boton **Nuevo**
+
+18. En **Nombre de la variable** escribir `GIT_HUB_TOKEN`
+
+19. En **Valor de la variable** pegar el Personal Access Token que se muestra [en la web de GitHub](https://github.com/settings/personal-access-tokens) del **paso 13**
+
+20. Click en el boton **Aceptar**
+
+21. Donde dice **Variables de usuario**, click en el boton **Nuevo**
+
+22. En **Nombre de la variable** escribir `GIT_HUB_EMAIL`
+
+23. En **Valor de la variable** escribir el mismo correo de GitHub con el que te logueaste en el **paso 7**
+
+24. Click en el boton **Aceptar**
+
+### ¿Como Usar GitHub CLI con IA?
+Siempre que necesites usar GitHub CLI enviar este prompt:
+
+```console
+# Acceso a GitHub
+- **GitHub CLI (`gh`):** Úsalo como primera opción.
+
+- **API REST (alternativa):** para operaciones que el CLI no soporte, usa `curl` contra la URL de GitHub `https://api.github.com/`.
+
+- **Autenticación:** credenciales en las variables de entorno de usuario de Windows:
+  - `GIT_HUB_EMAIL` correo de cuenta de GitHub
+  - `GIT_HUB_TOKEN` Personal Access Token (PAT) de GitHub generado en `https://github.com/settings/tokens`
+
+<<
+aqui escribir que quieres hacer con GitHub CLI
+>>
+```
+
+Por ejemplo, donde dice
+> aqui escribir que quieres hacer con GitHub CLI
+
+Puedes escribir esto para crear pull request
+
+```console
+# Pull Request
+El nombre de la rama de git y de la pull request es el mismo. Hacer pull request de:
+
+| Ruta del repositorio | Nombre de pull request y rama de Git |
+| -------------------- | ------------------------------------ |
+| `<ruta del repositorio 1>` | `<nombre y rama del repositorio 1>` |
+
+# Revisor
+Asignar como revisor de cada pull request a mi_correo@dominio.com
+
+# Rama de destino
+Configurar `develop` como rama de destino (target branch) de cada pull request.
+```
+
+### 🔗 Enlaces - Alternativas a GitHub CLI
+Esto no esta configurado en este proyecto:
+
+* [Azure CLI](https://learn.microsoft.com/es-es/cli/azure/install-azure-cli?view=azure-cli-latest)
