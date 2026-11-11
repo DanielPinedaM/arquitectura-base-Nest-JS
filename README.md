@@ -1275,6 +1275,7 @@ github.com
 ```
 
 **Configurar Personal Access Token en las Variables de Entorno de Windows**
+
 10. [Abrir este enlace de GitHub](https://github.com/settings/personal-access-tokens/new)
 
 11. Llenar el formulario:
