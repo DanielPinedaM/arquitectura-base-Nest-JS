@@ -30,6 +30,7 @@ _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y ad
 
 > [!IMPORTANT]
 > ❗ **Importante**
+>
 > [Leer esto](#nestjs-conventions) para entender la arquitectura del proyecto.
 
 * 🎥 Puedes hacer clic en el nombre de cada tecnología para ver cursos y aprenderlas
