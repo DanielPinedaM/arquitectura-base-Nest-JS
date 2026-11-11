@@ -28,9 +28,11 @@ _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y ad
 > [!TIP]
 > # 🧠 **Aprende**
 
-* 🎥 Puedes hacer clic en el nombre de cada tecnología para ver cursos y aprenderlas
+> [!IMPORTANT]
+> ❗ **Importante**
+> [Leer esto](#nestjs-conventions) para entender la arquitectura del proyecto.
 
-* [Leer esto](#nestjs-conventions) para entender la arquitectura del proyecto.
+* 🎥 Puedes hacer clic en el nombre de cada tecnología para ver cursos y aprenderlas
 
 * [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
 
@@ -961,9 +963,10 @@ Leer estas skills. Cuando las skills se contradicen, prevalece la que tenga el n
 | --------- | -------------------------------------------- |
 | 1         | `.agents/skills/nestjs-conventions/SKILL.md` |
 | 2         | `.agents/skills/nest-12.0.10-docs/SKILL.md`  |
+| 3         | `.agents/skills/zod-4/SKILL.md`              |
 
 Explica cada uno de los siguientes puntos con teoría y ejemplos, sin saltarte ninguno, basándote en ambas skills. Cuando sea posible, muestra un ejemplo correcto y uno incorrecto:
-- Estructura de archivos y carpetas (feature arquitecture)
+- Explicar feature arquitecture definido en la skill `nestjs-conventions` y su relacion con estructura de archivos y carpetas y enrutador de Nest.js (`@Controller`, `@Get`, `@Post`, `@Put`, `@Patch` y `@Delete`)
 
 - Esquema de Zod 4 en un DTO de Nest.js con createZodDto y ZodValidationPipe de `nestjs-zod`
 ```
