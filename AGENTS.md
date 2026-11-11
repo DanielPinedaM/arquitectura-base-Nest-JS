@@ -29,7 +29,7 @@ Cuando las fuentes se contradicen, gana la de número menor en la columna **Prio
 | 2 | [Skill `nestjs-best-practices`](.agents/skills/nestjs-best-practices/SKILL.md) | Reglas de terceros: buenas prácticas generales de Nest.js | Al crear, modificar o revisar código de Nest.js. |
 | 3 | [Skill `nest-12.0.10-docs`](.agents/skills/nest-12.0.10-docs/SKILL.md) | [Documentación oficial de Nest.js 12.0.10](https://docs.nestjs.com/llms.txt) | Al responder y usar APIs de **Nest** (aunque creas conocerla) |
 | 4 | tool `search_prisma_documentation` del Prisma MCP server | [Documentación oficial completa de Prisma ORM](https://www.prisma.io/docs) | Al responder y usar APIs de **Prisma** (aunque creas conocerla) |
-| 5 | [Skill `zod-4`](.agents/skills/zod-4/SKILL.md) | Breaking changes de Zod 4 | Al responder preguntas y editar codigo de Zod |
+| 5 | [Skill `zod-4`](.agents/skills/zod-4/SKILL.md) | Reglas, referencia de la API y breaking changes de Zod 4 | Al escribir, revisar o testear código de Zod (schemas, parseo, errores, tipos inferidos) y al responder preguntas sobre Zod, aunque creas conocer su API. |
 | 6 | Datos de entrenamiento | Tu conocimiento previo | Puedes usarlo, pero las fuentes anteriores tienen prioridad: este proyecto usa Nest.js 12, Prisma 8 y Zod 4, cuyos breaking changes pueden dejar tus datos de entrenamiento desactualizados. Que esté desactualizado no significa que esté mal; solo que puede no aplicar a esta versión. |
 
 # Resumen de la Skill `nestjs-conventions`
