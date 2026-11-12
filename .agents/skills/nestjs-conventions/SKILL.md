@@ -88,11 +88,114 @@ Leer **bajo demanda** los archivos `.md` ubicados en `.agents/skills/nestjs-conv
 
 **Reglas:**
 
-1. Usar Luxon para el manejo de fechas y horas. **PROHIBIDO** utilizar `new Date()` nativo de JavaScript o cualquier otra librería de fechas diferente de Luxon.
+1. Usar Luxon para el manejo de fechas y horas. **PROHIBIDO** usar cualquier otra alternativa, como `new Date()` nativo de JavaScript o cualquier otra librería de fechas.
 
-2. Mantener en UTC el `DateTime` de Luxon que entra o sale de los controllers, a través de los DTO de request y de response (`date`, `createdAt`, etc.), ya que representan un instante y no una fecha local del servidor. **PROHIBIDO** convertir ese `DateTime` a la zona horaria local (`.toLocal()`, `.setZone()`) dentro del flujo de controllers, services y entities. Si necesitas mostrar ese instante en la zona horaria del usuario, esa conversión es responsabilidad del cliente que consume la API, nunca del backend. **OBLIGATORIO** que ese valor viaje en el payload, tanto en el request como en el response, como un `string` en formato ISO 8601 UTC (`YYYY-MM-DDTHH:mm:ssZ`), por ejemplo: `2024-06-15T14:30:00Z`.
+**Incorrecto:**
+Usa el `Date` nativo de JavaScript.
 
-3. En `src/shared/services/luxon.service.ts` existen funciones utilitarias reutilizables para el manejo y formateo de fechas y horas con Luxon. Reutilizarlas cuando cubran la necesidad. **PROHIBIDO** duplicar su funcionalidad. Estas funciones no contienen lógica de negocio.
+```typescript
+const today = new Date();
+```
+
+**Correcto:**
+Usa `DateTime` de Luxon.
+
+```typescript
+import { DateTime } from 'luxon';
+
+const today = DateTime.now();
+```
+
+2. Las fechas y horas que entran o salen de los controllers, a través de los DTO de request y de response, viajan en el payload como `string` según lo que representan:
+* Fecha y hora: ISO 8601 UTC (`YYYY-MM-DDTHH:mm:ssZ`), por ejemplo: `2024-06-15T14:30:00Z`.
+* Fecha: `YYYY-MM-DD` con `.toISODate()`, sin convertir de zona horaria para que no cambie de día, por ejemplo: `2024-06-15`.
+* Hora: hora militar `HH:mm:ss`, sin zona horaria, por ejemplo: `14:30:00`.
+
+**PROHIBIDO** convertirlas a la zona horaria local (`.toLocal()`, `.setZone()`) dentro del flujo de controllers, services y entities. Mostrarlas en la zona horaria del usuario es responsabilidad del cliente que consume la API, nunca del backend.
+
+**Incorrecto:**
+El DTO acepta cualquier `string` y el response convierte a zona local, envía la fecha como instante y la hora no es militar.
+
+```typescript
+const eventSchema = z.object({
+  startsAt: z.string(),
+  eventDate: z.string(),
+  openingTime: z.string(),
+});
+
+return {
+  startsAt: startsAt.setZone('Europe/Madrid').toISO(), // '2024-06-15T16:30:00.000+02:00'
+  eventDate: eventDate.toUTC().toISO(), // '2024-06-15T00:00:00.000Z'
+  openingTime: openingTime.toFormat('hh:mm a'), // '02:30 PM'
+};
+```
+
+**Correcto:**
+El DTO valida cada formato y el response usa el formato de lo que representa cada valor.
+
+```typescript
+const eventSchema = z.object({
+  startsAt: z.iso.datetime({ precision: 0 }), // '2024-06-15T14:30:00Z'
+  eventDate: z.iso.date(), // '2024-06-15'
+  openingTime: z.iso.time({ precision: 0 }), // '14:30:00'
+});
+
+return {
+  startsAt: startsAt.toUTC().toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"), // '2024-06-15T14:30:00Z'
+  eventDate: eventDate.toISODate(), // '2024-06-15'
+  openingTime: openingTime.toFormat('HH:mm:ss'), // '14:30:00'
+};
+```
+
+3. Guardar las fechas y horas en la base de datos con el tipo de columna según lo que representan:
+* Fecha y hora: `timestamptz`, en UTC.
+* Fecha: `date` (`YYYY-MM-DD`), sin convertir de zona horaria.
+* Hora: `time` (`HH:mm:ss`), hora militar sin zona horaria.
+
+**Incorrecto:**
+La fecha y hora no tiene zona horaria, la fecha se guarda como instante y la hora como texto libre.
+
+```prisma
+model Events {
+  id          String   @id @default(uuid())
+  startsAt    DateTime @db.Timestamp(0)
+  eventDate   DateTime @db.Timestamptz(0)
+  openingTime String   @db.VarChar(8)
+}
+```
+
+**Correcto:**
+Cada columna usa el tipo de lo que representa.
+
+```prisma
+model Events {
+  id          String   @id @default(uuid())
+  startsAt    DateTime @db.Timestamptz(0) // '2024-06-15 14:30:00+00'
+  eventDate   DateTime @db.Date           // '2024-06-15'
+  openingTime DateTime @db.Time(0)        // '14:30:00'
+}
+```
+
+4. En `src/shared/services/luxon.service.ts` existen funciones utilitarias reutilizables para el manejo y formateo de fechas y horas con Luxon. Reutilizarlas cuando cubran la necesidad. **PROHIBIDO** duplicar su funcionalidad. Estas funciones no contienen lógica de negocio.
+
+**Incorrecto:**
+Duplica en un service la conversión que ya hace `formatDate()`.
+
+```typescript
+private toDateTime(rawDate: string): DateTime | null {
+  const date = DateTime.fromISO(rawDate);
+  return date.isValid ? date.toUTC() : null;
+}
+```
+
+**Correcto:**
+Reutiliza `formatDate()` de `LuxonService`.
+
+```typescript
+constructor(private readonly luxonService: LuxonService) {}
+
+const date = this.luxonService.formatDate(rawDate);
+```
 
 # Estructura del Proyecto
 
