@@ -38,7 +38,11 @@ _Cliente universal de bases de datos (GUI)_ que permite explorar, consultar y ad
 * [🔗 Enlace - HTTP Cats - Explicación de los Status HTTP](https://http.cat/)
 
 * 🔗 Mira estos enlaces para que aprendas de IA enfocada en desarrollo de software:
-1. [Ollama: IA local gratis](https://youtu.be/p2zZ6zuaCDM)
+1. **IA Local Gratis:**
+- [Parámetros, cuantización y overhead](https://youtu.be/ayaDYisqJHI)
+- [Ollama](https://youtu.be/p2zZ6zuaCDM)
+- [LM Studio](https://youtu.be/uAFufHQ706o?si=sZVkZ5TuxWLzLKfG)
+
 2. [Spec Driven Development](https://www.youtube.com/watch?v=_jJJDQOXSxM)
 3. [Categorización de los tipos de IA: Modelos, Harnesses y Orquestadores](https://youtu.be/_HxDbdItVcs?si=VB6SHcZB1enB2Qvl)
 4. [Mejores Modelos de IA](https://youtu.be/EPz00z1ACPc?si=Dkw3zECIk1d84YxX)
@@ -319,6 +323,8 @@ Este proyecto esta configurado para usar IA de pago y desde la terminal. **NO** 
 Son opcionales. Puedes ejecutar el proyecto sin ellas, pero te ayudarán a programar mejor.
 
 ### Herdr (Multiplexor de Terminales de IA)
+Permite organizar varias terminales con agentes de IA en pestañas y ventanas, evitando tener múltiples terminales independientes abiertas.
+
 [Click aqui para aprender Herdr](https://youtu.be/VQ-swm4PQQU)
 
 1. Ejecutar Power Shell como administrador
@@ -333,7 +339,11 @@ powershell -c "irm https://releases.herdr.dev/app/install.ps1 | iex"
 powershell -c "irm https://releases.herdr.dev/core/install.ps1 | iex"
 ```
 
-Tambien sirve alternativas como [Orca](https://youtu.be/ze7AgvWfRwM?si=MnVb42vL8hfvD1KO)
+Tambien sirve alternativas como:
+
+- [Orca](https://youtu.be/ze7AgvWfRwM?si=MnVb42vL8hfvD1KO)
+
+- [T3 Code](https://youtu.be/dxTdFiE-dQI?si=c9GXSbL9drx0dC1C)
 
 ### Python 3
 [Clic aqui para instalar Python 3](https://www.python.org/downloads/)
