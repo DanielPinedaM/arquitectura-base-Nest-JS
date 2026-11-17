@@ -4,8 +4,8 @@ import {
   ILogoutResponse,
   IRegisterResponse,
 } from '@/app/features/auth/data-types/interface/auth.interfaces';
-import { LoginDto } from '@/app/features/auth/dto/login.schema';
-import { RegisterDto } from '@/app/features/auth/dto/register.schema';
+import { LoginDto } from '@/app/features/auth/dto/login.schemas';
+import { RegisterDto } from '@/app/features/auth/dto/register.schemas';
 import { AuthGuard } from '@/shared/guard/auth.guard';
 import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';

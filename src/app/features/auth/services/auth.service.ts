@@ -11,7 +11,7 @@ import {
   ILogoutResponse,
   IRegisterResponse,
 } from '@/app/features/auth/data-types/interface/auth.interfaces';
-import { RegisterDto } from '@/app/features/auth/dto/register.schema';
+import { RegisterDto } from '@/app/features/auth/dto/register.schemas';
 import { Users } from '@/app/features/auth/entities/users.entity';
 import { CryptoService } from '@/shared/services/crypto.service';
 import {
@@ -23,7 +23,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { ENV_VARS, EnvironmentClass } from 'environments/env-config.schema';
+import { ENV_VARS, EnvironmentClass } from 'environments/env-config.schemas';
 import type { Response } from 'express';
 import { Repository } from 'typeorm';
 

@@ -41,4 +41,4 @@ Cuando las fuentes se contradicen, gana la de número menor en la columna **Prio
 
 * **PROHIBIDO** usar Zod sin `nestjs-zod`: pipes de validación custom hechos a mano, DTOs como `type`/`z.infer` sin pasar por `createZodDto`, o `safeParse`/`parse` manual dentro de controllers o handlers
 
-* Los Zod schema deben definirse en un archivo `.schema.ts` separado, ubicado en la carpeta mas cercana del módulo o recurso donde se utiliza el DTO.
+* Los Zod schema deben definirse en un archivo `.schemas.ts` separado, ubicado en la carpeta mas cercana del módulo o recurso donde se utiliza el DTO.

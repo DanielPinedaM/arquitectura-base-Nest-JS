@@ -59,7 +59,7 @@ export const appConfig = registerAs('app', () => ({
   apiPrefix: process.env.API_PREFIX || 'api',
 }));
 
-// config/validation.schema.ts
+// config/validation.schemas.ts
 export const validationSchema = Joi.object({
   NODE_ENV: Joi.string()
     .valid('development', 'production', 'test')

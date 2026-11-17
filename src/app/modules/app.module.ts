@@ -9,7 +9,7 @@ import {
   ENV_VARS,
   EnvironmentClass,
   validateEnvironment,
-} from 'environments/env-config.schema';
+} from 'environments/env-config.schemas';
 
 /**
  * la conexion a la base de datos viene desactivada en esta plantilla. para
